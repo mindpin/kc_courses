@@ -1,0 +1,17 @@
+%a{href: (new_chapter_path)} 增加章节
+%table
+  %thead
+    %tr
+      %th 标题
+      %th 更新时间
+      %th 操作
+      -#th 排序位置
+  %tbody
+    - @chapters.each do |chapter|
+      %tr
+        %td
+          %a{href: (chapter_path(chapter))}= chapter.title
+        %td= chapter.updated_at
+        %td
+          %a{href: (edit_chapter_path(chapter))} 编辑
+          %a{href: (chapter_path(chapter)), data: {method: 'delete', confirm: '你确定吗？'}} 删除
