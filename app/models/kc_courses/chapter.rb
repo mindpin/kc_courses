@@ -6,7 +6,7 @@ module KcCourses
     field :title, :type => String
     field :desc, :type => String
 
-    #belongs_to :course
+    belongs_to :course, class_name: 'KcCourses::Course'
     #belongs_to :creator, :class_name => "User", :foreign_key => "creator_id"
 
     validates :title, :presence => true

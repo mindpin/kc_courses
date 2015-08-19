@@ -1,0 +1,9 @@
+= form_for @course do |f|
+  .field
+    = f.text_field :name
+  .field
+    = f.text_area :desc
+
+  = f.submit
+
+%a{href: (courses_path)} 返回

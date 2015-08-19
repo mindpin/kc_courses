@@ -1,0 +1,18 @@
+%a{href: (new_course_path)} 增加课程
+%table
+  %thead
+    %tr
+      %th 课程名
+      %th 更新时间
+      %th 
+      %th 
+  %tbody
+    - @courses.each do |course|
+      %tr
+        %td
+          %a{href: (course_path(course))}= course.title
+        %td= course.updated_at
+        %td
+          %a{href: (edit_course_path(course))} 编辑
+        %td
+          %a{href: (course_path(course)), data: {method: 'delete', confirm: '你确定吗？'}} 删除

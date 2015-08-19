@@ -1,0 +1,68 @@
+.page-manage-course-show
+  .pblock.modelinfo
+    -#= render_cell :course, :baseinfo, :course => @course
+    .baseinfo
+      .btns
+        -#%a.btn.inverse.edit{:href => 'javascript:;', :data => {:url =>"/manage/courses/#{@course.id}/edit"}}
+        %a.btn.inverse.edit{:href => (edit_course_path(@course))}
+          %i.icon-edit
+          %span 修改课程信息
+
+        %a.btn.gray{:href => "/courses/#{@course.id}?preview=true"}
+          %i.icon-eye-open
+          %span 预览
+
+      .infodata
+        %h2= @course.name
+        .data
+          .cover
+          -#= fit_image(@course.cover.versions[:normal].url, :width => 214, :height => 140)
+          .ds
+            .d
+              %span.t 学分：
+              -#%span.v= @course.credit
+            .d
+              %span.t 课时：
+              -#%span.v= @course.lesson_hour
+            .d
+              %span.t 上课时间：
+              -#%span.v= @course.time.blank? ? '--' : @course.time
+            .d
+              %span.t 上课地点：
+              -#%span.v= @course.location.blank? ? '--' : @course.location
+            .d
+              - desc = @course.desc.blank? ? t('common.course.course-no-desc') : @course.desc
+              %span.t 课程简介：
+              %span.v= simple_format(desc)
+
+          .clearfix
+
+  .js-dyn-table{:class => @chapters.blank? ? 'blank' : ''}
+    .pblock.table
+      .new-line
+        .op
+          .desc.counter
+            %span 课程下现有
+            -#%b.count= @chapters.count
+            %span 个章节
+
+          %a.btn.success.new{:href => 'javascript:;', :data => {:url => "/manage/courses/#{@course.id}/chapters/new"}}
+            %i.icon-plus.icon-white
+            %span 增加章节
+
+      -#.tbl
+        -#= render_cell :course_ware, :manage_chapter_table, :chapters => @chapters
+
+    .blankslate
+      %span.icon.icon-blackboard
+      %span.icon.icon-books
+      %span.icon.icon-triangle
+
+      %h3
+        %span 课程
+        %span= @course.name
+        %span 下还没有任何章节
+
+      .desc 
+        点击上方的增加章节按钮来创建一个新的章节
+
