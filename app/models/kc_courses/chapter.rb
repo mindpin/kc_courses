@@ -10,14 +10,14 @@ module KcCourses
     #belongs_to :creator, :class_name => "User", :foreign_key => "creator_id"
 
     validates :title, :presence => true
-    #validates :course,  :presence => true
+    validates :course,  :presence => true
     #validates :creator, :presence => true
 
     #has_many :course_wares
     #has_many :questions
     #has_many :practices
 
-    #scope :by_course, lambda{|course| {:conditions => ['course_id = ?', course.id]} }
+    scope :by_course, lambda{|course| {:conditions => ['course_id = ?', course.id]} }
 
     before_validation :set_default_value
     def set_default_value

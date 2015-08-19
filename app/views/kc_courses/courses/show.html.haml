@@ -43,15 +43,31 @@
         .op
           .desc.counter
             %span 课程下现有
-            -#%b.count= @chapters.count
+            %b.count= @chapters.count
             %span 个章节
 
-          %a.btn.success.new{:href => 'javascript:;', :data => {:url => "/manage/courses/#{@course.id}/chapters/new"}}
+          -#%a.btn.success.new{:href => 'javascript:;', :data => {:url => "/manage/courses/#{@course.id}/chapters/new"}}
+          %a.btn.success.new{:href => (new_course_chapter_path(@course))}
             %i.icon-plus.icon-white
             %span 增加章节
 
-      -#.tbl
+      .tbl
         -#= render_cell :course_ware, :manage_chapter_table, :chapters => @chapters
+        %table.page-data-table.chapters.striped.bordered
+          %thead
+            %th.title 标题
+            %th.updated_at 更新时间
+            %th.opts 操作
+            -#%th.position 排序位置
+          %tbody
+            - @chapters.each do |chapter|
+              %tr.chapter
+                %td.title= chapter.title
+                %td.updated_at= chapter.title
+                %td.opts
+                  %a{href: (edit_course_chapter_path(@course, chapter))} 编辑
+                  %a{href: (course_chapter_path(@course, chapter)), data: {method: 'delete', confirm: '你确定吗？'}} 删除
+
 
     .blankslate
       %span.icon.icon-blackboard

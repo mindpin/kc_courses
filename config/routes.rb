@@ -1,5 +1,6 @@
 KcCourses::Engine.routes.draw do
-  resources :courses
-  resources :chapters
+  resources :courses do
+    resources :chapters
+  end
   root 'home#index'
 end

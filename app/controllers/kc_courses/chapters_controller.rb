@@ -1,19 +1,20 @@
 module KcCourses
   class ChaptersController < KcCourses::ApplicationController
+    before_action :set_course
 
-    def index
-      @chapters = KcCourses::Chapter.all
-    end
+    #def index
+      #@chapters = KcCourses::Chapter.all
+    #end
     
     def show
-      @chapter = KcCourses::Chapter.find params[:id]
+      @chapter = @course.chapters.find params[:id]
       #authorize! :manage, @chapter
       #@course = @chapter.course
       #@course_wares = @chapter.course_wares
     end
 
     def new
-      @chapter = KcCourses::Chapter.new
+      @chapter = @course.chapters.new
 
       #authorize! :manage, Chapter
       #@course = Course.find(params[:course_id])
@@ -29,7 +30,7 @@ module KcCourses
     end
 
     def create
-      @chapter = KcCourses::Chapter.new chapter_params
+      @chapter = @course.chapters.new chapter_params
       #authorize! :manage, Chapter
       #@course = Course.find(params[:course_id])
       #@chapter = @course.chapters.build(params[:chapter])
@@ -46,12 +47,12 @@ module KcCourses
 
         #return redirect_to "/manage/courses/#{@course.id}"
       #end
-      return redirect_to @chapter if @chapter.save
+      return redirect_to [@course, @chapter] if @chapter.save
       render :action => :new
     end
 
     def edit
-      @chapter = KcCourses::Chapter.find(params[:id])
+      @chapter = @course.chapters.find(params[:id])
       #authorize! :manage, @chapter
       #@course = @chapter.course
 
@@ -66,8 +67,8 @@ module KcCourses
 
 
     def update
-      @chapter = KcCourses::Chapter.find(params[:id])
-      return redirect_to @chapter if @chapter.update_attributes chapter_params
+      @chapter = @course.chapters.find(params[:id])
+      return redirect_to [@course, @chapter] if @chapter.update_attributes chapter_params
       render :action => :new
       #authorize! :manage, @chapter
       #@course = @chapter.course
@@ -89,7 +90,7 @@ module KcCourses
     def destroy
       @chapter = KcCourses::Chapter.find(params[:id])
       @chapter.destroy
-      redirect_to chapters_path
+      redirect_to @course
       #authorize! :manage, @chapter
       #@course = @chapter.course
       #@chapter.destroy
@@ -137,6 +138,10 @@ module KcCourses
     #end
 
     private
+    def set_course
+      @course = Course.find params[:course_id]
+    end
+
     def chapter_params
       params.require(:chapter).permit(:title, :desc)
     end

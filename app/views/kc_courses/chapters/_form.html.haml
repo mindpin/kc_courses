@@ -1,4 +1,4 @@
-= form_for @chapter do |f|
+= form_for [@course, @chapter] do |f|
   .field
     = f.text_field :title
   .field
@@ -6,4 +6,4 @@
 
   = f.submit
 
-%a{href: (chapters_path)} 返回
+%a{href: (course_chapters_path(@course))} 返回

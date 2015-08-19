@@ -7,6 +7,7 @@ module KcCourses
     
     def show
       @course = KcCourses::Course.find params[:id]
+      @chapters = @course.chapters
     end
 
     def new

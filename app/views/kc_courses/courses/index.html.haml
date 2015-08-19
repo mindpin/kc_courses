@@ -10,7 +10,7 @@
     - @courses.each do |course|
       %tr
         %td
-          %a{href: (course_path(course))}= course.title
+          %a{href: (course_path(course))}= course.name
         %td= course.updated_at
         %td
           %a{href: (edit_course_path(course))} 编辑

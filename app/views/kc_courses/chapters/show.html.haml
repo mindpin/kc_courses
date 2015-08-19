@@ -4,7 +4,7 @@
     .baseinfo
       .btns
         -#%a.btn.inverse.edit{:href => 'javascript:;', :data => {:url =>"/manage/chapters/#{@chapter.id}/edit"}}
-        %a.btn.inverse.edit{href: (edit_chapter_path(@chapter))}
+        %a.btn.inverse.edit{href: (edit_course_chapter_path(@course, @chapter))}
           %i.icon-edit
           %span 修改章节信息
 
