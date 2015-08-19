@@ -105,7 +105,10 @@ module KcCourses
       #redirect_to "/manage/courses/#{@course.id}"
     end
 
-    #def move_up
+    def move_up
+      @chapter = @course.chapters.find(params[:id])
+      @chapter.move_up
+      redirect_to @course
       #@chapter = KcCourses::Chapter.find(params[:id])
       #authorize! :manage, @chapter
       #@course = @chapter.course
@@ -119,9 +122,12 @@ module KcCourses
       #end
 
       #return redirect_to "/manage/courses/#{@course.id}"
-    #end
+    end
 
-    #def move_down
+    def move_down
+      @chapter = @course.chapters.find(params[:id])
+      @chapter.move_down
+      redirect_to @course
       #@chapter = KcCourses::Chapter.find(params[:id])
       #authorize! :manage, @chapter
       #@course = @chapter.course
@@ -135,7 +141,7 @@ module KcCourses
       #end
 
       #return redirect_to "/manage/courses/#{@course.id}"
-    #end
+    end
 
     private
     def set_course

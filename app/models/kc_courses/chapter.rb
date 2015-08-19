@@ -2,6 +2,7 @@ module KcCourses
   class Chapter
     include Mongoid::Document
     include Mongoid::Timestamps
+    include KcCourses::Concerns::MovePosition
 
     field :title, :type => String
     field :desc, :type => String
@@ -17,20 +18,12 @@ module KcCourses
     #has_many :questions
     #has_many :practices
 
-    scope :by_course, lambda{|course| {:conditions => ['course_id = ?', course.id]} }
+    scope :by_course, lambda{|course| where(course_id: course.id) }
 
     before_validation :set_default_value
     def set_default_value
       self.title = "无标题章节 - #{Time.now}" if self.title.blank?
     end
-
-    #def prev
-      #self.class.by_course(course).where('position < ?', self.position).last
-    #end
-
-    #def next
-      #self.class.by_course(course).where('position > ?', self.position).first
-    #end
 
     #def course_wares_read_stat_of(user)
       #scope = self.course_wares.joins(%~

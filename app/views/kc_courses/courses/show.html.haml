@@ -58,7 +58,7 @@
             %th.title 标题
             %th.updated_at 更新时间
             %th.opts 操作
-            -#%th.position 排序位置
+            %th.position 排序位置
           %tbody
             - @chapters.each do |chapter|
               %tr.chapter
@@ -67,6 +67,13 @@
                 %td.opts
                   %a{href: (edit_course_chapter_path(@course, chapter))} 编辑
                   %a{href: (course_chapter_path(@course, chapter)), data: {method: 'delete', confirm: '你确定吗？'}} 删除
+                %td.position
+                  %a.btn.mini.move-down.updown{href: (move_down_course_chapter_path(@course, chapter)), data: {method: 'put'}, title: '向下移动'}
+                    %i.icon-arrow-down
+                    向下
+                  %a.btn.mini.move-up.updown{href: (move_up_course_chapter_path(@course, chapter)), data: {method: 'put'}, title: '向上移动'}
+                    %i.icon-arrow-up
+                    向上
 
 
     .blankslate
