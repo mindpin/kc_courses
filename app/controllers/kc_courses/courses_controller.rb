@@ -44,7 +44,7 @@ module KcCourses
 
     private
     def course_params
-      params.require(:course).permit(:name, :desc)
+      params.require(:course).permit(:title, :desc)
     end
   end
 end

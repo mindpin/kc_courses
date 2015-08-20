@@ -13,7 +13,7 @@
           %span 预览
 
       .infodata
-        %h2= @course.name
+        %h2= @course.title
         .data
           .cover
           -#= fit_image(@course.cover.versions[:normal].url, :width => 214, :height => 140)
@@ -83,7 +83,7 @@
 
       %h3
         %span 课程
-        %span= @course.name
+        %span= @course.title
         %span 下还没有任何章节
 
       .desc 

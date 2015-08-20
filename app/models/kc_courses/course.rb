@@ -4,7 +4,7 @@ module KcCourses
     include Mongoid::Timestamps
     include KcCourses::Concerns::Publish
 
-    field :name, :type => String
+    field :title, :type => String
     field :desc, :type => String
 
     has_many :chapters, class_name: 'KcCourses::Chapter'
