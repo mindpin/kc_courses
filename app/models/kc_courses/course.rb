@@ -8,5 +8,7 @@ module KcCourses
     field :desc, :type => String
 
     has_many :chapters, class_name: 'KcCourses::Chapter'
+
+    validates :title, :presence => true
   end
 end

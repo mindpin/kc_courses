@@ -14,11 +14,14 @@ module KcCourses
     validates :course,  :presence => true
     #validates :creator, :presence => true
 
-    #has_many :course_wares
+    has_many :wares, class_name: 'KcCourses::Ware'
     #has_many :questions
     #has_many :practices
 
-    scope :by_course, lambda{|course| where(course_id: course.id) }
+    # 重写MovePosition
+    def parent
+      course
+    end
 
     before_validation :set_default_value
     def set_default_value

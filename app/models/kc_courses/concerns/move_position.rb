@@ -8,6 +8,8 @@ module KcCourses
         default_scope ->{ order(position: :asc) }
 
         before_create :set_position
+
+        scope :by_parent, lambda{|parent| where("#{parent.class.to_s.split('::').last.downcase}_id" => parent.id) }
       end
 
       def set_position
@@ -17,11 +19,11 @@ module KcCourses
       end
 
       def prev
-        self.class.by_course(course).where(:position.lt => self.position).last
+        self.class.by_parent(parent).where(:position.lt => self.position).last
       end
 
       def next
-        self.class.by_course(course).where(:position.gt => self.position).first
+        self.class.by_parent(parent).where(:position.gt => self.position).first
       end
 
       def move_down
@@ -50,6 +52,10 @@ module KcCourses
         prev_record.save!
 
         self
+      end
+
+      def parent
+        raise '你必须重写此实例方法'
       end
 
       module ClassMethods
