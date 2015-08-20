@@ -37,6 +37,11 @@ module KcCourses
       redirect_to courses_path
     end
 
+    def publish
+      @course = KcCourses::Course.find(params[:id])
+      redirect_to courses_path if @course.publish!
+    end
+
     private
     def course_params
       params.require(:course).permit(:name, :desc)
