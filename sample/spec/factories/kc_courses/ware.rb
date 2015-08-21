@@ -1,7 +1,7 @@
 FactoryGirl.define do
   factory :ware, class: KcCourses::Ware do
-    title "课件1"
-    desc "课件1 描述"
+    sequence(:title){|n| "课件#{n}"}
+    sequence(:desc){|n| "课件#{n} 描述"}
     chapter
   end
 end
