@@ -4,8 +4,8 @@ RSpec.describe KcCourses::Ware, type: :model do
   describe "基础字段" do
     it{
       @ware = create(:ware)
-      expect(@ware.title).to eq("课件1")
-      expect(@ware.desc).to eq("课件1 描述")
+      expect(@ware.title).to match(/课件\d+/)
+      expect(@ware.desc).to match(/课件\d+ 描述/)
     }
 
     it{

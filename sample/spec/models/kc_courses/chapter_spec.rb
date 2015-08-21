@@ -4,8 +4,8 @@ RSpec.describe KcCourses::Chapter, type: :model do
   describe "基础字段" do
     it{
       @chapter = create(:chapter)
-      expect(@chapter.title).to eq("章节1")
-      expect(@chapter.desc).to eq("章节1 描述")
+      expect(@chapter.title).to match(/章节\d+/)
+      expect(@chapter.desc).to match(/章节\d+ 描述/)
     }
 
     it{
