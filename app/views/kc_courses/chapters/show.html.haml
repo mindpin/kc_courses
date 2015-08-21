@@ -4,7 +4,7 @@
     .baseinfo
       .btns
         -#%a.btn.inverse.edit{:href => 'javascript:;', :data => {:url =>"/manage/chapters/#{@chapter.id}/edit"}}
-        %a.btn.inverse.edit{href: (edit_course_chapter_path(@course, @chapter))}
+        %a.btn.inverse.edit{href: (edit_chapter_path(@chapter))}
           %i.icon-edit
           %span 修改章节信息
 
@@ -19,21 +19,46 @@
           - desc = @chapter.desc.blank? ? '章节目前没有简介' : @chapter.desc
           = simple_format("章节简介：#{desc}")
 
-  .js-dyn-table{:class => @course_wares.blank? ? 'blank' : ''}
-    -#.pblock.table
-      -#.new-line
-        -#.op
-          -#.desc.counter
-            -#%span 章节下现有
-            -#%b.count= @course_wares.count
-            -#%span 个课件
+  .js-dyn-table{:class => @wares.blank? ? 'blank' : ''}
+    .pblock.table
+      .new-line
+        .op
+          .desc.counter
+            %span 章节下现有
+            %b.count= @wares.count
+            %span 个课件
 
           -#%a.btn.success.new{:href => 'javascript:;', :data => {:url => "/manage/chapters/#{@chapter.id}/course_wares/new"}}
-            -#%i.icon-plus.icon-white
-            -#%span 上传课件
+          %a.btn.success.new{:href => new_chapter_ware_path(@chapter)}
+            %i.icon-plus.icon-white
+            %span 上传课件
             
-      -#.tbl
-        -#= render_cell :course_ware, :manage_table, :course_wares => @course_wares
+      .tbl
+        -#= render_cell :course_ware, :manage_table, :course_wares => @wares
+        %table.page-data-table.wares.striped.bordered
+          %thead
+            %th.title 标题
+            %th.updated_at 更新时间
+            %th.opts 操作
+            %th.position 排序位置
+          %tbody
+            - @wares.each do |ware|
+              %tr.ware
+                %td.title= ware.title
+                -#%a{href: (ware_path(ware))}
+                %td.updated_at= ware.updated_at
+                %td.opts
+                  %a{href: (edit_ware_path(ware))} 编辑
+                  %a{href: (ware_path(ware)), data: {method: 'delete', confirm: '你确定吗？'}} 删除
+                %td.position
+                  %a.btn.mini.move-down.updown{href: (move_down_ware_path(ware)), data: {method: 'put'}, title: '向下移动'}
+                    %i.icon-arrow-down
+                    向下
+                  %a.btn.mini.move-up.updown{href: (move_up_ware_path(ware)), data: {method: 'put'}, title: '向上移动'}
+                    %i.icon-arrow-up
+                    向上
+
+    .blankslate
 
     .blankslate
       %h3

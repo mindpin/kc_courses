@@ -47,7 +47,8 @@
             %span 个章节
 
           -#%a.btn.success.new{:href => 'javascript:;', :data => {:url => "/manage/courses/#{@course.id}/chapters/new"}}
-          %a.btn.success.new{:href => (new_course_chapter_path(@course))}
+          -#%a.btn.success.new{:href => (new_course_chapter_path(@course, course_id: @course.id))}
+          %a.btn.success.new{:href => "/courses/#{@course.id}/chapters/new"}
             %i.icon-plus.icon-white
             %span 增加章节
 
@@ -62,16 +63,17 @@
           %tbody
             - @chapters.each do |chapter|
               %tr.chapter
-                %td.title= chapter.title
-                %td.updated_at= chapter.title
+                %td.title
+                  %a{href: (chapter_path(chapter))}= chapter.title
+                %td.updated_at= chapter.updated_at
                 %td.opts
-                  %a{href: (edit_course_chapter_path(@course, chapter))} 编辑
-                  %a{href: (course_chapter_path(@course, chapter)), data: {method: 'delete', confirm: '你确定吗？'}} 删除
+                  %a{href: (edit_chapter_path(chapter))} 编辑
+                  %a{href: (chapter_path(chapter)), data: {method: 'delete', confirm: '你确定吗？'}} 删除
                 %td.position
-                  %a.btn.mini.move-down.updown{href: (move_down_course_chapter_path(@course, chapter)), data: {method: 'put'}, title: '向下移动'}
+                  %a.btn.mini.move-down.updown{href: (move_down_chapter_path(chapter)), data: {method: 'put'}, title: '向下移动'}
                     %i.icon-arrow-down
                     向下
-                  %a.btn.mini.move-up.updown{href: (move_up_course_chapter_path(@course, chapter)), data: {method: 'put'}, title: '向上移动'}
+                  %a.btn.mini.move-up.updown{href: (move_up_chapter_path(chapter)), data: {method: 'put'}, title: '向上移动'}
                     %i.icon-arrow-up
                     向上
 

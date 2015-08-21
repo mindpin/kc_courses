@@ -1,13 +1,14 @@
 module KcCourses
   class ChaptersController < KcCourses::ApplicationController
-    before_action :set_course
+    before_action :set_course, only: [:create, :new]
 
     #def index
       #@chapters = KcCourses::Chapter.all
     #end
     
     def show
-      @chapter = @course.chapters.find params[:id]
+      @chapter = KcCourses::Chapter.find params[:id]
+      @wares = @chapter.wares
       #authorize! :manage, @chapter
       #@course = @chapter.course
       #@course_wares = @chapter.course_wares
@@ -18,7 +19,7 @@ module KcCourses
 
       #authorize! :manage, Chapter
       #@course = Course.find(params[:course_id])
-      #@chapter = @course.chapters.new
+      #@chapter = KcCourses::Chapter.new
 
       #if request.xhr?
         #return render :json => {
@@ -33,12 +34,12 @@ module KcCourses
       @chapter = @course.chapters.new chapter_params
       #authorize! :manage, Chapter
       #@course = Course.find(params[:course_id])
-      #@chapter = @course.chapters.build(params[:chapter])
+      #@chapter = KcCourses::Chapter.build(params[:chapter])
       #@chapter.creator = current_user
       #if @chapter.save
         #if request.xhr?
           #return render :json => {
-            #:count => @course.chapters.count,
+            #:count => KcCourses::Chapter.count,
             #:html => (
               #render_cell :course_ware, :manage_chapter_table, :chapters => [@chapter]
             #)
@@ -47,12 +48,12 @@ module KcCourses
 
         #return redirect_to "/manage/courses/#{@course.id}"
       #end
-      return redirect_to [@course, @chapter] if @chapter.save
+      return redirect_to @chapter if @chapter.save
       render :action => :new
     end
 
     def edit
-      @chapter = @course.chapters.find(params[:id])
+      @chapter = KcCourses::Chapter.find(params[:id])
       #authorize! :manage, @chapter
       #@course = @chapter.course
 
@@ -67,7 +68,7 @@ module KcCourses
 
 
     def update
-      @chapter = @course.chapters.find(params[:id])
+      @chapter = KcCourses::Chapter.find(params[:id])
       return redirect_to [@course, @chapter] if @chapter.update_attributes chapter_params
       render :action => :new
       #authorize! :manage, @chapter
@@ -89,8 +90,9 @@ module KcCourses
 
     def destroy
       @chapter = KcCourses::Chapter.find(params[:id])
+      course_id = @chapter.course_id
       @chapter.destroy
-      redirect_to @course
+      redirect_to course_path(course_id)
       #authorize! :manage, @chapter
       #@course = @chapter.course
       #@chapter.destroy
@@ -98,7 +100,7 @@ module KcCourses
       #if request.xhr?
         #return render :json => {
           #:status => 'ok',
-          #:count => @course.chapters.count
+          #:count => KcCourses::Chapter.count
         #}
       #end
 
@@ -106,9 +108,9 @@ module KcCourses
     end
 
     def move_up
-      @chapter = @course.chapters.find(params[:id])
+      @chapter = KcCourses::Chapter.find(params[:id])
       @chapter.move_up
-      redirect_to @course
+      redirect_to @chapter.course
       #@chapter = KcCourses::Chapter.find(params[:id])
       #authorize! :manage, @chapter
       #@course = @chapter.course
@@ -125,9 +127,9 @@ module KcCourses
     end
 
     def move_down
-      @chapter = @course.chapters.find(params[:id])
+      @chapter = KcCourses::Chapter.find(params[:id])
       @chapter.move_down
-      redirect_to @course
+      redirect_to @chapter.course
       #@chapter = KcCourses::Chapter.find(params[:id])
       #authorize! :manage, @chapter
       #@course = @chapter.course

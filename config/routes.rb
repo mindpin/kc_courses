@@ -1,13 +1,22 @@
 KcCourses::Engine.routes.draw do
-  resources :courses do
+  resources :courses, shallow: true do
     post :publish, on: :member
 
-    resources :chapters do
+    resources :chapters, shallow: true do
       member do
         put :move_up
         put :move_down
       end
+      resources :wares, shallow: true do
+        member do
+          put :move_up
+          put :move_down
+        end
+      end
     end
   end
+
+  #resources :chapters
+  #resources :wares
   root 'home#index'
 end
