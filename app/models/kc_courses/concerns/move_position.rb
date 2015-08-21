@@ -7,7 +7,7 @@ module KcCourses
         field :position, :type => Integer
         default_scope ->{ order(position: :asc) }
 
-        before_create :set_position
+        before_create :set_position, unless: :position
 
         scope :by_parent, lambda{|parent| where("#{parent.class.to_s.split('::').last.downcase}_id" => parent.id) }
       end

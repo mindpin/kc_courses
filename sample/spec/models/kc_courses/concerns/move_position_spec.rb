@@ -28,15 +28,15 @@ RSpec.describe KcCourses::Concerns::MovePosition, type: :module do
       expect(@test.respond_to? :set_position).to eq(true)
 
       expect(@test.position).not_to be_nil
+      expect(@test.position).to be > 0
     }
   end
 
   describe KcCourses::Chapter, type: :model do
     before{
       @course = create(:course)
-      @chapter1 = create(:chapter, course: @course)
-      sleep 1
-      @chapter2 = create(:chapter, course: @course)
+      @chapter1 = create(:chapter, course: @course, position: 1)
+      @chapter2 = create(:chapter, course: @course, position: 2)
     }
 
     it{
@@ -69,9 +69,8 @@ RSpec.describe KcCourses::Concerns::MovePosition, type: :module do
   describe KcCourses::Ware, type: :model do
     before{
       @chapter = create(:chapter)
-      @ware1 = create(:ware, chapter: @chapter)
-      sleep 1
-      @ware2 = create(:ware, chapter: @chapter)
+      @ware1 = create(:ware, chapter: @chapter, position: 1)
+      @ware2 = create(:ware, chapter: @chapter, position: 2)
     }
 
     it{
