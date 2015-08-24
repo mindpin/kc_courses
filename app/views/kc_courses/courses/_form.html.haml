@@ -1,9 +1,9 @@
 = form_for @course do |f|
   .field
-    = f.text_field :title
+    = f.text_field :title, placeholder: '标题'
   .field
-    = f.text_area :desc
+    = f.text_area :desc, placeholder: '描述'
 
-  = f.submit
+  = f.submit '提交'
 
 %a{href: (courses_path)} 返回
