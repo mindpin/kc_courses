@@ -72,5 +72,13 @@ feature "课程页面" do
       expect(page).not_to have_content(@course.title)
       expect(current_path).to match(/\/courses/)
     end
+
+    scenario "发布" do
+      visit "/courses"
+      expect(page).to have_content('发布')
+      click_link '发布'
+      expect(page).to have_content('已发布')
+      expect(current_path).to match(/\/courses/)
+    end
   end
 end
