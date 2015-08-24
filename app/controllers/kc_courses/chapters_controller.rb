@@ -2,12 +2,8 @@ module KcCourses
   class ChaptersController < KcCourses::ApplicationController
     before_action :set_course, only: [:create, :new]
 
-    #def index
-      #@chapters = KcCourses::Chapter.all
-    #end
-    
     def show
-      @chapter = KcCourses::Chapter.find params[:id]
+      @chapter = current_user.chapters.find params[:id]
       @wares = @chapter.wares
       #authorize! :manage, @chapter
       #@course = @chapter.course
@@ -15,7 +11,7 @@ module KcCourses
     end
 
     def new
-      @chapter = @course.chapters.new
+      @chapter = current_user.chapters.new course: @course
 
       #authorize! :manage, Chapter
       #@course = Course.find(params[:course_id])
@@ -31,7 +27,7 @@ module KcCourses
     end
 
     def create
-      @chapter = @course.chapters.new chapter_params
+      @chapter = current_user.chapters.new chapter_params.merge(course: @course)
       #authorize! :manage, Chapter
       #@course = Course.find(params[:course_id])
       #@chapter = KcCourses::Chapter.build(params[:chapter])
@@ -53,7 +49,7 @@ module KcCourses
     end
 
     def edit
-      @chapter = KcCourses::Chapter.find(params[:id])
+      @chapter = current_user.chapters.find(params[:id])
       #authorize! :manage, @chapter
       #@course = @chapter.course
 
@@ -68,8 +64,8 @@ module KcCourses
 
 
     def update
-      @chapter = KcCourses::Chapter.find(params[:id])
-      return redirect_to [@course, @chapter] if @chapter.update_attributes chapter_params
+      @chapter = current_user.chapters.find(params[:id])
+      return redirect_to @chapter if @chapter.update_attributes chapter_params
       render :action => :new
       #authorize! :manage, @chapter
       #@course = @chapter.course
@@ -89,7 +85,7 @@ module KcCourses
     end
 
     def destroy
-      @chapter = KcCourses::Chapter.find(params[:id])
+      @chapter = current_user.chapters.find(params[:id])
       course_id = @chapter.course_id
       @chapter.destroy
       redirect_to course_path(course_id)
@@ -108,7 +104,7 @@ module KcCourses
     end
 
     def move_up
-      @chapter = KcCourses::Chapter.find(params[:id])
+      @chapter = current_user.chapters.find(params[:id])
       @chapter.move_up
       redirect_to @chapter.course
       #@chapter = KcCourses::Chapter.find(params[:id])
@@ -127,7 +123,7 @@ module KcCourses
     end
 
     def move_down
-      @chapter = KcCourses::Chapter.find(params[:id])
+      @chapter = current_user.chapters.find(params[:id])
       @chapter.move_down
       redirect_to @chapter.course
       #@chapter = KcCourses::Chapter.find(params[:id])
@@ -147,7 +143,7 @@ module KcCourses
 
     private
     def set_course
-      @course = Course.find params[:course_id]
+      @course = current_user.courses.find params[:course_id]
     end
 
     def chapter_params

@@ -6,9 +6,11 @@ module KcCourses
 
     field :title, :type => String
     field :desc, :type => String
+    belongs_to :user
 
     has_many :chapters, class_name: 'KcCourses::Chapter'
 
-    validates :title, :presence => true
+    validates :title, presence: true
+    validates :user, presence: true
   end
 end

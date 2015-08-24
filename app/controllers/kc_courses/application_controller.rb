@@ -3,6 +3,7 @@ module KcCourses
     layout "kc_courses/application"
 
     if defined? PlayAuth
+      include PlayAuth::SessionsHelper
       helper PlayAuth::SessionsHelper
     end
   end

@@ -8,11 +8,11 @@ module KcCourses
     field :desc, :type => String
 
     belongs_to :course, class_name: 'KcCourses::Course'
-    #belongs_to :creator, :class_name => "User", :foreign_key => "creator_id"
+    belongs_to :user
 
     validates :title, :presence => true
     validates :course,  :presence => true
-    #validates :creator, :presence => true
+    validates :user, presence: true
 
     has_many :wares, class_name: 'KcCourses::Ware'
     #has_many :questions
