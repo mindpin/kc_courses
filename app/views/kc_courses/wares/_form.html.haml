@@ -1,10 +1,10 @@
-= form_for [@chapter, @ware] do |f|
-  .field
-    = f.text_field :title, placeholder: '课件标题'
-  .field
-    = f.text_area :desc, placeholder: '课件描述'
-
-  = f.submit '提交'
+= simple_form_for [@chapter, @ware] do |f|
+  .form-inputs
+    = f.input :title, label: '标题'
+    = f.input :desc, as: :text, label: '描述'
+  
+  .form-actions
+    = f.button :submit, '提交'
 
 %a{href: (chapter_path(@ware.chapter))} 返回
 
