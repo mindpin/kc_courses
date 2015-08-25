@@ -1,16 +1,25 @@
+.well
+  %h1
+    %a{href: (courses_path)} 课程编排
+    %span /
+    %span= @course.title
+  你正则对课程
+  = @course.title
+  进行章节编排，你可以增减章节或者调整章节排序
+
 .page-manage-course-show
   .pblock.modelinfo
     -#= render_cell :course, :baseinfo, :course => @course
-    .baseinfo
-      .btns
+    .baseinfo.well
+      .btns.pull-right
         -#%a.btn.inverse.edit{:href => 'javascript:;', :data => {:url =>"/manage/courses/#{@course.id}/edit"}}
-        %a.btn.inverse.edit{:href => (edit_course_path(@course))}
+        %a.btn.btn-default.inverse.edit{:href => (edit_course_path(@course))}
           %i.icon-edit
           %span 修改课程信息
 
-        %a.btn.gray{:href => "/courses/#{@course.id}?preview=true"}
-          %i.icon-eye-open
-          %span 预览
+        -#%a.btn.btn-default.gray{:href => "/courses/#{@course.id}?preview=true"}
+          -#%i.icon-eye-open
+          -#%span 预览
 
       .infodata
         %h2= @course.title
@@ -31,63 +40,37 @@
               %span.t 上课地点：
               -#%span.v= @course.location.blank? ? '--' : @course.location
             .d
-              - desc = @course.desc.blank? ? t('common.course.course-no-desc') : @course.desc
+              - desc = @course.desc.blank? ? '当前课程还没有简介' : @course.desc
               %span.t 课程简介：
               %span.v= simple_format(desc)
 
           .clearfix
 
-  .js-dyn-table{:class => @chapters.blank? ? 'blank' : ''}
-    .pblock.table
-      .new-line
-        .op
-          .desc.counter
-            %span 课程下现有
-            %b.count= @chapters.count
-            %span 个章节
-
-          -#%a.btn.success.new{:href => 'javascript:;', :data => {:url => "/manage/courses/#{@course.id}/chapters/new"}}
-          -#%a.btn.success.new{:href => (new_course_chapter_path(@course, course_id: @course.id))}
-          %a.btn.success.new{:href => "/courses/#{@course.id}/chapters/new"}
-            %i.icon-plus.icon-white
-            %span 增加章节
-
-      .tbl
-        -#= render_cell :course_ware, :manage_chapter_table, :chapters => @chapters
-        %table.page-data-table.chapters.striped.bordered
-          %thead
-            %th.title 标题
-            %th.updated_at 更新时间
-            %th.opts 操作
-            %th.position 排序位置
-          %tbody
-            - @chapters.each do |chapter|
-              %tr.chapter
-                %td.title
-                  %a{href: (chapter_path(chapter))}= chapter.title
-                %td.updated_at= chapter.updated_at
-                %td.opts
-                  %a{href: (edit_chapter_path(chapter))} 编辑
-                  %a{href: (chapter_path(chapter)), data: {method: 'delete', confirm: '你确定吗？'}} 删除
-                %td.position
-                  %a.btn.mini.move-down.updown{href: (move_down_chapter_path(chapter)), data: {method: 'put'}, title: '向下移动'}
-                    %i.icon-arrow-down
-                    向下
-                  %a.btn.mini.move-up.updown{href: (move_up_chapter_path(chapter)), data: {method: 'put'}, title: '向上移动'}
-                    %i.icon-arrow-up
-                    向上
-
-
-    .blankslate
-      %span.icon.icon-blackboard
-      %span.icon.icon-books
-      %span.icon.icon-triangle
-
-      %h3
-        %span 课程
-        %span= @course.title
-        %span 下还没有任何章节
-
-      .desc 
-        点击上方的增加章节按钮来创建一个新的章节
-
+  .panel.panel-default.panel-chapters
+    .panel-body
+      %span 课程下现有
+      %b.count= @chapters.count
+      %span 个章节
+      %a.btn.btn-success.btn-sm.new{:href => "/courses/#{@course.id}/chapters/new"}
+        %i.glyphicon.glyphicon-plus
+        %span 增加章节
+    %table.table.table-bordered.table-striped
+      %thead
+        %th.title 标题
+        %th.updated_at 更新时间
+        %th.opts 操作
+        %th.position 排序位置
+      %tbody
+        - @chapters.each do |chapter|
+          %tr.chapter
+            %td.title
+              %a{href: (chapter_path(chapter))}= chapter.title
+            %td.updated_at= chapter.updated_at
+            %td.opts
+              %a{href: (edit_chapter_path(chapter))} 编辑
+              %a{href: (chapter_path(chapter)), data: {method: 'delete', confirm: '你确定吗？'}} 删除
+            %td.position
+              %a.btn.btn-default.btn-xs.move-down.updown{href: (move_down_chapter_path(chapter)), data: {method: 'put'}, title: '向下移动'}
+                %i.glyphicon.glyphicon-arrow-down
+              %a.btn.btn-default.btn-xs.move-up.updown{href: (move_up_chapter_path(chapter)), data: {method: 'put'}, title: '向上移动'}
+                %i.glyphicon.glyphicon-arrow-up

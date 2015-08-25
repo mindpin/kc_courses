@@ -1,9 +1,15 @@
-%a{href: (new_course_path)} 增加课程
-%table
+.well
+  %h1
+    课程编排
+    %a.btn.btn-primary{href: (new_course_path)} 增加课程
+  你好。你可以在这里对由你负责的课程进行章节编排。
+
+%table.table.table-bordered.table-striped
   %thead
     %tr
-      %th 课程名
-      %th 更新时间
+      %th 课程名称
+      %th 章节数
+      %th 课件数
       %th 
       %th 
       %th 
@@ -12,7 +18,8 @@
       %tr
         %td
           %a{href: (course_path(course))}= course.title
-        %td= course.updated_at
+        %td= course.chapters.count
+        %td= course.chapters.map{|chapter| chapter.wares.count}.sum
         %td
           %a{href: (edit_course_path(course))} 编辑
         %td
