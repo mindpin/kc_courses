@@ -1,17 +1,25 @@
+.well
+  %h1
+    %a{href: (courses_path)} 课程编排
+    %span /
+    %a{href: (course_path(@chapter.course))}= @chapter.course.title
+    %span /
+    %span= @chapter.title
+
 .page-manage-chapter-show
   .pblock.modelinfo
     -#= render_cell :course, :chapter_baseinfo, :chapter => @chapter
-    .baseinfo
-      .btns
+    .baseinfo.well
+      .btns.pull-right
         -#%a.btn.inverse.edit{:href => 'javascript:;', :data => {:url =>"/manage/chapters/#{@chapter.id}/edit"}}
-        %a.btn.inverse.edit{href: (edit_chapter_path(@chapter))}
+        %a.btn.btn-default.edit{href: (edit_chapter_path(@chapter))}
           %i.icon-edit
           %span 修改章节信息
 
         -#%a.btn.gray{:href => "/courses/#{@chapter.course.id}?preview=true"}
-        %a.btn.gray{:href => "javascript:;"}
-          %i.icon-eye-open
-          %span 预览课程
+        -#%a.btn.gray{:href => "javascript:;"}
+          -#%i.icon-eye-open
+          -#%span 预览课程
 
       .infodata
         %h2= @chapter.title
@@ -19,53 +27,31 @@
           - desc = @chapter.desc.blank? ? '章节目前没有简介' : @chapter.desc
           = simple_format("章节简介：#{desc}")
 
-  .js-dyn-table{:class => @wares.blank? ? 'blank' : ''}
-    .pblock.table
-      .new-line
-        .op
-          .desc.counter
-            %span 章节下现有
-            %b.count= @wares.count
-            %span 个课件
 
-          -#%a.btn.success.new{:href => 'javascript:;', :data => {:url => "/manage/chapters/#{@chapter.id}/course_wares/new"}}
-          %a.btn.success.new{:href => new_chapter_ware_path(@chapter)}
-            %i.icon-plus.icon-white
-            %span 上传课件
-            
-      .tbl
-        -#= render_cell :course_ware, :manage_table, :course_wares => @wares
-        %table.page-data-table.wares.striped.bordered
-          %thead
-            %th.title 标题
-            %th.updated_at 更新时间
-            %th.opts 操作
-            %th.position 排序位置
-          %tbody
-            - @wares.each do |ware|
-              %tr.ware
-                %td.title= ware.title
-                -#%a{href: (ware_path(ware))}
-                %td.updated_at= ware.updated_at
-                %td.opts
-                  %a{href: (edit_ware_path(ware))} 编辑
-                  %a{href: (ware_path(ware)), data: {method: 'delete', confirm: '你确定吗？'}} 删除
-                %td.position
-                  %a.btn.mini.move-down.updown{href: (move_down_ware_path(ware)), data: {method: 'put'}, title: '向下移动'}
-                    %i.icon-arrow-down
-                    向下
-                  %a.btn.mini.move-up.updown{href: (move_up_ware_path(ware)), data: {method: 'put'}, title: '向上移动'}
-                    %i.icon-arrow-up
-                    向上
-
-    .blankslate
-
-    .blankslate
-      %h3
-        %span 章节
-        %span= @chapter.title
-        %span 下还没有任何课件
-
-      .desc 
-        点击上方的上传课件按钮来增加课件
-
+  .panel.panel-default.panel-chapters
+    .panel-body
+      %span 章节下现有
+      %b.count= @wares.count
+      %span 个课件
+      %a.btn.btn-success.btn-sm.new{:href => "/chapters/#{@chapter.id}/wares/new"}
+        %i.glyphicon.glyphicon-plus
+        %span 增加章节
+    %table.table.table-bordered.table-striped
+      %thead
+        %th.title 标题
+        %th.updated_at 更新时间
+        %th.opts 操作
+        %th.position 排序位置
+      %tbody
+        - @wares.each do |ware|
+          %tr.ware
+            %td.title= ware.title
+            %td.updated_at= ware.updated_at
+            %td.opts
+              %a{href: (edit_ware_path(ware))} 编辑
+              %a{href: (ware_path(ware)), data: {method: 'delete', confirm: '你确定吗？'}} 删除
+            %td.position
+              %a.btn.btn-default.btn-xs.move-down.updown{href: (move_down_ware_path(ware)), data: {method: 'put'}, title: '向下移动'}
+                %i.glyphicon.glyphicon-arrow-down
+              %a.btn.btn-default.btn-xs.move-up.updown{href: (move_up_ware_path(ware)), data: {method: 'put'}, title: '向上移动'}
+                %i.glyphicon.glyphicon-arrow-up

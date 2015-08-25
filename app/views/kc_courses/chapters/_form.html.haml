@@ -1,9 +1,9 @@
-= form_for [@course, @chapter] do |f|
-  .field
-    = f.text_field :title, placeholder: '章节标题'
-  .field
-    = f.text_area :desc, placeholder: '章节描述'
-
-  = f.submit '提交'
+= simple_form_for [@course, @chapter] do |f|
+  .form-inputs
+    = f.input :title, label: '标题'
+    = f.input :desc, as: :text, label: '描述'
+  
+  .form-actions
+    = f.button :submit, '提交'
 
 %a{href: (course_path(@chapter.course))} 返回
