@@ -10,4 +10,9 @@
     = javascript_include_tag 'kc_courses/application'
 
   %body
-    = yield
+    %header
+      = render 'layouts/kc_courses/navigation'
+      
+    %main{role: "main"}
+      .container
+        = yield
