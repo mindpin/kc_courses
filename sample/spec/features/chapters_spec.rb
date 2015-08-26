@@ -35,7 +35,7 @@ feature "章节页面" do
         fill_in 'chapter_title', :with => '章节标题'
         fill_in 'chapter_desc', :with =>  '章节描述'
       end
-      click_button '提交'
+      click_button '新增章节'
       expect(page).to have_content('修改章节信息')
       @create_chapter = KcCourses::Chapter.last
       expect(current_path).to eq("/chapters/#{@create_chapter.id}")
@@ -57,7 +57,7 @@ feature "章节页面" do
         fill_in 'chapter_title', :with => '其他标题改'
         fill_in 'chapter_desc', :with =>  '其他描述改'
       end
-      click_button '提交'
+      click_button '更新章节'
       expect(page).to have_content('其他标题改')
       expect(page).to have_content('其他描述改')
       expect(current_path).to eq("/chapters/#{other_chapter.id}")

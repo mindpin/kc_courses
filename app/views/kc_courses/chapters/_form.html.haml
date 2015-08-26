@@ -1,9 +1,9 @@
 = simple_form_for [@course, @chapter] do |f|
   .form-inputs
-    = f.input :title, label: '标题'
-    = f.input :desc, as: :text, label: '描述'
+    = f.input :title
+    = f.input :desc, as: :text
   
   .form-actions
-    = f.button :submit, '提交'
+    = f.button :submit
 
 %a{href: (course_path(@chapter.course))} 返回

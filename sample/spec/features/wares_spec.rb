@@ -36,7 +36,7 @@ feature "课件页面" do
         fill_in 'ware_title', :with => '课件标题'
         fill_in 'ware_desc', :with =>  '课件描述'
       end
-      click_button '提交'
+      click_button '新增课件'
       expect(page).to have_content('修改章节信息')
       @create_ware = KcCourses::Ware.last
       expect(page).to have_content(@create_ware.title)
@@ -59,7 +59,7 @@ feature "课件页面" do
         fill_in 'ware_title', :with => '其他标题改'
         fill_in 'ware_desc', :with =>  '其他描述改'
       end
-      click_button '提交'
+      click_button '更新课件'
       expect(page).to have_content('其他标题改')
       expect(current_path).to eq("/chapters/#{@chapter.id}")
     end

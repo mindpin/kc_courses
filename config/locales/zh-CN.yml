@@ -1,0 +1,16 @@
+zh-CN:
+  mongoid:
+    models:
+      kc_courses/course: 课程
+      kc_courses/chapter: 章节
+      kc_courses/ware: 课件
+    attributes:
+      kc_courses/course:
+        title: 标题
+        desc: 描述
+      kc_courses/chapter:
+        title: 标题
+        desc: 描述
+      kc_courses/ware:
+        title: 标题
+        desc: 描述

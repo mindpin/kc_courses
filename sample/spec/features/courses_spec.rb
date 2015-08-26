@@ -35,7 +35,7 @@ feature "课程页面" do
         fill_in 'course_title', :with => '课程标题'
         fill_in 'course_desc', :with =>  '课程描述'
       end
-      click_button '提交'
+      click_button '新增课程'
       expect(page).to have_content('上课时间')
       expect(current_path).to match(/\/courses\/\S+/)
     end
@@ -55,7 +55,7 @@ feature "课程页面" do
         fill_in 'course_title', :with => '其他标题改'
         fill_in 'course_desc', :with =>  '其他描述改'
       end
-      click_button '提交'
+      click_button '更新课程'
       expect(page).to have_content('其他标题改')
       expect(page).to have_content('其他描述改')
       expect(current_path).to match(/\/courses\/\S+/)
