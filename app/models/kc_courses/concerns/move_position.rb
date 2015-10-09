@@ -9,7 +9,7 @@ module KcCourses
 
         before_create :set_position, unless: :position
 
-        scope :by_parent, lambda{|parent| where("#{parent.class.to_s.split('::').last.downcase}_id" => parent.id) }
+        scope :by_parent, lambda{|parent| where("#{parent.class.to_s.split('::').last.underscore}_id" => parent.id) }
       end
 
       def set_position
