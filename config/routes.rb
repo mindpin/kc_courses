@@ -1,4 +1,6 @@
 KcCourses::Engine.routes.draw do
+  resources :favorites, shallow: true
+
   resources :courses, shallow: true do
     post :publish, on: :member
 
