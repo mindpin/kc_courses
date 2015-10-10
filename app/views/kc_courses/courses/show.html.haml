@@ -16,9 +16,6 @@
         %a.btn.btn-default.inverse.edit{:href => (edit_course_path(@course))}
           %i.icon-edit
           %span 修改课程信息
-        %a.btn.btn-default.inverse.edit{:href => (favorites_path(course_id: @course.id)), data: {method: 'post'}}
-          %i.icon-edit
-          %span 收藏
         %a.btn.btn-default.inverse.edit{:href => (joins_path(course_id: @course.id)), data: {method: 'post'}}
           %i.icon-edit
           %span 我要参加
