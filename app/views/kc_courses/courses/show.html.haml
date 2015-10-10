@@ -19,6 +19,9 @@
         %a.btn.btn-default.inverse.edit{:href => (favorites_path(course_id: @course.id)), data: {method: 'post'}}
           %i.icon-edit
           %span 收藏
+        %a.btn.btn-default.inverse.edit{:href => (joins_path(course_id: @course.id)), data: {method: 'post'}}
+          %i.icon-edit
+          %span 我要参加
 
         -#%a.btn.btn-default.gray{:href => "/courses/#{@course.id}?preview=true"}
           -#%i.icon-eye-open

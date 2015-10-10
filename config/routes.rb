@@ -1,4 +1,5 @@
 KcCourses::Engine.routes.draw do
+  resources :joins, shallow: true
   resources :favorites, shallow: true
 
   resources :courses, shallow: true do

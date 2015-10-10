@@ -1,0 +1,21 @@
+.well
+  %h1
+    我参加的课程
+
+%table.table.table-bordered.table-striped
+  %thead
+    %tr
+      %th 课程名称
+      %th 章节数
+      %th 课件数
+      %th 
+  %tbody
+    - @joins.each do |join|
+      %tr
+        %td
+          %a{href: (course_path(join.course))}= join.course.title
+        %td= join.course.chapters.count
+        %td= join.course.chapters.map{|chapter| chapter.wares.count}.sum
+        %td
+          %a{href: (join_path(join)), data:{method: :delete, confirm: '你确定?'}} 删除
+
