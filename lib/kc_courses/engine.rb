@@ -8,7 +8,7 @@ module KcCourses
         has_many :courses, class_name: 'KcCourses::Course'
         has_many :chapters, class_name: 'KcCourses::Chapter'
         has_many :wares, class_name: 'KcCourses::Ware'
-        has_many :joins, class_name: 'KcCourses::Join'
+        has_many :join_courses, class_name: 'KcCourses::JoinCourse'
       end
     end
 
