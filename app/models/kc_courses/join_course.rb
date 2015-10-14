@@ -1,5 +1,5 @@
 module KcCourses
-  class Join
+  class JoinCourse
     include Mongoid::Document
     include Mongoid::Timestamps
 
