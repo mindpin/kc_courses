@@ -20,8 +20,17 @@ module KcCourses
         define_method :cancel_join_course do |course|
           course_joins.where(course: course).destroy_all > 0 ? true : false
         end
+
+        define_method :join_courses do |&block|
+          if block.blank?
+            joins = self.course_joins
+          else
+            joins = block.call self.course_joins
+          end
+          join_ids = joins.map{|join|join.course_id.to_s}
+          KcCourses::Course.where(:id.in => join_ids)
+        end
       end
     end
-
   end
 end
