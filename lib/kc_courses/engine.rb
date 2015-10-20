@@ -4,6 +4,10 @@ module KcCourses
     config.to_prepare do
       ApplicationController.helper ::ApplicationHelper
 
+      Dir.glob(Rails.root + "app/decorators/kc_courses/**/*_decorator.rb").each do |c|
+        require_dependency(c)
+      end
+
       User.class_eval do
         has_many :courses, class_name: 'KcCourses::Course'
         has_many :chapters, class_name: 'KcCourses::Chapter'
