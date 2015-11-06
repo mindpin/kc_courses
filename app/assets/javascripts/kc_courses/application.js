@@ -2,4 +2,5 @@
 //= require jquery_ujs
 //= require turbolinks
 //= require bootstrap-sprockets
-//= require_tree .
+//= require file_part_upload/application
+//= require ./uploader

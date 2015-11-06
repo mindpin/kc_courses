@@ -6,6 +6,7 @@ module KcCourses
 
     field :title, :type => String
     field :desc, :type => String
+    field :cover, :type => String
     belongs_to :user
 
     has_many :chapters, class_name: 'KcCourses::Chapter'
