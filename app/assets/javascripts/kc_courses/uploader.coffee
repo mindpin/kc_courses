@@ -24,7 +24,7 @@ jQuery(document).on 'ready page:load', ->
 
       else
         jQuery('.cover_preview').append """
-          <img id="img_course_cover" src="#{info.file_entity_url}" />
+          <img id="img_course_cover" class="img-responsive" src="#{info.file_entity_url}" />
         """
 
     # 上传出错时调用此方法

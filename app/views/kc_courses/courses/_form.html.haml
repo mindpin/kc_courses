@@ -11,7 +11,7 @@
       .col-sm-9
         .cover_preview
           - unless @course.cover.blank?
-            %img#img_course_cover{src: (@course.cover)}
+            %img#img_course_cover.img-responsive{src: (@course.cover)}
   
   .form-actions
     = f.button :submit
