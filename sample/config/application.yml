@@ -7,3 +7,9 @@ development:
   qiniu_callback_host:  http://remote.realityandapp.com
 
 test:
+  qiniu_bucket: ddtest
+  qiniu_domain: http://7xj2hr.com1.z0.glb.clouddn.com
+  qiniu_base_path: kc
+  qiniu_app_access_key: rnb5srjURqy92WEEneDKoLTux3MNTCUoYKkffR7_
+  qiniu_app_secret_key: tUsP6FrNgasbFVwyWP3ahXcMRM5YHGlp8I2KmbEX
+  qiniu_callback_host:  http://remote.realityandapp.com

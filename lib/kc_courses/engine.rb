@@ -13,6 +13,8 @@ module KcCourses
         has_many :chapters, class_name: 'KcCourses::Chapter'
         has_many :wares, class_name: 'KcCourses::Ware'
         has_many :course_joins, class_name: 'KcCourses::CourseJoin'
+        has_many :ware_readings, class_name: 'KcCourses::WareReading'
+        has_many :ware_reading_deltas, class_name: 'KcCourses::WareReadingDelta'
 
         define_method :join_course do |course|
           return if course.class.name != 'KcCourses::Course'

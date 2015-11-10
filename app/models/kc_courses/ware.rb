@@ -9,6 +9,9 @@ module KcCourses
 
     belongs_to :chapter, class_name: 'KcCourses::Chapter'
     belongs_to :user
+    has_many :ware_readings, class_name: 'KcCourses::WareReading'
+    has_many :ware_reading_deltas, class_name: 'KcCourses::WareReadingDelta'
+    
     validates :chapter,  :presence => true
     validates :user, presence: true
 
