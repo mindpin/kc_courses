@@ -3,6 +3,7 @@ module KcCourses
     include Mongoid::Document
     include Mongoid::Timestamps
     include KcCourses::Concerns::MovePosition
+    include KcCourses::Concerns::WareReadingMethod
 
     field :title, :type => String
     field :desc, :type => String

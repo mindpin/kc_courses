@@ -36,6 +36,20 @@ module KcCourses
           join_ids = joins.map{|join|join.course_id.to_s}
           KcCourses::Course.where(:id.in => join_ids)
         end
+
+        # 查询该用户某段时间内的学习情况
+        define_method :read_status_of_course do |start_time, end_time|
+          if ware_reading_deltas.count != 0
+            arr = []
+            ware_reading_deltas.map do |ware_reading_delta|
+              if ware_reading_delta.time >= start_time && ware_reading_delta.time <= end_time
+                arr[arr.length] = ware_reading_delta
+              end
+            end
+          else
+            return []
+          end
+        end
       end
     end
   end

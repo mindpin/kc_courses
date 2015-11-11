@@ -8,8 +8,20 @@ module KcCourses
         ware_readings.create(:creator => user, :read_percent => read_percent)
       end
       # 设置 user 在某一天内 course/chapter/ware 的学习进度变化
-      def set_read_percent_by_user(user, read_percent_change, time)
-        ware_reading_deltas.create(:creator => user, :read_percent_change => read_percent_change, :time => time)
+      def set_read_percent_change_by_user(user, read_percent_change, time)
+        if ware_reading_deltas.where(:creator => user).count != 0 
+          read_percent_before = 0
+          ware_reading_deltas.map do |ware_reading_delta|
+            if ware_reading_delta.time < time
+              read_percent_before = read_percent_before + ware_reading_delta.read_percent_change
+            end
+          end
+          ware_readings.where(:creator => user).update(:read_percent => read_percent_before + read_percent_change)
+          return ware_reading_deltas.create(:creator => user, :read_percent_change => read_percent_change, :time => time, :read_percent => read_percent_before + read_percent_change)
+        else
+          set_read_percent_by_user(user, read_percent_change)
+          return ware_reading_deltas.create(:creator => user, :read_percent_change => read_percent_change, :time => time, :read_percent => read_percent_change)
+        end
       end
       
       # user 是否已经完成整个 course/chapter/ware 的学习（read_percent 是 100 时，表示完成学习）
@@ -32,19 +44,8 @@ module KcCourses
       end
       
       # user 截止到某天（包括这个某天内学习的），已经学习了 course/chapter/ware 多少百分比的内容，返回值是代表百分比的数字
-      def read_percent_change_of_user(user, time)
+      def read_percent_of_user_before_time(user, time)
         return ware_reading_deltas.where(:creator => user, :time => time).first.read_percent
-      end
-
-      # 查询该用户某段时间内的学习情况
-      def read_status_of_course(start_time, end_time)
-        if ware_reading_deltas.time >= start_time && ware_reading_deltas.time <= end_time
-          arr = ware_reading_deltas.map
-          return arr
-        end
-      end
-
-      module ClassMethods
       end
     end
   end
