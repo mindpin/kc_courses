@@ -46,6 +46,7 @@ module KcCourses
                 arr[arr.length] = ware_reading_delta
               end
             end
+            return arr.compact
           else
             return []
           end
