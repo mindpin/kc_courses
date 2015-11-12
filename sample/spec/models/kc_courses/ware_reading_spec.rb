@@ -75,7 +75,7 @@ RSpec.describe KcCourses::WareReading, type: :model do
       expect(@course1.read_percent_of_user_before_time(@user1, time2)).to eq(65)
       expect(@course1.read_percent_change_of_user(@user1, time2)).to eq(35)
       expect(@user1.read_status_of_course(time1, time3)).to eq([ware_reading_delta1,ware_reading_delta2,ware_reading_delta3,ware_reading_delta4,ware_reading_delta5,ware_reading_delta6,ware_reading_delta7,ware_reading_delta8,ware_reading_delta9,ware_reading_delta10,ware_reading_delta11,ware_reading_delta12,ware_reading_delta13])
-      expect(@user1.read_status_of_course(time1, time2)).to eq([ware_reading_delta1,ware_reading_delta2,nil,ware_reading_delta4,ware_reading_delta5,ware_reading_delta6,nil,ware_reading_delta8,ware_reading_delta9,ware_reading_delta10,ware_reading_delta11,nil,nil])
+      expect(@user1.read_status_of_course(time1, time2)).to eq([ware_reading_delta1,ware_reading_delta2,ware_reading_delta4,ware_reading_delta5,ware_reading_delta6,ware_reading_delta8,ware_reading_delta9,ware_reading_delta10,ware_reading_delta11])
     }
   end
 end
