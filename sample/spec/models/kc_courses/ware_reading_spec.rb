@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe KcCourses::WareReading, type: :model do
-  describe "创建用户1，用户1学习课程1中的章节1中的小节1" do
+  describe "创建用户1，测试用户1的学习进度" do
     before{
       @user1 = FactoryGirl.create(:user)
       @course1 = FactoryGirl.create(:course, :user => @user1)
