@@ -13,6 +13,8 @@ module KcCourses
         has_many :chapters, class_name: 'KcCourses::Chapter'
         has_many :wares, class_name: 'KcCourses::Ware'
         has_many :course_joins, class_name: 'KcCourses::CourseJoin'
+        has_many :ware_readings, class_name: 'KcCourses::WareReading'
+        has_many :ware_reading_deltas, class_name: 'KcCourses::WareReadingDelta'
 
         define_method :join_course do |course|
           return if course.class.name != 'KcCourses::Course'
@@ -33,6 +35,21 @@ module KcCourses
           end
           join_ids = joins.map{|join|join.course_id.to_s}
           KcCourses::Course.where(:id.in => join_ids)
+        end
+
+        # 查询该用户某段时间内的学习情况
+        define_method :read_status_of_course do |start_time, end_time|
+          if ware_reading_deltas.count != 0
+            arr = []
+            ware_reading_deltas.map do |ware_reading_delta|
+              if ware_reading_delta.time >= start_time && ware_reading_delta.time <= end_time
+                arr[arr.length] = ware_reading_delta
+              end
+            end
+            return arr.compact
+          else
+            return []
+          end
         end
       end
     end

@@ -3,6 +3,7 @@ module KcCourses
     include Mongoid::Document
     include Mongoid::Timestamps
     include KcCourses::Concerns::MovePosition
+    include KcCourses::Concerns::WareReadingMethod
 
     field :title, :type => String
     field :desc, :type => String
@@ -15,6 +16,8 @@ module KcCourses
     validates :user, presence: true
 
     has_many :wares, class_name: 'KcCourses::Ware'
+    has_many :ware_readings, class_name: 'KcCourses::WareReading'
+    has_many :ware_reading_deltas, class_name: 'KcCourses::WareReadingDelta'
     #has_many :questions
     #has_many :practices
 
