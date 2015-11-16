@@ -26,12 +26,10 @@
     %span 点击
     %a{:href => '/auth/logout', :data => {:method => :delete}} DELETE /auth/logout
     %span 登出
-  .desc
-    %span 查看
-    %a{:href => '/courses'} 课程
-  .desc
-    %span 查看
-    %a{:href => '/chapter'} 章节
-  .desc
-    %span 查看
-    %a{:href => ''} 课件统计
+  - if user_signed_in?
+    .desc
+      %span 查看
+      %a{:href => courses_path} 课程
+  - else
+    .desc
+      %span 404

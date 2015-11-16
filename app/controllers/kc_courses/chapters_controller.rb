@@ -2,6 +2,10 @@ module KcCourses
   class ChaptersController < KcCourses::ApplicationController
     before_action :set_course, only: [:create, :new]
 
+    def index
+      @chapters = current_user.chapters
+    end
+
     def show
       @chapter = current_user.chapters.find params[:id]
       @wares = @chapter.wares

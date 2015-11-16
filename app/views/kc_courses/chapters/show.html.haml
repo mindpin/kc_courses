@@ -33,7 +33,7 @@
       %span 章节下现有
       %b.count= @wares.count
       %span 个课件
-      %a.btn.btn-success.btn-sm.new{:href => "/chapters/#{@chapter.id}/wares/new"}
+      %a.btn.btn-success.btn-sm.new{:href => new_chapter_ware_path(chapter_id: @chapter.id)}
         %i.glyphicon.glyphicon-plus
         %span 上传课件
     %table.table.table-bordered.table-striped
