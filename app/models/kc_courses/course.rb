@@ -5,6 +5,28 @@ module KcCourses
     include KcCourses::Concerns::Publish
     include KcCourses::Concerns::WareReadingMethod
 
+    scope :courses_of_user, ->(user) {where(:user_id => user.id.to_s)}
+    
+    def self.studing_of_user(user)
+      arr = []
+      self.where(:user_id => user.id.to_s).map do |course|
+        if course.has_read_by_user?(user) == false
+          arr[arr.length] = course
+        end
+      end
+      return arr.compact  
+    end
+
+    def self.studied_of_user(user)
+      arr = []
+      self.where(:user_id => user.id.to_s).map do |course|
+        if course.has_read_by_user?(user) == true
+          arr[arr.length] = course
+        end
+      end
+      return arr.compact  
+    end
+
     field :title, :type => String
     field :desc, :type => String
     field :cover, :type => String

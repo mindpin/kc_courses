@@ -5,6 +5,10 @@ RSpec.describe KcCourses::WareReading, type: :model do
     before{
       @user1 = FactoryGirl.create(:user)
       @course1 = FactoryGirl.create(:course, :user => @user1)
+      @course2 = FactoryGirl.create(:course, :user => @user1)
+      @course3 = FactoryGirl.create(:course, :user => @user1)
+      @course4 = FactoryGirl.create(:course, :user => @user1)
+      @course5 = FactoryGirl.create(:course, :user => @user1)
       @chapter1 = FactoryGirl.create(:chapter, :user => @user1, :course => @course1)
       @chapter2 = FactoryGirl.create(:chapter, :user => @user1, :course => @course1)
       @chapter3 = FactoryGirl.create(:chapter, :user => @user1, :course => @course1)
@@ -76,6 +80,16 @@ RSpec.describe KcCourses::WareReading, type: :model do
       expect(@course1.read_percent_change_of_user(@user1, time2)).to eq(35)
       expect(@user1.read_status_of_course(time1, time3)).to eq([ware_reading_delta1,ware_reading_delta2,ware_reading_delta3,ware_reading_delta4,ware_reading_delta5,ware_reading_delta6,ware_reading_delta7,ware_reading_delta8,ware_reading_delta9,ware_reading_delta10,ware_reading_delta11,ware_reading_delta12,ware_reading_delta13])
       expect(@user1.read_status_of_course(time1, time2)).to eq([ware_reading_delta1,ware_reading_delta2,ware_reading_delta4,ware_reading_delta5,ware_reading_delta6,ware_reading_delta8,ware_reading_delta9,ware_reading_delta10,ware_reading_delta11])
+    }
+
+    it{
+      ware_reading1 = @course1.set_read_percent_by_user(@user1, 58)
+      ware_reading2 = @course2.set_read_percent_by_user(@user1, 99)
+      ware_reading3 = @course3.set_read_percent_by_user(@user1, 100)
+      ware_reading4 = @course4.set_read_percent_by_user(@user1, 100)
+      ware_reading5 = @course5.set_read_percent_by_user(@user1, 100)
+      expect(KcCourses::Course.studing_of_user(@user1)).to eq([@course1,@course2])
+      expect(KcCourses::Course.studied_of_user(@user1)).to eq([@course3,@course4,@course5])
     }
   end
 end
