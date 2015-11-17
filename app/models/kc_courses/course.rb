@@ -4,8 +4,6 @@ module KcCourses
     include Mongoid::Timestamps
     include KcCourses::Concerns::Publish
     include KcCourses::Concerns::WareReadingMethod
-
-    scope :courses_of_user, ->(user) {where(:user_id => user.id.to_s)}
     
     def self.studing_of_user(user)
       arr = []
