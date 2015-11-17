@@ -4,6 +4,7 @@ RSpec.describe KcCourses::WareReading, type: :model do
   describe "创建用户1，测试用户1的学习进度" do
     before{
       @user1 = FactoryGirl.create(:user)
+      @user2 = FactoryGirl.create(:user)
       @course1 = FactoryGirl.create(:course, :user => @user1)
       @course2 = FactoryGirl.create(:course, :user => @user1)
       @course3 = FactoryGirl.create(:course, :user => @user1)
@@ -83,13 +84,13 @@ RSpec.describe KcCourses::WareReading, type: :model do
     }
 
     it{
-      ware_reading1 = @course1.set_read_percent_by_user(@user1, 58)
-      ware_reading2 = @course2.set_read_percent_by_user(@user1, 99)
-      ware_reading3 = @course3.set_read_percent_by_user(@user1, 100)
-      ware_reading4 = @course4.set_read_percent_by_user(@user1, 100)
-      ware_reading5 = @course5.set_read_percent_by_user(@user1, 100)
-      expect(KcCourses::Course.studing_of_user(@user1)).to eq([@course1,@course2])
-      expect(KcCourses::Course.studied_of_user(@user1)).to eq([@course3,@course4,@course5])
+      ware_reading1 = @course1.set_read_percent_by_user(@user2, 58)
+      ware_reading2 = @course2.set_read_percent_by_user(@user2, 99)
+      ware_reading3 = @course3.set_read_percent_by_user(@user2, 100)
+      ware_reading4 = @course4.set_read_percent_by_user(@user2, 100)
+      ware_reading5 = @course5.set_read_percent_by_user(@user2, 100)
+      expect(KcCourses::Course.studing_of_user(@user2)).to eq([@course1,@course2])
+      expect(KcCourses::Course.studied_of_user(@user2)).to eq([@course3,@course4,@course5])
     }
   end
 end
