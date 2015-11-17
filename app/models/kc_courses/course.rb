@@ -12,7 +12,9 @@ module KcCourses
           arr << ware_reading.course
         end
       end
-      return arr.compact
+      arr = arr.compact
+      arr = arr.uniq
+      return arr
     end
 
     def self.studied_of_user(user)
@@ -22,7 +24,9 @@ module KcCourses
           arr << ware_reading.course
         end
       end
-      return arr.compact
+      arr = arr.compact
+      arr = arr.uniq
+      return arr
     end
 
     field :title, :type => String

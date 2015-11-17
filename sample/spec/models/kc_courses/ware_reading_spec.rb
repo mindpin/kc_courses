@@ -91,6 +91,7 @@ RSpec.describe KcCourses::WareReading, type: :model do
       ware_reading4 = @course4.set_read_percent_by_user(@user2, 100)
       ware_reading5 = @course5.set_read_percent_by_user(@user2, 100)
       ware_reading6 = @course5.set_read_percent_by_user(@user2, 0)
+      ware_reading7 = @course1.set_read_percent_by_user(@user2, 88)
       expect(KcCourses::Course.studing_of_user(@user2)).to eq([@course1,@course2])
       expect(KcCourses::Course.studied_of_user(@user2)).to eq([@course3,@course4,@course5])
     }
