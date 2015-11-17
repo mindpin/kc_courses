@@ -5,7 +5,7 @@ module KcCourses
       
       # 设置 user 已经完成了 course/chapter/ware 百分之 read_percent 的内容
       def set_read_percent_by_user(user, read_percent)
-        ware_readings.create(:creator_id => user.id.to_s, :read_percent => read_percent)
+        ware_readings.create(:creator => user, :read_percent => read_percent)
       end
       # 设置 user 在某一天内 course/chapter/ware 的学习进度变化
       def set_read_percent_change_by_user(user, read_percent_change, time)
@@ -17,10 +17,10 @@ module KcCourses
             end
           end
           ware_readings.where(:creator_id => user.id.to_s).update(:read_percent => read_percent_before + read_percent_change)
-          return ware_reading_deltas.create(:creator_id => user.id.to_s, :read_percent_change => read_percent_change, :time => time, :read_percent => read_percent_before + read_percent_change)
+          return ware_reading_deltas.create(:creator => user, :read_percent_change => read_percent_change, :time => time, :read_percent => read_percent_before + read_percent_change)
         else
           set_read_percent_by_user(user, read_percent_change)
-          return ware_reading_deltas.create(:creator_id => user.id.to_s, :read_percent_change => read_percent_change, :time => time, :read_percent => read_percent_change)
+          return ware_reading_deltas.create(:creator => user, :read_percent_change => read_percent_change, :time => time, :read_percent => read_percent_change)
         end
       end
       
