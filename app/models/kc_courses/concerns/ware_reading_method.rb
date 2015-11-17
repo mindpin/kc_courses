@@ -26,7 +26,7 @@ module KcCourses
       
       # user 是否已经完成整个 course/chapter/ware 的学习（read_percent 是 100 时，表示完成学习）
       def has_read_by_user?(user)
-        if ware_readings.where(:creator => user).first.read_percent == 100
+        if ware_readings.where(:creator_id => user.id.to_s).first.read_percent == 100
           return true
         else
           return false
