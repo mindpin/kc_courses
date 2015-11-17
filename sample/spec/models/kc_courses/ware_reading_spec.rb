@@ -10,6 +10,7 @@ RSpec.describe KcCourses::WareReading, type: :model do
       @course3 = FactoryGirl.create(:course, :user => @user1)
       @course4 = FactoryGirl.create(:course, :user => @user1)
       @course5 = FactoryGirl.create(:course, :user => @user1)
+      @course6 = FactoryGirl.create(:course, :user => @user1)
       @chapter1 = FactoryGirl.create(:chapter, :user => @user1, :course => @course1)
       @chapter2 = FactoryGirl.create(:chapter, :user => @user1, :course => @course1)
       @chapter3 = FactoryGirl.create(:chapter, :user => @user1, :course => @course1)
@@ -89,6 +90,7 @@ RSpec.describe KcCourses::WareReading, type: :model do
       ware_reading3 = @course3.set_read_percent_by_user(@user2, 100)
       ware_reading4 = @course4.set_read_percent_by_user(@user2, 100)
       ware_reading5 = @course5.set_read_percent_by_user(@user2, 100)
+      ware_reading6 = @course5.set_read_percent_by_user(@user2, 0)
       expect(KcCourses::Course.studing_of_user(@user2)).to eq([@course1,@course2])
       expect(KcCourses::Course.studied_of_user(@user2)).to eq([@course3,@course4,@course5])
     }

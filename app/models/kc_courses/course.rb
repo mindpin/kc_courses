@@ -7,22 +7,22 @@ module KcCourses
     
     def self.studing_of_user(user)
       arr = []
-      self.where(:user_id => user.id.to_s).map do |course|
-        if course.has_read_by_user?(user) == false
-          arr[arr.length] = course
+      KcCourses::WareReading.where(:creator => user.id.to_s).map do |ware_reading|
+        if ware_reading.read_percent > 0 && ware_reading.read_percent < 100
+          arr << ware_reading.course
         end
       end
-      return arr.compact  
+      return arr.compact
     end
 
     def self.studied_of_user(user)
       arr = []
-      self.where(:user_id => user.id.to_s).map do |course|
-        if course.has_read_by_user?(user) == true
-          arr[arr.length] = course
+      KcCourses::WareReading.where(:creator => user.id.to_s).map do |ware_reading|
+        if ware_reading.read_percent == 100
+          arr << ware_reading.course
         end
       end
-      return arr.compact  
+      return arr.compact
     end
 
     field :title, :type => String
