@@ -45,7 +45,7 @@ module KcCourses
 
       # user 截止到某天（包括这个某天内学习的），已经学习了 course/chapter/ware 多少百分比的内容，返回值是代表百分比的数字
       def read_percent_of_user_before_time(user, time)
-        return ware_reading_deltas.where(:creator_id => user.id.to_s, :time.lt => time.en:time.lte => timeread_percent
+        return ware_reading_deltas.where(:creator_id => user.id.to_s, :time.lt => time).read_percent
       end
     end
   end

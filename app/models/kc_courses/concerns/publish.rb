@@ -21,4 +21,3 @@ module KcCourses
     end
   end
 end
-
