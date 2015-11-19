@@ -2,8 +2,8 @@ module KcCourses
   class Course
     include Mongoid::Document
     include Mongoid::Timestamps
-    # include KcCourses::Concerns::Publish
-    # include KcCourses::Concerns::WareReadingMethod
+    include KcCourses::Concerns::Publish
+    include KcCourses::Concerns::WareReadingMethod
     
     def self.studing_of_user(user)
       arr = []
