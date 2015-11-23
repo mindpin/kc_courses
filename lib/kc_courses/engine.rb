@@ -42,11 +42,11 @@ module KcCourses
           if ware_reading_deltas.count != 0
             arr = []
             ware_reading_deltas.map do |ware_reading_delta|
-              if ware_reading_delta.time >= start_time && ware_reading_delta.time <= end_time
-                arr[arr.length] = ware_reading_delta
+              if ware_reading_delta.time >= start_time.beginning_of_day && ware_reading_delta.time <= end_time.beginning_of_day
+                arr << ware_reading_delta
               end
-            end
-            return arr.compact
+            end.compact
+            return arr
           else
             return []
           end
