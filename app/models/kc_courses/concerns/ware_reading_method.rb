@@ -4,22 +4,27 @@ module KcCourses
       extend ActiveSupport::Concern
       #计算user 已经完成了 ware 百分之 read_percent 的内容后，该ware所在的course的学习进度
       def read_percent_of_course_now(user, read_percent)
-        ware_count_of_chapter = chapter.wares.count
         chapter_count_of_course = chapter.course.chapters.count
-        read_percent_change_of_course = read_percent/ware_count_of_chapter/chapter_count_of_course
-        read_percent_of_course_before = chapter.course.read_percent_of_user(user)
-        return read_percent_of_course_now = read_percent_of_course_before + read_percent_change_of_course
+        chapter_read_percent_count_before = 0
+        chapter.course.chapters.map do |chapter|
+          chapter_read_percent_count_before = chapter_read_percent_count_before + chapter.read_percent_of_user(user)
+        end
+        chapter_read_percent_change = read_percent_of_chapter_now(user, read_percent) - chapter.read_percent_of_user(user)
+        return chapter_read_percent_count = (chapter_read_percent_count_before + chapter_read_percent_change)/chapter_count_of_course
       end
 
       #计算user 已经完成了 ware 百分之 read_percent 的内容后，该ware所在的chapter的学习进度
       def read_percent_of_chapter_now(user, read_percent)
         ware_count_of_chapter = chapter.wares.count
-        read_percent_change_of_chapter = read_percent/ware_count_of_chapter
-        read_percent_of_chapter_before = chapter.read_percent_of_user(user)
-        return read_percent_of_chapter_count = read_percent_of_chapter_before + read_percent_change_of_chapter
+        ware_read_percent_count_before = 0
+        chapter.wares.map do |ware|
+          ware_read_percent_count_before = ware_read_percent_count_before + ware.read_percent_of_user(user)
+        end
+        ware_read_percent_change = read_percent - read_percent_of_user(user)
+        return chapter_read_percent_count = (ware_read_percent_count_before + ware_read_percent_change)/ware_count_of_chapter
       end
 
-      # 设置 user 已经完成了 course/chapter/ware 百分之 read_percent 的内容
+      # 设置 user 已经完成了 ware 百分之 read_percent 的内容,并即时改变该ware所在 course/chapter 的学习进度
       def set_read_percent_by_user(user, read_percent)
         read_percent_of_chapter_now = read_percent_of_chapter_now(user, read_percent)
         read_percent_of_course_now = read_percent_of_course_now(user, read_percent)
@@ -42,8 +47,30 @@ module KcCourses
         end
       end
 
-      # 设置 user 在某一天内 course/chapter/ware 的学习进度变化
+      # 设置 user 在某一天内 ware 的学习进度变化,并即时设置该ware所在 course/chapter 的学习进度变化
       def set_read_percent_change_by_user(user, read_percent_change, time)
+        ware_count_of_chapter = chapter.wares.count
+        chapter_count_of_course = chapter.course.chapters.count
+
+        ware_read_percent_count_before = 0
+        chapter.wares.map do |ware|
+          ware_read_percent_count_before = ware_read_percent_count_before + ware.read_percent_of_user(user)
+        end
+
+        chapter_read_percent_count_before = 0
+        chapter.course.chapters.map do |chapter|
+          chapter_read_percent_count_before = chapter_read_percent_count_before + chapter.read_percent_of_user(user)
+        end
+
+        read_percent_of_chapter_now = (ware_read_percent_count_before + read_percent_change)/ware_count_of_chapter
+        chapter_read_percent_change = read_percent_of_chapter_now - chapter.read_percent_of_user(user)
+        read_percent_of_course_now = (chapter_read_percent_count_before + chapter_read_percent_change)/chapter_count_of_course
+        course_read_percent_count_before = chapter.course.read_percent_of_user(user)
+        course_read_percent_change = read_percent_of_course_now - course_read_percent_count_before
+        
+        chapter.ware_reading_deltas.create(:creator => user, :read_percent_change => chapter_read_percent_change, :time => time.beginning_of_day, :read_percent => read_percent_of_chapter_now)
+        chapter.course.ware_reading_deltas.create(:creator => user, :read_percent_change => course_read_percent_change, :time => time.beginning_of_day, :read_percent => read_percent_of_course_now)
+
         if ware_reading_deltas.where(:creator_id => user.id.to_s).count != 0
           read_percent_before = 0
           ware_reading_deltas.map do |ware_reading_delta|
@@ -53,18 +80,15 @@ module KcCourses
           end
  
           read_percent = read_percent_before + read_percent_change
-          read_percent_of_chapter_now = read_percent_of_chapter_now(user, read_percent)
-          read_percent_of_course_now = read_percent_of_course_now(user, read_percent)
 
           ware_readings.where(:creator_id => user.id.to_s).update(:read_percent => read_percent)
           chapter.ware_readings.where(:creator_id => user.id.to_s).update(:read_percent => read_percent_of_chapter_now)
           chapter.course.ware_readings.where(:creator_id => user.id.to_s).update(:read_percent => read_percent_of_course_now)
           
-          chapter.ware_reading_deltas.create(:creator => user, :read_percent_change => read_percent_change, :time => time.beginning_of_day, :read_percent => read_percent_of_chapter_now)
-          chapter.ware_reading_deltas.create(:creator => user, :read_percent_change => read_percent_change, :time => time.beginning_of_day, :read_percent => read_percent_of_course_now)
           return ware_reading_deltas.create(:creator => user, :read_percent_change => read_percent_change, :time => time.beginning_of_day, :read_percent => read_percent)
         else
           set_read_percent_by_user(user, read_percent_change)
+
           return ware_reading_deltas.create(:creator => user, :read_percent_change => read_percent_change, :time => time.beginning_of_day, :read_percent => read_percent_change)
         end
       end
