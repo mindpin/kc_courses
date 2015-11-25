@@ -54,7 +54,7 @@
       %span 课程下现有
       %b.count= @chapters.count
       %span 个章节
-      %a.btn.btn-success.btn-sm.new{:href => "/courses/#{@course.id}/chapters/new"}
+      %a.btn.btn-success.btn-sm.new{:href => new_course_chapter_path(course_id: @course.id)}
         %i.glyphicon.glyphicon-plus
         %span 增加章节
     %table.table.table-bordered.table-striped

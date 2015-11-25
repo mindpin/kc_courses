@@ -18,7 +18,7 @@ KcCourses::Engine.routes.draw do
     end
   end
 
-  #resources :chapters
-  #resources :wares
+  # resources :chapters
+  # resources :wares
   root 'home#index'
 end
