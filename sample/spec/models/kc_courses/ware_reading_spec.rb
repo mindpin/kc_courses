@@ -19,6 +19,15 @@ RSpec.describe KcCourses::WareReading, type: :model do
       @ware22 = FactoryGirl.create(:ware, :user => @user1, :chapter => @chapter2)
       @ware31 = FactoryGirl.create(:ware, :user => @user1, :chapter => @chapter3)
       @ware32 = FactoryGirl.create(:ware, :user => @user1, :chapter => @chapter3)
+      @chapter4 = FactoryGirl.create(:chapter, :user => @user1, :course => @course2)
+      @ware41 = FactoryGirl.create(:ware, :user => @user1, :chapter => @chapter4)
+      @chapter5 = FactoryGirl.create(:chapter, :user => @user1, :course => @course3)
+      @ware51 = FactoryGirl.create(:ware, :user => @user1, :chapter => @chapter5)
+      @chapter6 = FactoryGirl.create(:chapter, :user => @user1, :course => @course4)
+      @ware61 = FactoryGirl.create(:ware, :user => @user1, :chapter => @chapter6)
+      @ware62 = FactoryGirl.create(:ware, :user => @user1, :chapter => @chapter6)
+      @chapter7 = FactoryGirl.create(:chapter, :user => @user1, :course => @course5)
+      @ware71 = FactoryGirl.create(:ware, :user => @user1, :chapter => @chapter7)
     }
 
     it{
@@ -31,12 +40,16 @@ RSpec.describe KcCourses::WareReading, type: :model do
       expect(@ware11.chapter.course.has_read_by_user?(@user1)).to eq(false)
       @ware12.set_read_percent_by_user(@user1, 100)
       expect(@ware11.chapter.read_percent_of_user(@user1)).to eq(100)
-      expect(@ware11.chapter.course.read_percent_of_user(@user1)).to eq(32)
+      expect(@ware11.chapter.course.read_percent_of_user(@user1)).to eq(33)
       expect(@ware11.chapter.has_read_by_user?(@user1)).to eq(true)
       @ware21.set_read_percent_by_user(@user1, 100)
-      expect(@ware11.chapter.course.read_percent_of_user(@user1)).to eq(48)
+      expect(@ware11.chapter.course.read_percent_of_user(@user1)).to eq(50)
       @ware22.set_read_percent_by_user(@user1, 100)
-      expect(@ware11.chapter.course.read_percent_of_user(@user1)).to eq(64) 
+      expect(@ware11.chapter.course.read_percent_of_user(@user1)).to eq(66)
+      @ware31.set_read_percent_by_user(@user1, 100)
+      expect(@ware11.chapter.course.read_percent_of_user(@user1)).to eq(83)
+      @ware32.set_read_percent_by_user(@user1, 100)
+      expect(@ware11.chapter.course.read_percent_of_user(@user1)).to eq(100) 
     }
 
     it{
@@ -57,72 +70,40 @@ RSpec.describe KcCourses::WareReading, type: :model do
       expect(@ware12.chapter.read_percent_of_user(@user1)).to eq(50)
       expect(@ware12.chapter.course.read_percent_of_user(@user1)).to eq(16)
       expect(@ware12.has_read_by_user?(@user1)).to eq(true)
+      # 测试 @user1 截止到time2（包括这个某天内学习的），已经学习了 course/chapter/ware 多少百分比的内容
       expect(@ware12.read_percent_of_user_before_time(@user1, time2)).to eq(100)
       expect(@ware12.chapter.read_percent_of_user_before_time(@user1, time2)).to eq(50)
       expect(@ware12.chapter.course.read_percent_of_user_before_time(@user1, time2)).to eq(16)
     }
 
-    # it{
-    #   time1 = Time.new
-    #   time2 = Time.new + 1.day
-    #   ware_reading_delta1 = @chapter1.set_read_percent_change_by_user(@user1, 20, time1)
-    #   ware_reading_delta2 = @chapter1.set_read_percent_change_by_user(@user1, 80, time2)
-    #   expect(@chapter1.has_read_by_user?(@user1)).to eq(true)
-    #   expect(@chapter1.read_percent_change_of_user(@user1, time1)).to eq(20)
-    #   expect(@chapter1.read_percent_of_user_before_time(@user1, time2)).to eq(100)
-    #   expect(@user1.read_status_of_course(time1, time2)).to eq([ware_reading_delta1,ware_reading_delta2])
-    # }
+    it{
+      time1 = Time.new
+      time2 = Time.new + 1.day
+      expect(@ware32.read_percent_of_user(@user1)).to eq(0)
+      expect(@ware32.read_percent_change_of_user(@user1, time1)).to eq(0)
+      expect(@ware32.read_percent_of_user_before_time(@user1, time2)).to eq(0)
+    }
 
-    # it{
-    #   time1 = Time.new
-    #   ware_reading_delta1 = @chapter2.set_read_percent_change_by_user(@user1, 60, time1)
-    #   expect(KcCourses::WareReading.count).to eq(1)
-    #   expect(ware_reading_delta1.read_percent_change).to eq(60)
-    #   expect(ware_reading_delta1.read_percent).to eq(60)
-    # }
 
-    # it{
-    #   time1 = Time.new
-    #   ware_reading_delta1 = @course1.set_read_percent_change_by_user(@user1, 20, time1)
-    #   ware_reading_delta2 = @chapter2.set_read_percent_change_by_user(@user1, 30, time1)
-    #   expect(@course1.has_read_by_user?(@user1)).to eq(false)
-    #   expect(@chapter2.read_percent_of_user_before_time(@user1, time1)).to eq(30)
-    # }
+    it{
+      time1 = Time.new
+      time2 = Time.new + 1.day
+      time3 = Time.new + 2.day
+      ware_reading_delta1 = @ware11.set_read_percent_change_by_user(@user1, 100, time1)
+      ware_reading_delta2 = @ware12.set_read_percent_change_by_user(@user1, 100, time2)
 
-  #   it{
-  #     time1 = Time.new
-  #     time2 = Time.new + 1.day
-  #     time3 = Time.new + 2.day
-  #     ware_reading_delta1 = @course1.set_read_percent_change_by_user(@user1, 30, time1)
-  #     ware_reading_delta2 = @course1.set_read_percent_change_by_user(@user1, 35, time2)
-  #     ware_reading_delta3 = @course1.set_read_percent_change_by_user(@user1, 35, time3)
-  #     ware_reading_delta4 = @chapter1.set_read_percent_change_by_user(@user1, 90, time1)
-  #     ware_reading_delta5 = @chapter1.set_read_percent_change_by_user(@user1, 10, time2)
-  #     ware_reading_delta6 = @chapter2.set_read_percent_change_by_user(@user1, 100, time2)
-  #     ware_reading_delta7 = @chapter3.set_read_percent_change_by_user(@user1, 100, time3)
-  #     ware_reading_delta8 = @ware11.set_read_percent_change_by_user(@user1, 100, time1)
-  #     ware_reading_delta9 = @ware12.set_read_percent_change_by_user(@user1, 100, time1)
-  #     ware_reading_delta10 = @ware21.set_read_percent_change_by_user(@user1, 100, time2)
-  #     ware_reading_delta11 = @ware22.set_read_percent_change_by_user(@user1, 100, time2)
-  #     ware_reading_delta12 = @ware31.set_read_percent_change_by_user(@user1, 100, time3)
-  #     ware_reading_delta13 = @ware32.set_read_percent_change_by_user(@user1, 100, time3)
-  #     expect(@course1.has_read_by_user?(@user1)).to eq(true)
-  #     expect(@chapter1.has_read_by_user?(@user1)).to eq(true)
-  #     expect(@course1.read_percent_of_user_before_time(@user1, time2)).to eq(65)
-  #     expect(@course1.read_percent_change_of_user(@user1, time2)).to eq(35)
-  #     expect(@user1.read_status_of_course(time1, time3)).to eq([ware_reading_delta1,ware_reading_delta2,ware_reading_delta3,ware_reading_delta4,ware_reading_delta5,ware_reading_delta6,ware_reading_delta7,ware_reading_delta8,ware_reading_delta9,ware_reading_delta10,ware_reading_delta11,ware_reading_delta12,ware_reading_delta13])
-  #     expect(@user1.read_status_of_course(time1, time2)).to eq([ware_reading_delta1,ware_reading_delta2,ware_reading_delta4,ware_reading_delta5,ware_reading_delta6,ware_reading_delta8,ware_reading_delta9,ware_reading_delta10,ware_reading_delta11])
-  #   }
+      expect(@user1.read_status_of_course(time1, time1)).to eq([@ware11.chapter.ware_reading_deltas.first,@ware11.chapter.course.ware_reading_deltas.first,ware_reading_delta1])
+      expect(@user1.read_status_of_course(time1, time2)).to eq([ware_reading_delta2,@ware11.chapter.ware_reading_deltas.first,@ware11.chapter.course.ware_reading_deltas.first,ware_reading_delta1,@ware12.chapter.ware_reading_deltas.last,@ware12.chapter.course.ware_reading_deltas.last])
+    }
 
-  #   it{
-  #     ware_reading1 = @course1.set_read_percent_by_user(@user2, 58)
-  #     ware_reading2 = @course2.set_read_percent_by_user(@user2, 99)
-  #     ware_reading3 = @course3.set_read_percent_by_user(@user2, 100)
-  #     ware_reading4 = @course4.set_read_percent_by_user(@user2, 100)
-  #     ware_reading5 = @course5.set_read_percent_by_user(@user2, 100)
-  #     ware_reading7 = @course1.set_read_percent_by_user(@user2, 88)
-  #     expect(KcCourses::Course.studing_of_user(@user2)).to eq([@course1,@course2])
-  #     expect(KcCourses::Course.studied_of_user(@user2)).to eq([@course3,@course4,@course5])
-  #   }
+    it{
+      ware_reading1 = @ware11.set_read_percent_by_user(@user2, 100)
+      ware_reading2 = @ware41.set_read_percent_by_user(@user2, 100)
+      ware_reading3 = @ware51.set_read_percent_by_user(@user2, 100)
+      ware_reading4 = @ware61.set_read_percent_by_user(@user2, 100)
+      ware_reading5 = @ware71.set_read_percent_by_user(@user2, 100)
+      expect(KcCourses::Course.studing_of_user(@user2)).to eq([@course1,@course4])
+      expect(KcCourses::Course.studied_of_user(@user2)).to eq([@course2,@course3,@course5])
+    }
   end
 end
