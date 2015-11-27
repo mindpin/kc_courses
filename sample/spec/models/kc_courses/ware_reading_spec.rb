@@ -1,6 +1,95 @@
 require 'rails_helper'
 
 RSpec.describe KcCourses::WareReading, type: :model do
+  before(:each){
+    # 客户信息
+    # 第一章客户信息管理
+    # 1_1_客户账户调整
+    # 1_2_测试菜单
+    # 第二章查询客户信息
+    # 2_1_查询客户号
+    # 2_2_查询客户账户调整
+    # 2_3_查询客户信息维护
+    # 2_4_查询个人客户基本信息
+    # 2_5_查询单位客户基本信息
+    # 第三章建立客户信息
+    # 3_1_新建个人客户基本信息
+    # 3_2_新建对公客户基本信息
+    # 3_3_编不下去了
+    course_creator = create(:user)
+    @course_客户信息 = KcCourses::Course.create(
+      :title => "客户信息",
+      :user  => course_creator
+    )
+
+    @chapter_第一章客户信息管理 = @course_客户信息.chapters.create(
+      :title => "第一章客户信息管理",
+      :user  => course_creator
+    )
+
+    @ware_1_1_客户账户调整 = @chapter_第一章客户信息管理.wares.create(
+      :title => "1_1_客户账户调整",
+      :user  => course_creator
+    )
+
+    @ware_1_2_测试菜单 = @chapter_第一章客户信息管理.wares.create(
+      :title => "1_2_测试菜单",
+      :user  => course_creator
+    )
+
+
+    @chapter_第二章查询客户信息 = @course_客户信息.chapters.create(
+      :title => "第二章查询客户信息",
+      :user  => course_creator
+    )
+
+    @ware_2_1_查询客户号 = @chapter_第二章查询客户信息.wares.create(
+      :title => "2_1_查询客户号",
+      :user  => course_creator
+    )
+
+    @ware_2_2_查询客户账户调整 = @chapter_第二章查询客户信息.wares.create(
+      :title => "2_2_查询客户账户调整",
+      :user  => course_creator
+    )
+
+
+    @ware_2_3_查询客户信息维护 = @chapter_第二章查询客户信息.wares.create(
+      :title => "2_3_查询客户信息维护",
+      :user  => course_creator
+    )
+
+    @ware_2_4_查询个人客户基本信息 = @chapter_第二章查询客户信息.wares.create(
+      :title => "2_4_查询个人客户基本信息",
+      :user  => course_creator
+    )
+
+    @ware_2_5_查询单位客户基本信息 = @chapter_第二章查询客户信息.wares.create(
+      :title => "2_5_查询单位客户基本信息",
+      :user  => course_creator
+    )
+
+    @chapter_第三章建立客户信息 = @course_客户信息.chapters.create(
+      :title => "第三章建立客户信息",
+      :user  => course_creator
+    )
+
+    @ware_3_1_新建个人客户基本信息 = @chapter_第三章建立客户信息.wares.create(
+      :title => "3_1_新建个人客户基本信息",
+      :user  => course_creator
+    )
+
+    @ware_3_2_新建对公客户基本信息 = @chapter_第三章建立客户信息.wares.create(
+      :title => "3_2_新建对公客户基本信息",
+      :user  => course_creator
+    )
+
+    @ware_3_3_编不下去了 = @chapter_第三章建立客户信息.wares.create(
+      :title => "3_3_编不下去了",
+      :user  => course_creator
+    )
+  }
+
   describe "ware.set_read_percent_by_user(user, read_percent), ware.has_read_by_user?(user), ware.read_percent_of_user(user)" do
     def expect_ware_info(ware, user, has_read, percent)
       expect(ware.has_read_by_user?(user)).to eq(has_read)
@@ -8,7 +97,6 @@ RSpec.describe KcCourses::WareReading, type: :model do
     end
 
     before(:each){
-      @ware_1_1_客户账户调整 = create(:ware_1_1_客户账户调整)
       @user   = create(:user)
     }
 
@@ -48,9 +136,6 @@ RSpec.describe KcCourses::WareReading, type: :model do
       # 第一章客户信息管理
       # 1_1_客户账户调整
       # 1_2_测试菜单
-      @chapter_第一章客户信息管理 = create(:chapter_第一章客户信息管理)
-      @ware_1_1_客户账户调整 = create(:ware_1_1_客户账户调整)
-      @ware_1_2_测试菜单 = create(:ware_1_2_测试菜单)
       @user   = create(:user)
     }
 
@@ -86,6 +171,15 @@ RSpec.describe KcCourses::WareReading, type: :model do
 
       expect_chapter_info(@chapter_第一章客户信息管理, @user, true, 100)
     }
+
+    describe "chapter.wares.count == 0 时" do
+      it{
+        course = create(:course)
+        chapter = create(:chapter, :course => course)
+        user = create(:user)
+        expect(chapter.read_percent_of_user(user)).to eq(0)
+      }
+    end
   end
 
   describe "course.has_read_by_user?(user) course.read_percent_of_user(user)" do
@@ -104,17 +198,6 @@ RSpec.describe KcCourses::WareReading, type: :model do
       # 3_1_新建个人客户基本信息
       # 3_2_新建对公客户基本信息
       # 3_3_编不下去了
-      @course_客户信息 = create(:course_客户信息)
-
-      @chapter_第一章客户信息管理 = create(:chapter_第一章客户信息管理)
-      @ware_1_1_客户账户调整 = create(:ware_1_1_客户账户调整)
-      @ware_1_2_测试菜单 = create(:ware_1_2_测试菜单)
-
-      @chapter_第三章建立客户信息 = create(:chapter_第三章建立客户信息)
-      @ware_3_1_新建个人客户基本信息 = create(:ware_3_1_新建个人客户基本信息)
-      @ware_3_2_新建对公客户基本信息 = create(:ware_3_2_新建对公客户基本信息)
-      @ware_3_3_编不下去了 = create(:ware_3_3_编不下去了)
-
       @user   = create(:user)
     }
 
@@ -128,7 +211,6 @@ RSpec.describe KcCourses::WareReading, type: :model do
     it{
       @ware_3_1_新建个人客户基本信息.set_read_percent_by_user(@user, 50)
       @ware_3_2_新建对公客户基本信息.set_read_percent_by_user(@user, 50)
-
       expect(@course_客户信息.has_read_by_user?(@user)).to eq(false)
       expect(@course_客户信息.read_percent_of_user(@user)).to eq(11)
     }
@@ -202,33 +284,52 @@ RSpec.describe KcCourses::WareReading, type: :model do
       expect(@course_客户信息.has_read_by_user?(@user)).to eq(true)
       expect(@course_客户信息.read_percent_of_user(@user)).to eq(100)
     }
+
+
+    describe "course.chapters.count == 0 时" do
+      it{
+        course = create(:course)
+        user = create(:user)
+        expect(course.read_percent_of_user(user)).to eq(0)
+      }
+    end
+
+    describe "course.chapters[random].wares.count == 0 时" do
+      it{
+        course = create(:course)
+        create(:chapter, :course => course)
+        ware = create(:ware, :chapter => create(:chapter, :course => course))
+        user = create(:user)
+        expect(course.read_percent_of_user(user)).to eq(0)
+        ware.set_read_percent_by_user(user, 50)
+        expect(course.read_percent_of_user(user)).to eq(25)
+      }
+    end
   end
 
   describe "ware.read_percent_change_of_user(user, time) ware.read_percent_of_user_before_day(user, time)" do
-    before(:all){
+    before(:each){
       @day_1 = Time.local(2012, 12, 22, 10, 0, 0)
       @day_2 = Time.local(2012, 12, 23, 10, 0, 0)
       @day_3 = Time.local(2012, 12, 24, 10, 0, 0)
       @day_4 = Time.local(2012, 12, 25, 10, 0, 0)
 
-      @ware = create(:ware_1_1_客户账户调整)
+      @ware = @ware_1_1_客户账户调整
       @user = create(:user)
 
       # ware 第一天没有学习，进度是 0，变化是 0
       [
         # ware 第二天进行了学习，进度是 20，变化是 20
-        [@day_2 - 2.minute, @ware, @user, 10],
-        [@day_2 - 1.minute, @ware, @user, 20],
+        [@day_2 - 2.minute, @ware, @user,  10],
+        [@day_2 - 1.minute, @ware, @user,  20],
         # ware 第三天进行了学习，进度是 50，变化是 30
-        [@day_3,            @ware, @user, 50],
-        [@day_3,            @ware, @user, 50],
+        [@day_3,            @ware, @user,  50],
         # ware 第四天进行了学习，进度是 100， 变化是 50
-        [@day_4 - 5.minute, @ware, @user, 50],
-        [@day_4 - 4.minute, @ware, @user, 50],
-        [@day_4 - 3.minute, @ware, @user, 50],
-        [@day_4,            @ware, @user, 50]
+        [@day_4 - 5.minute, @ware, @user,  60],
+        [@day_4 - 4.minute, @ware, @user,  70],
+        [@day_4 - 3.minute, @ware, @user,  80],
+        [@day_4,            @ware, @user, 100]
       ].each do |arr|
-
         Timecop.freeze(arr[0]) do
           arr[1].set_read_percent_by_user(arr[2], arr[3])
         end
@@ -255,7 +356,7 @@ RSpec.describe KcCourses::WareReading, type: :model do
   end
 
   describe "chapter.read_percent_change_of_user(user, time) chapter.read_percent_of_user_before_day(user, time)" do
-    before(:all){
+    before(:each){
       @day_1 = Time.local(2012, 12, 22, 10, 0, 0)
       @day_2 = Time.local(2012, 12, 23, 10, 0, 0)
       @day_3 = Time.local(2012, 12, 24, 10, 0, 0)
@@ -266,9 +367,6 @@ RSpec.describe KcCourses::WareReading, type: :model do
       # 第一章客户信息管理
       # 1_1_客户账户调整
       # 1_2_测试菜单
-      @chapter_第一章客户信息管理 = create(:chapter_第一章客户信息管理)
-      @ware_1_1_客户账户调整 = create(:ware_1_1_客户账户调整)
-      @ware_1_2_测试菜单 = create(:ware_1_2_测试菜单)
       @user   = create(:user)
 
       # 第一天 两个全没做过
@@ -307,10 +405,19 @@ RSpec.describe KcCourses::WareReading, type: :model do
       end
     }
 
+    describe "chapter.wares.count == 0 时" do
+      it{
+        course = create(:course)
+        chapter = create(:chapter, :course => course)
+        user = create(:user)
+        expect(chapter.read_percent_change_of_user(user, Time.zone.now)).to eq(0)
+        expect(chapter.read_percent_of_user_before_day(user, Time.zone.now)).to eq(0)
+      }
+    end
   end
 
   describe "course.read_percent_change_of_user(user, time) course.read_percent_of_user_before_day(user, time) " do
-    before(:all){
+    before(:each){
       @day_1 = Time.local(2012, 12, 22, 10, 0, 0)
       @day_2 = Time.local(2012, 12, 23, 10, 0, 0)
       @day_3 = Time.local(2012, 12, 24, 10, 0, 0)
@@ -334,17 +441,6 @@ RSpec.describe KcCourses::WareReading, type: :model do
       # 3_1_新建个人客户基本信息
       # 3_2_新建对公客户基本信息
       # 3_3_编不下去了
-      @course_客户信息 = create(:course_客户信息)
-
-      @chapter_第一章客户信息管理 = create(:chapter_第一章客户信息管理)
-      @ware_1_1_客户账户调整 = create(:ware_1_1_客户账户调整)
-      @ware_1_2_测试菜单 = create(:ware_1_2_测试菜单)
-
-      @chapter_第三章建立客户信息 = create(:chapter_第三章建立客户信息)
-      @ware_3_1_新建个人客户基本信息 = create(:ware_3_1_新建个人客户基本信息)
-      @ware_3_2_新建对公客户基本信息 = create(:ware_3_2_新建对公客户基本信息)
-      @ware_3_3_编不下去了 = create(:ware_3_3_编不下去了)
-
       @user   = create(:user)
 
       # 第一天 完全没有做过
@@ -395,13 +491,41 @@ RSpec.describe KcCourses::WareReading, type: :model do
         # 第七天 chapter_1 下 ware_1_2 完成 100
         [@course_客户信息, @user, @day_7,  8,  55],
         # 第八天 全部完成
-        [@course_客户信息, @user, @day_8, 45, 100]
+        [@course_客户信息, @user, @day_8, 44, 100]
       ].each do |arr|
         expect(arr[0].read_percent_change_of_user(arr[1], arr[2])).to eq(arr[3])
         expect(arr[0].read_percent_of_user_before_day(arr[1], arr[2])).to eq(arr[4])
       end
 
     }
+
+    describe "course.chapters.count == 0 时" do
+      it{
+        course = create(:course)
+        user = create(:user)
+
+        expect(course.read_percent_change_of_user(user, Time.zone.now)).to eq(0)
+        expect(course.read_percent_of_user_before_day(user, Time.zone.now)).to eq(0)
+      }
+    end
+
+    describe "course.chapters[random].wares.count == 0 时" do
+      it{
+        course = create(:course)
+        create(:chapter, :course => course)
+        ware = create(:ware, :chapter => create(:chapter, :course => course))
+        user = create(:user)
+
+        expect(course.read_percent_change_of_user(user, Time.zone.now)).to eq(0)
+        expect(course.read_percent_of_user_before_day(user, Time.zone.now)).to eq(0)
+
+
+        ware.set_read_percent_by_user(user, 50)
+
+        expect(course.read_percent_change_of_user(user, Time.zone.now)).to eq(25)
+        expect(course.read_percent_of_user_before_day(user, Time.zone.now)).to eq(25)
+      }
+    end
 
   end
 
