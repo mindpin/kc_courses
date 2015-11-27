@@ -40,6 +40,6 @@ module KcCourses
     validates :title, presence: true
     validates :user, presence: true
 
-    scope :hot, ->{ rencent }
+    scope :hot, ->{ recent }
   end
 end
