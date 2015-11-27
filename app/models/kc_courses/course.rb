@@ -5,7 +5,6 @@ module KcCourses
     include KcCourses::Concerns::Publish
     include KcCourses::Concerns::CourseReadingMethods
 
-    scope :hot, -> {recent}
     def self.studing_of_user(user)
       KcCourses::Course.all.select do |course|
         if course.read_percent_of_user(user) != 100 && course.read_percent_of_user(user) != 0
