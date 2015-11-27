@@ -4,4 +4,5 @@ FactoryGirl.define do
     desc "课程1 描述"
     user
   end
+
 end

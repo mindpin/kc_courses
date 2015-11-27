@@ -42,6 +42,7 @@ gem 'rails-i18n', '~> 4.0.0'
 gem 'kaminari'
 gem 'kaminari-bootstrap'
 gem 'figaro'
+gem 'timecop', '~> 0.8.0'
 # 支持分段上传的文件持久化
 gem 'file-part-upload',
     :github => 'mindpin/file-part-upload',
