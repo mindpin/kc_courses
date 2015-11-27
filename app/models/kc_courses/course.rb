@@ -2,6 +2,7 @@ module KcCourses
   class Course
     include Mongoid::Document
     include Mongoid::Timestamps
+    include KcCourses::Concerns::Base
     include KcCourses::Concerns::Publish
     include KcCourses::Concerns::WareReadingMethod
     
@@ -40,5 +41,7 @@ module KcCourses
 
     validates :title, presence: true
     validates :user, presence: true
+
+    scope :hot, ->{ rencent }
   end
 end
