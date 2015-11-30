@@ -7,27 +7,19 @@ module KcCourses
     include KcCourses::Concerns::CourseReadingMethods
 
     def self.studing_of_user(user)
-      arr = []
-      KcCourses::WareReading.where(:"creator_id" => user.id.to_s).distinct("course_id").select do |course_id|
-        if self.find(course_id).ware_readings.last.read_percent != 100
-          course_id
+      KcCourses::Course.all.select do |course|
+        if course.read_percent_of_user(user) != 100 && course.read_percent_of_user(user) != 0
+          where(:id => course.id.to_s)
         end
-      end.map do |id|
-        arr << self.find(id)
-      end.compact
-      return arr
+      end
     end
 
     def self.studied_of_user(user)
-      arr = []
-      KcCourses::WareReading.where(:"creator_id" => user.id.to_s).distinct("course_id").select do |course_id|
-        if self.find(course_id).ware_readings.last.read_percent == 100
-          course_id
+      KcCourses::Course.all.select do |course|
+        if course.read_percent_of_user(user) == 100
+          where(:id => course.id.to_s)
         end
-      end.map do |id|
-        arr << self.find(id)
-      end.compact
-      return arr
+      end
     end
 
     field :title, :type => String
