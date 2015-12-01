@@ -3,6 +3,9 @@ KcCourses::Engine.routes.draw do
 
   resources :courses, shallow: true do
     post :publish, on: :member
+    member do
+      get :progress
+    end
 
     resources :chapters, shallow: true do
       member do
@@ -16,6 +19,10 @@ KcCourses::Engine.routes.draw do
         end
       end
     end
+  end
+
+  namespace :api do
+    get "/courses/:id/progress" => "courses#progress"
   end
 
   # resources :chapters

@@ -10,6 +10,7 @@ module KcCourses
 
       # user 已经学习了 course 多少百分比的内容，返回值是代表百分比的数字
       def read_percent_of_user(user)
+        return 0 if user = nil
         return 0 if chapters.count == 0
         read_percent_hash = {}
         chapters.each do |chapter|
@@ -54,6 +55,45 @@ module KcCourses
         read_percents.sum / read_percents.count
       end
 
+      # user 在当前课程正在学习的课件
+      def studing_ware_of_user(user)
+        ware_reading_count = 0 
+        ware_count = 0 
+        chapters.each do |chapter|
+          ware_count = ware_count + chapter.wares.count
+          chapter.wares.each do |ware|
+            ware_reading_count = ware_reading_count + ware.ware_readings.count
+          end 
+        end
+        # 没有课件
+        return nil if ware_count == 0  
+        # 没有学习记录
+        return nil if ware_reading_count == 0
+        # 所有课件都有学习记录且所有的学习记录都是学习 100%
+        return nil if read_percent_of_user(user) == 100
+        # 最后的学习记录学习了 100%
+        if ware_readings.where(:creator_id => user.id.to_s).last.read_percent == 100
+          last_read_chapter = ware_readings.where(:creator_id => user.id.to_s).last.chapter
+          if last_read_chapter.read_percent_of_user(user) != 100
+            unread_wares = last_read_chapter.wares.select do |ware|
+              if ware.read_percent_of_user(user) == 0
+                ware
+              end
+            end
+            return unread_wares.first
+          else
+            unread_chapters = chapters.select do |chapter|
+              if chapter.read_percent_of_user(user) == 0
+                chapter
+              end
+            end
+            return unread_chapters.first.wares.first
+          end
+        else
+        # 最后的学习记录没有学习 100%
+          ware_readings.where(:creator_id => user.id.to_s).last.ware
+        end
+      end
     end
   end
 end

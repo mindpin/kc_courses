@@ -10,6 +10,7 @@ module KcCourses
 
       # user 已经学习了 chapter 多少百分比的内容，返回值是代表百分比的数字
       def read_percent_of_user(user)
+        return 0 if user = nil
         return 0 if wares.count == 0
         read_percents = ware_readings.where(:creator_id => user.id.to_s).map do |reading|
           reading.read_percent

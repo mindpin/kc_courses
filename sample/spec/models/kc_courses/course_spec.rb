@@ -54,10 +54,94 @@ RSpec.describe KcCourses::Course, type: :model do
       #课程四 完成了 25
       ware411.set_read_percent_by_user(user, 25)
       #课程五 没做过
-      
 
-      expect(KcCourses::Course.studing_of_user(user)).to eq([course2,course4])
-      expect(KcCourses::Course.studied_of_user(user)).to eq([course1,course3])
+      expect(KcCourses::Course.studing_of_user(nil).class.name).to eq('Mongoid::Criteria')
+      expect(KcCourses::Course.studied_of_user(nil).class.name).to eq('Mongoid::Criteria')
+      
+      expect(KcCourses::Course.studing_of_user(user).class.name).to eq('Mongoid::Criteria')
+      expect(KcCourses::Course.studied_of_user(user).class.name).to eq('Mongoid::Criteria')
+
+      expect(KcCourses::Course.studing_of_user(user).count).to eq(2)
+      expect(KcCourses::Course.studied_of_user(user).last).to eq(course3)
     end
+  end
+
+  describe "@course.studing_ware_of_user(user)" do
+    #课程中没有课件
+    it{
+      user = create(:user)
+      course1 = create(:course)
+      chapter11 = create(:chapter, :course => course1)
+
+      expect(course1.studing_ware_of_user(user)).to eq(nil) 
+    }
+    #没有学习记录
+    it{
+      user = create(:user)
+      course1 = create(:course)
+      chapter11 = create(:chapter, :course => course1)
+      ware111 = create(:ware, :chapter => chapter11)
+
+      expect(course1.studing_ware_of_user(user)).to eq(nil)
+    }
+    #存在课件有学习记录，也存在课件没有学习记录,最后的学习记录没有学习 100%
+    it{
+      user = create(:user)
+      course1 = create(:course)
+      chapter11 = create(:chapter, :course => course1)
+      ware111 = create(:ware, :chapter => chapter11)
+      ware112 = create(:ware, :chapter => chapter11)
+      ware111.set_read_percent_by_user(user, 50)
+
+      expect(course1.studing_ware_of_user(user)).to eq(ware111)
+    }
+    #存在课件有学习记录，也存在课件没有学习记录,最后的学习记录学习了 100%
+    it{
+      user = create(:user)
+      course1 = create(:course)
+      chapter11 = create(:chapter, :course => course1)
+      ware111 = create(:ware, :chapter => chapter11)
+      ware112 = create(:ware, :chapter => chapter11)
+      ware111.set_read_percent_by_user(user, 100)
+
+      expect(course1.studing_ware_of_user(user)).to eq(ware112)
+    }
+    #所有课件都有学习记录但最后一个课件的学习记录没有学习 100%
+    it{
+      user = create(:user)
+      course1 = create(:course)
+      chapter11 = create(:chapter, :course => course1)
+      ware111 = create(:ware, :chapter => chapter11)
+      ware112 = create(:ware, :chapter => chapter11)
+      ware111.set_read_percent_by_user(user, 100)
+      ware112.set_read_percent_by_user(user, 60)
+
+      expect(course1.studing_ware_of_user(user)).to eq(ware112)
+    }
+    #所有课件都有学习记录且所有的学习记录都是学习 100%
+    it{
+      user = create(:user)
+      course1 = create(:course)
+      chapter11 = create(:chapter, :course => course1)
+      ware111 = create(:ware, :chapter => chapter11)
+      ware112 = create(:ware, :chapter => chapter11)
+      ware111.set_read_percent_by_user(user, 100)
+      ware112.set_read_percent_by_user(user, 100)
+
+      expect(course1.studing_ware_of_user(user)).to eq(nil)
+    }
+    #最新学习记录是 100%，倒数第二个（或者N个）不是 100%（这个除非是学习后，课程被修改。应该返回未学习且安排序最考前的课件）
+    it{
+      user = create(:user)
+      course1 = create(:course)
+      chapter11 = create(:chapter, :course => course1)
+      ware111 = create(:ware, :chapter => chapter11)
+      ware113 = create(:ware, :chapter => chapter11)
+      ware111.set_read_percent_by_user(user, 100)
+      ware111.set_read_percent_by_user(user, 100)
+      ware112 = create(:ware, :chapter => chapter11)
+
+      expect(course1.studing_ware_of_user(user)).to eq(ware112)
+    }
   end
 end
