@@ -21,7 +21,7 @@ module KcCourses
 
       # user 已经学习了 ware 多少百分比的内容，返回值是代表百分比的数字
       def read_percent_of_user(user)
-        return 0 if user = nil
+        return 0 if user == nil
         ware_readings.where(:creator_id => user.id.to_s).first.try(:read_percent) || 0
       end
 

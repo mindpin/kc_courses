@@ -10,7 +10,7 @@ module KcCourses
 
       # user 已经学习了 course 多少百分比的内容，返回值是代表百分比的数字
       def read_percent_of_user(user)
-        return 0 if user = nil
+        return 0 if user == nil
         return 0 if chapters.count == 0
         read_percent_hash = {}
         chapters.each do |chapter|
