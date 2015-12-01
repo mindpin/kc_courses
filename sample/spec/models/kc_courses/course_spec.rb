@@ -21,6 +21,17 @@ RSpec.describe KcCourses::Course, type: :model do
       expect(@course.errors[:user].size).to eq(1)
     }
 
+    it 'recent' do
+      expect(KcCourses::Course.respond_to? :recent).to eq(true)
+      @course = create(:course)
+      expect(KcCourses::Course.recent.first).to eq(@course)
+    end
+
+    it 'hot' do
+      expect(KcCourses::Course.respond_to? :hot).to eq(true)
+      # TODO 添加热门课程对应的测试
+    end
+
     it 'studing_of_user(user)  studied_of_user(user)' do
       expect(KcCourses::Course.respond_to? :studing_of_user).to eq(true)
       expect(KcCourses::Course.respond_to? :studied_of_user).to eq(true)
@@ -138,8 +149,11 @@ RSpec.describe KcCourses::Course, type: :model do
       ware111 = create(:ware, :chapter => chapter11)
       ware113 = create(:ware, :chapter => chapter11)
       ware111.set_read_percent_by_user(user, 100)
-      ware111.set_read_percent_by_user(user, 100)
+      ware113.set_read_percent_by_user(user, 100)
       ware112 = create(:ware, :chapter => chapter11)
+
+      p course1.studing_ware_of_user(user)
+      p ware113
 
       expect(course1.studing_ware_of_user(user)).to eq(ware112)
     }
