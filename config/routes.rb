@@ -3,9 +3,6 @@ KcCourses::Engine.routes.draw do
 
   resources :courses, shallow: true do
     post :publish, on: :member
-    member do
-      get :progress
-    end
 
     resources :chapters, shallow: true do
       member do
