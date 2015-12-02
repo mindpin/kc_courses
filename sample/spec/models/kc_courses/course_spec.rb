@@ -152,9 +152,6 @@ RSpec.describe KcCourses::Course, type: :model do
       ware113.set_read_percent_by_user(user, 100)
       ware112 = create(:ware, :chapter => chapter11)
 
-      p course1.studing_ware_of_user(user)
-      p ware113
-
       expect(course1.studing_ware_of_user(user)).to eq(ware112)
     }
   end
