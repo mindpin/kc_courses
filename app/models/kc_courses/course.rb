@@ -8,7 +8,7 @@ module KcCourses
 
     scope :studing_of_user, ->(user) {
       if user == nil
-        course_ids = nil
+        course_ids = []
       else
         course_ids = user.ware_readings.where(:read_percent.ne => 100).group_by(&:course_id).keys
       end
@@ -17,12 +17,13 @@ module KcCourses
 
     scope :studied_of_user, ->(user) {
       if user == nil
-        course_ids = nil 
+        course_ids = [] 
       else
         course_ids = user.ware_readings.where(:read_percent => 100).group_by(&:course_id).keys
       end
       where(:_id.in => course_ids)
     }
+
 
 
     field :title, :type => String
@@ -33,8 +34,6 @@ module KcCourses
     has_many :chapters, class_name: 'KcCourses::Chapter'
 
     validates :title, presence: true
-    validates :user, presence: true
-
-    scope :hot, ->{ recent }
+    validates :user, presence: true  
   end
 end
