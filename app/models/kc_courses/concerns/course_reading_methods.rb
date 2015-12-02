@@ -75,13 +75,11 @@ module KcCourses
         if ware_readings.where(:creator_id => user.id.to_s).last.read_percent == 100
           last_read_chapter = ware_readings.where(:creator_id => user.id.to_s).last.chapter
           if last_read_chapter.read_percent_of_user(user) != 100
-            p 11111
             unread_wares = last_read_chapter.wares.select do |ware|
               if ware.read_percent_of_user(user) == 0
                 ware
               end
             end
-            p unread_wares
             return unread_wares.first
           else
             unread_chapters = chapters.select do |chapter|
@@ -95,6 +93,12 @@ module KcCourses
         # 最后的学习记录没有学习 100%
           ware_readings.where(:creator_id => user.id.to_s).last.ware
         end
+      end
+
+
+      # 正在学习该课程的用户数量
+      def studing_users_sum_of_course
+        ware_readings.where(:read_percent.ne => 100).group_by(&:creator_id).keys.length
       end
     end
   end
