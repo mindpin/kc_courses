@@ -21,17 +21,6 @@ RSpec.describe KcCourses::Course, type: :model do
       expect(@course.errors[:user].size).to eq(1)
     }
 
-    it 'recent' do
-      expect(KcCourses::Course.respond_to? :recent).to eq(true)
-      @course = create(:course)
-      expect(KcCourses::Course.recent.first).to eq(@course)
-    end
-
-    it 'hot' do
-      expect(KcCourses::Course.respond_to? :hot).to eq(true)
-      # TODO 添加热门课程对应的测试
-    end
-
     it 'studing_of_user(user)  studied_of_user(user)' do
       expect(KcCourses::Course.respond_to? :studing_of_user).to eq(true)
       expect(KcCourses::Course.respond_to? :studied_of_user).to eq(true)
@@ -65,6 +54,7 @@ RSpec.describe KcCourses::Course, type: :model do
       #课程四 完成了 25
       ware411.set_read_percent_by_user(user, 25)
       #课程五 没做过
+
 
       expect(KcCourses::Course.studing_of_user(nil).class.name).to eq('Mongoid::Criteria')
       expect(KcCourses::Course.studied_of_user(nil).class.name).to eq('Mongoid::Criteria')
