@@ -10,7 +10,11 @@ module KcCourses
       if user == nil
         course_ids = []
       else
-        course_ids = user.ware_readings.where(:read_percent.ne => 100).group_by(&:course_id).keys
+        course_ids = KcCourses::Course.all.select do |course|
+          if course.read_percent_of_user(user) != 100 && course.read_percent_of_user(user) != 0
+            course.id
+          end
+        end
       end
       where(:_id.in => course_ids)
     }
@@ -19,7 +23,11 @@ module KcCourses
       if user == nil
         course_ids = [] 
       else
-        course_ids = user.ware_readings.where(:read_percent => 100).group_by(&:course_id).keys
+        course_ids = KcCourses::Course.all.select do |course|
+          if course.read_percent_of_user(user) == 100 
+            course.id
+          end
+        end
       end
       where(:_id.in => course_ids)
     }
