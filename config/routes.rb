@@ -18,6 +18,10 @@ KcCourses::Engine.routes.draw do
     end
   end
 
+  namespace :api do
+    get "/courses/:id/progress" => "courses#progress"
+  end
+
   # resources :chapters
   # resources :wares
   root 'home#index'
