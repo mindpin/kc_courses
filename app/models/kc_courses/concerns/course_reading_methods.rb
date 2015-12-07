@@ -57,6 +57,7 @@ module KcCourses
 
       # user 在当前课程正在学习的课件
       def studing_ware_of_user(user)
+        return nil if user == nil
         ware_reading_count = 0 
         ware_count = 0 
         chapters.each do |chapter|
