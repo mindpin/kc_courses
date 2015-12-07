@@ -155,4 +155,56 @@ RSpec.describe KcCourses::Course, type: :model do
       expect(course1.studing_ware_of_user(user)).to eq(ware112)
     }
   end
+
+  describe "@course.last_studied_at_of_user(user)" do
+    before(:each){
+      @day_1 = Time.local(2012, 12, 22, 10, 0, 0)
+      @day_2 = Time.local(2012, 12, 23, 10, 0, 0)
+    }
+    # user 为 nil
+    it{
+      user = create(:user)
+      course1 = create(:course)
+      chapter11 = create(:chapter, :course => course1)
+      ware111 = create(:ware, :chapter => chapter11)
+      ware112 = create(:ware, :chapter => chapter11)
+      ware113 = create(:ware, :chapter => chapter11)
+
+      Timecop.freeze(@day1) do
+        ware111.set_read_percent_by_user(user, 100)
+      end
+
+      expect(course1.last_studied_at_of_user(nil)).to eq(nil)
+    }
+    # 没有学习记录
+    it{
+      user = create(:user)
+      course1 = create(:course)
+      chapter11 = create(:chapter, :course => course1)
+      ware111 = create(:ware, :chapter => chapter11)
+      ware112 = create(:ware, :chapter => chapter11)
+      ware113 = create(:ware, :chapter => chapter11)
+
+      expect(course1.last_studied_at_of_user(user)).to eq(nil)
+    }
+    # 有学习记录
+    it{
+      user = create(:user)
+      course1 = create(:course)
+      chapter11 = create(:chapter, :course => course1)
+      ware111 = create(:ware, :chapter => chapter11)
+      ware112 = create(:ware, :chapter => chapter11)
+      ware113 = create(:ware, :chapter => chapter11)
+
+      Timecop.freeze(@day_1) do
+        ware111.set_read_percent_by_user(user, 100)
+      end
+
+      Timecop.freeze(@day_2) do
+        ware112.set_read_percent_by_user(user, 100)
+      end
+
+      expect(course1.last_studied_at_of_user(user)).to eq(@day_2)
+    }
+  end
 end

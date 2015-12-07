@@ -96,9 +96,11 @@ module KcCourses
       end
 
 
-      # 正在学习该课程的用户数量
-      def studing_users_sum_of_course
-        ware_readings.where(:read_percent.ne => 100).group_by(&:creator_id).keys.length
+      # 最后学习该课程的时间 
+      def last_studied_at_of_user(user)
+        return nil if user == nil
+        return nil if ware_readings.count == 0
+        ware_readings.where(:creator_id => user.id.to_s).last.updated_at
       end
     end
   end
