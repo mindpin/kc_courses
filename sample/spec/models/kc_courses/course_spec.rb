@@ -27,11 +27,6 @@ RSpec.describe KcCourses::Course, type: :model do
       expect(KcCourses::Course.recent.first).to eq(@course)
     end
 
-    it 'hot' do
-      expect(KcCourses::Course.respond_to? :hot).to eq(true)
-      # TODO 添加热门课程对应的测试
-    end
-
     it 'studing_of_user(user)  studied_of_user(user)' do
       expect(KcCourses::Course.respond_to? :studing_of_user).to eq(true)
       expect(KcCourses::Course.respond_to? :studied_of_user).to eq(true)
@@ -40,6 +35,7 @@ RSpec.describe KcCourses::Course, type: :model do
       course1 = create(:course)
       chapter11 = create(:chapter, :course => course1)
       ware111 = create(:ware, :chapter => chapter11)
+      ware112 = create(:ware, :chapter => chapter11)
 
       course2 = create(:course)
       chapter21 = create(:chapter, :course => course2)
@@ -71,8 +67,9 @@ RSpec.describe KcCourses::Course, type: :model do
       
       expect(KcCourses::Course.studing_of_user(user).class.name).to eq('Mongoid::Criteria')
       expect(KcCourses::Course.studied_of_user(user).class.name).to eq('Mongoid::Criteria')
-
-      expect(KcCourses::Course.studing_of_user(user).count).to eq(2)
+ 
+      expect(KcCourses::Course.studing_of_user(user).first).to eq(course1)
+      expect(KcCourses::Course.studing_of_user(user).count).to eq(3)
       expect(KcCourses::Course.studied_of_user(user).last).to eq(course3)
     end
   end
