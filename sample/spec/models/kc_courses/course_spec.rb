@@ -21,17 +21,6 @@ RSpec.describe KcCourses::Course, type: :model do
       expect(@course.errors[:user].size).to eq(1)
     }
 
-    it 'recent' do
-      expect(KcCourses::Course.respond_to? :recent).to eq(true)
-      @course = create(:course)
-      expect(KcCourses::Course.recent.first).to eq(@course)
-    end
-
-    it 'hot' do
-      expect(KcCourses::Course.respond_to? :hot).to eq(true)
-      # TODO 添加热门课程对应的测试
-    end
-
     it 'studing_of_user(user)  studied_of_user(user)' do
       expect(KcCourses::Course.respond_to? :studing_of_user).to eq(true)
       expect(KcCourses::Course.respond_to? :studied_of_user).to eq(true)
@@ -65,6 +54,7 @@ RSpec.describe KcCourses::Course, type: :model do
       #课程四 完成了 25
       ware411.set_read_percent_by_user(user, 25)
       #课程五 没做过
+
 
       expect(KcCourses::Course.studing_of_user(nil).class.name).to eq('Mongoid::Criteria')
       expect(KcCourses::Course.studied_of_user(nil).class.name).to eq('Mongoid::Criteria')
@@ -153,6 +143,121 @@ RSpec.describe KcCourses::Course, type: :model do
       ware112 = create(:ware, :chapter => chapter11)
 
       expect(course1.studing_ware_of_user(user)).to eq(ware112)
+    }
+  end
+
+  describe "@course.spent_time_of_user(user)" do
+    before(:each){
+      @day_1 = Time.local(2012, 12, 22, 10, 0, 0)
+      @day_2 = Time.local(2012, 12, 23, 10, 0, 0)
+      @day_3 = Time.local(2012, 12, 24, 10, 0, 0)
+      @day_4 = Time.local(2012, 12, 25, 10, 0, 0)
+
+      @user = create(:user)
+      @course1 = create(:course)
+      @chapter11 = create(:chapter, :course => @course1)
+      @ware111 = create(:ware, :chapter => @chapter11)
+      @ware112 = create(:ware, :chapter => @chapter11)
+      @ware113 = create(:ware, :chapter => @chapter11)
+    }
+
+    #没有学习记录
+    it{
+      expect(@course1.spent_time_of_user(@user)).to eq(0)
+    }
+    #存在一个课件有学习记录,没有更新
+    it{
+      Timecop.freeze(@day_1) do
+        @ware111.set_read_percent_by_user(@user, 20)
+      end
+
+      expect(@course1.spent_time_of_user(@user)).to eq(0) 
+    }
+    #存在一个课件有学习记录,有更新
+    it{
+      Timecop.freeze(@day_1) do
+        @ware111.set_read_percent_by_user(@user, 20)
+      end
+
+
+      Timecop.freeze(@day_2) do
+        @ware111.set_read_percent_by_user(@user, 100)
+      end
+
+
+      expect(@course1.spent_time_of_user(@user)).to eq(86400) 
+    }
+    #存在多个课件有学习记录，最后创建的学习记录没有更新
+    it{
+      Timecop.freeze(@day_1) do
+        @ware111.set_read_percent_by_user(@user, 20)
+      end
+
+      Timecop.freeze(@day_2) do
+        @ware111.set_read_percent_by_user(@user, 100)
+      end
+
+      Timecop.freeze(@day_3) do
+        @ware112.set_read_percent_by_user(@user, 100)
+      end
+
+      expect(@course1.spent_time_of_user(@user)).to eq(172800) 
+    }
+    # #存在多个课件有学习记录，最后创建的学习记录有更新
+    it{
+      Timecop.freeze(@day_1) do
+        @ware111.set_read_percent_by_user(@user, 100)
+      end
+
+      Timecop.freeze(@day_2) do
+        @ware112.set_read_percent_by_user(@user, 30)
+      end
+
+      Timecop.freeze(@day_3) do
+        @ware112.set_read_percent_by_user(@user, 100)
+      end
+
+      expect(@course1.spent_time_of_user(@user)).to eq(172800) 
+    }
+    #所有课件都有学习记录，最后创建的学习记录没有更新
+    it{
+      Timecop.freeze(@day_1) do
+        @ware111.set_read_percent_by_user(@user, 100)
+      end
+
+      Timecop.freeze(@day_2) do
+        @ware112.set_read_percent_by_user(@user, 30)
+      end
+
+      Timecop.freeze(@day_3) do
+        @ware112.set_read_percent_by_user(@user, 100)
+      end
+
+      Timecop.freeze(@day_4) do
+        @ware113.set_read_percent_by_user(@user, 100)
+      end
+
+      expect(@course1.spent_time_of_user(@user)).to eq(259200) 
+    }
+    #所有课件都有学习记录，最后创建的学习记录有更新
+    it{
+      Timecop.freeze(@day_1) do
+        @ware111.set_read_percent_by_user(@user, 100)
+      end
+
+      Timecop.freeze(@day_2) do
+        @ware112.set_read_percent_by_user(@user, 100)
+      end
+
+      Timecop.freeze(@day_3) do
+        @ware113.set_read_percent_by_user(@user, 50)
+      end
+
+      Timecop.freeze(@day_4) do
+        @ware113.set_read_percent_by_user(@user, 100)
+      end
+
+      expect(@course1.spent_time_of_user(@user)).to eq(259200) 
     }
   end
 end
