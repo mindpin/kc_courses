@@ -1,15 +1,28 @@
 class @CustomReadingProgress
-  before_load: ($el)->
+  before_load: ($el) ->
   loaded: ($el, data) ->
   error: ($el, data) ->
   finally: ($el)->
 
 class WareReading
-  function: (data,status,$el) ->
-    @before_load($el)
-    @loaded($el,data) if (status == "success")
-    @error($el,data) if (status == "error")
-    @finally($el)
+  constructor: (@configs)->
+    @$el = jQuery(config["selector"])
+    @progress = new config["progress_class"]()
+  
+  laod: ()->
+    @progress.before_load(@$el)
+    course_id = jQuery(configs["selector"]).data("data-course_id")
+    @progress.before_load(@$el)
+    jQuery.ajax
+      url: "/api/courses/#{course_id}/progress"
+      method: "GET"
+      type: "json"
+      success: (data) =>
+        @progress.laoded(@$el,data)
+        @progress.finally(@$el)
+      error: (data) =>
+        @progress.error(@$el,data)
+        @progress.finally(@$el)
 
 jQuery(document).on 'ready page:load', ->
   configs = 
@@ -17,7 +30,4 @@ jQuery(document).on 'ready page:load', ->
     selector: '.course'
 
   window.ware_reading = new WareReading(configs)
-  $course = jQuery(@configs["selector"])
-  course_id = jQuery(@configs["selector"]).data("data-course_id")
-  url = "/api/courses/#{course_id}/progress"
-  window.ware_reading.load(url,@function(respone,status,$course))
+  window.ware_reading.load()
