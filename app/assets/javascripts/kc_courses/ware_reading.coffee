@@ -1,10 +1,10 @@
-class @CustomReadingProgress
+class CustomReadingProgress
   before_load: ($el) ->
   loaded: ($el, data) ->
   error: ($el, data) ->
   finally: ($el)->
 
-class WareReading
+class @WareReading
   constructor: (@configs)->
     @$el = jQuery(config["selector"])
     @progress = new config["progress_class"]()
@@ -24,10 +24,3 @@ class WareReading
         @progress.error(@$el,data)
         @progress.finally(@$el)
 
-jQuery(document).on 'ready page:load', ->
-  configs = 
-    progress_class: CustomReadingProgress
-    selector: '.course'
-
-  window.ware_reading = new WareReading(configs)
-  window.ware_reading.load()
