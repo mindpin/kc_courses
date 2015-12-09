@@ -58,16 +58,16 @@ module KcCourses
       # user 在当前课程正在学习的课件
       def studing_ware_of_user(user)
         return nil if user == nil
-        ware_reading_count = 0 
-        ware_count = 0 
+        ware_reading_count = 0
+        ware_count = 0
         chapters.each do |chapter|
           ware_count = ware_count + chapter.wares.count
           chapter.wares.each do |ware|
             ware_reading_count = ware_reading_count + ware.ware_readings.count
-          end 
+          end
         end
         # 没有课件
-        return nil if ware_count == 0  
+        return nil if ware_count == 0
         # 没有学习记录
         return nil if ware_reading_count == 0
         # 所有课件都有学习记录且所有的学习记录都是学习 100%
@@ -96,11 +96,17 @@ module KcCourses
         end
       end
 
-
       # user 在当前课程的学习时长
       def spent_time_of_user(user)
         return 0 if ware_readings.count == 0
         ware_readings.where(:creator_id => user.id.to_s).last.updated_at - ware_readings.where(:creator_id => user.id.to_s).first.created_at
+      end
+
+      # 最后学习该课程的时间
+      def last_studied_at_of_user(user)
+        return nil if user == nil
+        return nil if ware_readings.count == 0
+        ware_readings.where(:creator_id => user.id.to_s).last.updated_at
       end
     end
   end
