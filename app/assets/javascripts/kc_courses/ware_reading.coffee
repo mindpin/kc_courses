@@ -5,7 +5,7 @@ class CustomReadingProgress
   finally: ($el)->
 
 class @WareReading
-  constructor: (@configs)->
+  constructor: (configs)->
     @$el = jQuery(config["selector"])
     @progress = new config["progress_class"]()
   
