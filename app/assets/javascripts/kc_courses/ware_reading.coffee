@@ -1,9 +1,3 @@
-class CustomReadingProgress
-  before_load: ($el) ->
-  loaded: ($el, data) ->
-  error: ($el, data) ->
-  finally: ($el)->
-
 class @WareReading
   constructor: (configs)->
     @$el = jQuery(config["selector"])
