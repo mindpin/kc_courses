@@ -20,6 +20,7 @@ KcCourses::Engine.routes.draw do
 
   namespace :api do
     get "/courses/:id/progress" => "courses#progress"
+    post "/wares/:id/study" => "wares#study"
   end
 
   # resources :chapters
