@@ -11,7 +11,7 @@ module KcCourses
         course_ids = []
       else
         course_ids = KcCourses::Course.all.select do |course|
-          if course.read_percent_of_user(user) != 100 && course.read_percent_of_user(user) != 0
+          if course.read_percent_of_user(user) != 100 && course.ware_readings.count != 0
             course.id
           end
         end
