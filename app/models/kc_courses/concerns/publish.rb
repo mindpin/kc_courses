@@ -5,7 +5,8 @@ module KcCourses
 
       included do
         field :published, :type => Boolean, default: false
-
+        scope :published, ->{where(:published => true)}
+        scope :unpublished, ->{where(:published => false)}
       end
 
       def publish!
