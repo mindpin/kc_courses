@@ -71,6 +71,7 @@ RSpec.describe KcCourses::Course, type: :model do
       expect(KcCourses::Course.studing_of_user(user).first).to eq(course1)
       expect(KcCourses::Course.studing_of_user(user).count).to eq(3)
       expect(KcCourses::Course.studied_of_user(user).last).to eq(course3)
+      expect(course4.read_percent_of_user(user)).to eq(1)
     end
   end
 
@@ -164,6 +165,8 @@ RSpec.describe KcCourses::Course, type: :model do
       ware5 = create(:ware, :chapter => chapter)
 
       ware5.set_read_percent_by_user(user, 1)
+
+      expect(course.read_percent_of_user(user)).to eq(1)
 
       expect(KcCourses::Course.studing_of_user(user).count).to eq(1)
     }

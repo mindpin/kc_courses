@@ -15,7 +15,12 @@ module KcCourses
         read_percents = ware_readings.where(:creator_id => user.id.to_s).map do |reading|
           reading.read_percent
         end
-        read_percents.sum / wares.count
+
+        if read_percents.sum / wares.count < 1
+          1
+        else
+          read_percents.sum / wares.count
+        end
       end
 
       # user 是否已经完成整个 chapter 的学习（read_percent 是 100 时，表示完成学习）
