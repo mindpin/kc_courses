@@ -320,4 +320,18 @@ RSpec.describe KcCourses::Course, type: :model do
       expect(course1.last_studied_at_of_user(user)).to eq(@day_2)
     }
   end
+
+  describe "KcCourses::Course.published  KcCourses::Course.unpublished" do
+    it{
+      course1 = create(:course)
+      course2 = create(:course)
+      course3 = create(:course, :published => true)
+
+      expect(KcCourses::Course.published.class.name).to eq('Mongoid::Criteria')
+      expect(KcCourses::Course.unpublished.class.name).to eq('Mongoid::Criteria')
+
+      expect(KcCourses::Course.published.count).to eq(1)
+      expect(KcCourses::Course.unpublished.count).to eq(2)
+    }
+  end
 end
