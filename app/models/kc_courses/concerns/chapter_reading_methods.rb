@@ -16,7 +16,7 @@ module KcCourses
           reading.read_percent
         end
 
-        if read_percents.sum / wares.count < 1
+        if read_percents.sum / wares.count < 1 && ware_readings.count != 0
           1
         else
           read_percents.sum / wares.count

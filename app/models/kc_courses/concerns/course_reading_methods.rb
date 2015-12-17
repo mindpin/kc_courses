@@ -29,7 +29,7 @@ module KcCourses
           end
         end
 
-        if read_percents.sum / chapters.count < 1 
+        if read_percents.sum / chapters.count < 1 && ware_readings.count != 0
           1
         else
           read_percents.sum / chapters.count
