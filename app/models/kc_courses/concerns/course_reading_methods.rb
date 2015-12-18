@@ -21,13 +21,19 @@ module KcCourses
           read_percent_hash[reading.chapter] << reading.read_percent
         end
 
-        read_percent_hash.map do |chapter, value|
+        read_percents = read_percent_hash.map do |chapter, value|
           if chapter.wares.count == 0
             0
           else
             value.sum / chapter.wares.count
           end
-        end.sum / chapters.count
+        end
+
+        if read_percents.sum / chapters.count < 1 && ware_readings.count != 0
+          1
+        else
+          read_percents.sum / chapters.count
+        end
       end
 
       # user 是否已经完成整个 course 的学习（read_percent 是 100 时，表示完成学习）

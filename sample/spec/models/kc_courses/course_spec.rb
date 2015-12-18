@@ -59,7 +59,7 @@ RSpec.describe KcCourses::Course, type: :model do
       #课程三 已做完
       ware311.set_read_percent_by_user(user, 100)
       #课程四 完成了 25
-      ware411.set_read_percent_by_user(user, 25)
+      ware411.set_read_percent_by_user(user, 0.1)
       #课程五 没做过
 
 
@@ -72,6 +72,7 @@ RSpec.describe KcCourses::Course, type: :model do
       expect(KcCourses::Course.studing_of_user(user).first).to eq(course1)
       expect(KcCourses::Course.studing_of_user(user).count).to eq(3)
       expect(KcCourses::Course.studied_of_user(user).last).to eq(course3)
+      expect(course4.read_percent_of_user(user)).to eq(1)
     end
   end
 
@@ -151,6 +152,24 @@ RSpec.describe KcCourses::Course, type: :model do
       ware112 = create(:ware, :chapter => chapter11)
 
       expect(course1.studing_ware_of_user(user)).to eq(ware112)
+    }
+
+    #测试当课件学习进度值很小时，会否视对应课程为非正在学习课程
+    it{
+      user = create(:user)
+      course = create(:course)
+      chapter = create(:chapter, :course => course)
+      ware1 = create(:ware, :chapter => chapter)
+      ware2 = create(:ware, :chapter => chapter)
+      ware3 = create(:ware, :chapter => chapter)
+      ware4 = create(:ware, :chapter => chapter)
+      ware5 = create(:ware, :chapter => chapter)
+
+      ware5.set_read_percent_by_user(user, 1)
+
+      expect(course.read_percent_of_user(user)).to eq(1)
+
+      expect(KcCourses::Course.studing_of_user(user).count).to eq(1)
     }
   end
 
