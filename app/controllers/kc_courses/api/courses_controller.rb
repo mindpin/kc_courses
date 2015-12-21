@@ -6,7 +6,7 @@ module KcCourses
         course = KcCourses::Course.find(params[:id])
         render :json => {
           :id => course.id.to_s,
-          :currnet_ware_id => 
+          :current_ware_id => 
             if course.studing_ware_of_user(user) == nil
               nil
             else
