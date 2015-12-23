@@ -30,3 +30,4 @@ require 'simple_form'
 # 引用 rails engine
 require 'kc_courses/engine'
 require 'kc_courses/rails_routes'
+require 'kc_courses/time_diy'
