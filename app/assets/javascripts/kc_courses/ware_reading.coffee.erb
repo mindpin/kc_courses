@@ -6,23 +6,27 @@ class @WareReading
   
   load: ()->
     if @$el.length > 0
-      @progress.before_load(@$el)
-      course_id = @$el.data("course-id")
-      if !course_id
-        @progress.error(@$el, {error: "不能读取course_id"})
-        @progress.finally(@$el)
-        return 
-      @progress.before_load(@$el)
-      jQuery.ajax
-        url: "#{@path_fix}/api/courses/#{course_id}/progress"
-        method: "GET"
-        type: "json"
-        success: (data) =>
-          @progress.loaded(@$el,data)
-          @progress.finally(@$el)
-        error: (data) =>
-          @progress.error(@$el,data)
-          @progress.finally(@$el)
+      that = this
+      $.each @$el, (index)->
+        console.log this
+        $el = jQuery(this)
+        that.progress.before_load(@$el)
+        course_id = $el.data("course-id")
+        if !course_id
+          that.progress.error($el, {error: "不能读取course_id"})
+          that.progress.finally($el)
+          return 
+        that.progress.before_load($el)
+        jQuery.ajax
+          url: "#{that.path_fix}/api/courses/#{course_id}/progress"
+          method: "GET"
+          type: "json"
+          success: (data) =>
+            that.progress.loaded($el,data)
+            that.progress.finally($el)
+          error: (data) =>
+            that.progress.error($el,data)
+            that.progress.finally($el)
     else
       @progress.error(@$el, {error: "#{@configs['selector']} 未选中任何DOM"})
       @progress.finally(@$el)
