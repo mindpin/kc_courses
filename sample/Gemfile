@@ -27,11 +27,11 @@ end
 group :test, :development do
   gem 'better_errors'
   gem 'binding_of_caller'
+  gem "factory_girl_rails"
 end
 
 group :test do
   gem 'database_cleaner', '~> 1.4.1'
-  gem "factory_girl_rails"
   gem 'capybara'
 end
 
@@ -46,7 +46,7 @@ gem 'timecop', '~> 0.8.0'
 # 支持分段上传的文件持久化
 gem 'file-part-upload',
     :github => 'mindpin/file-part-upload',
-    :tag => '2.0.0-beta3'
+    :tag => '2.2.0'
 
 gem 'play_auth', :github => 'mindpin/play_auth',
                  :tag => :latest
