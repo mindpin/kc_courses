@@ -11,6 +11,8 @@ module KcCourses
     belongs_to :chapter, class_name: 'KcCourses::Chapter'
     belongs_to :user
 
+    belongs_to :file_entity, class_name: 'FilePartUpload::FileEntity'
+
     validates :chapter,  :presence => true
     validates :user, presence: true
 
