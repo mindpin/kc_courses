@@ -40,6 +40,7 @@ module KcCourses
     belongs_to :user
 
     has_many :chapters, class_name: 'KcCourses::Chapter'
+    has_and_belongs_to_many :subjects, class_name: 'KcCourses::CourseSubject'
 
     validates :title, presence: true
     validates :user, presence: true  
