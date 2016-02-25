@@ -23,4 +23,10 @@ RSpec.describe KcCourses::CourseSubject, type: :model do
     expect(build(:course_subject, name: nil)).not_to be_valid
     expect(build(:course_subject, courses: [])).not_to be_valid
   end
+
+  it 'courses course_subjects' do
+    @course_subject = create(:course_subject)
+    @course = @course_subject.courses.first
+    expect(@course.course_subjects.count).to eq 1
+  end
 end
