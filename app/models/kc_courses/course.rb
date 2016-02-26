@@ -5,6 +5,7 @@ module KcCourses
     include KcCourses::Concerns::Base
     include KcCourses::Concerns::Publish
     include KcCourses::Concerns::CourseReadingMethods
+    include KcCourses::Concerns::SubjectMethods
 
     scope :studing_of_user, ->(user) {
       if user == nil
