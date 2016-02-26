@@ -4,14 +4,6 @@ RSpec.describe KcCourses::CourseSubject, type: :model do
   it "attributes" do
     @course_subject = create(:course_subject)
     expect(@course_subject.respond_to?(:name)).to eq true
-    expect(@course_subject.respond_to?(:show_in_nav)).to eq true
-    expect(@course_subject.respond_to?(:show_in_subnav)).to eq true
-  end
-
-  it "default" do
-    @course_subject = create(:course_subject)
-    expect(@course_subject.show_in_nav).to eq false
-    expect(@course_subject.show_in_subnav).to eq false
   end
 
   it "relationships" do
