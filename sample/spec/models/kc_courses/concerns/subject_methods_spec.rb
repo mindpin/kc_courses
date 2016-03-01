@@ -7,14 +7,22 @@ RSpec.describe KcCourses::Concerns::SubjectMethods, type: :module do
       @course_subject = create(:course_subject)
     end
 
+    it '#has_subject?' do
+      expect(@course.has_subject?(@course_subject)).to eq false
+      @course.add_subject(@course_subject)
+      expect(@course.has_subject?(@course_subject)).to eq true
+    end
+
     it '#add_subject' do
-      expect(@course.add_subject(@course_subject).length).to eq 1
+      expect(@course.add_subject(@course_subject)).to_not be_nil
+      expect(@course.add_subject(@course_subject)).to be_nil
     end
 
     it '#remove_subject' do
       expect(@course.remove_subject(@course_subject)).to be_nil
       @course.add_subject(@course_subject)
       expect(@course.remove_subject(@course_subject)).to_not be_nil
+      expect(@course.remove_subject(@course_subject)).to be_nil
     end
 
     it 'relationship' do
