@@ -27,7 +27,7 @@ RSpec.describe KcCourses::TeachingGroup, type: :model do
       expect(@teaching_group.has_member?(@user)).to eq false
     end
 
-    # 判断user是否为管理员
+    # 判断user是否为组长
     it '#has_manager?' do
       expect(@teaching_group.has_manager?(@user)).to eq false
     end
@@ -90,10 +90,13 @@ RSpec.describe KcCourses::TeachingGroup, type: :model do
     # 如果 user 在 managers, 且数量等于1, 返回 false
     it '#remove_manager' do
       expect(@teaching_group.remove_manager(@user)).to be_nil
+
+      # 默认有一位组长, 添加后为两位，可以删除
       @teaching_group.add_manager @user
-      expect(@teaching_group.remove_manager(@user)).to eq false
-      @teaching_group.add_manager create(:user)
       expect(@teaching_group.remove_manager(@user)).to eq @user
+
+      # 默认有一位组长，可以删除
+      expect(@teaching_group.remove_manager(@teaching_group.managers.first)).to eq false
     end
 
     # 移除组长（users 表示 user 数组）
@@ -101,6 +104,22 @@ RSpec.describe KcCourses::TeachingGroup, type: :model do
     # 组长不会为空
     it '#remove_managers' do
       expect(@teaching_group.remove_managers([@user])).to eq true
+    end
+
+    # 当组长为空时报错
+    it '#require_at_least_one_manager' do
+      teaching_group = build(:teaching_group, managers: [])
+      expect(teaching_group.send(:require_at_least_one_manager)).to eq [I18n.t('errors.messages.at_least_one')]
+
+      expect(@teaching_group.send(:require_at_least_one_manager)).to be_nil
+    end
+  end
+
+  describe 'validates' do
+    it '必须有组长' do
+      teaching_group = build(:teaching_group, managers: [])
+      expect(teaching_group).to_not be_valid
+      expect(teaching_group.errors[:managers]).to eq ["至少需要一个"]
     end
   end
 end

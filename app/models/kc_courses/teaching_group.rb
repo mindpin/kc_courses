@@ -12,6 +12,7 @@ module KcCourses
     has_and_belongs_to_many :members, class_name: 'User', inverse_of: :joined_teaching_groups
 
     validates :name, presence: true
+    validate  :require_at_least_one_manager
 
     def has_member?(user)
       members.include?(user)
@@ -72,6 +73,11 @@ module KcCourses
         remove_manager(user)
       end
       true
+    end
+
+    protected
+    def require_at_least_one_manager
+      errors.add(:managers, :at_least_one) if managers.blank?
     end
   end
 end
