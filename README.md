@@ -8,6 +8,8 @@ Gemfile
 ```ruby
 gem 'kc_courses', :github => 'mindpin/kc_courses',
                   :branch => "master"
+# 依赖
+gem 'mongoid-tree', :require => 'mongoid/tree'
 ```
 
 ## 配置

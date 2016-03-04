@@ -122,5 +122,28 @@ RSpec.describe KcCourses::TeachingGroup, type: :model do
       expect(teaching_group.errors[:managers]).to eq ["至少需要一个"]
     end
   end
-end
 
+  # 树状支持
+  describe Mongoid::Tree do
+    before do
+      @node1 = create(:teaching_group)
+      @node2 = create(:teaching_group)
+    end
+
+    it '#parent' do
+      expect(@node1.parent).to be_nil
+      @node1.update_attribute :parent, @node2
+      expect(@node1.parent).to eq @node2
+      @node1.reload
+      expect(@node1.parent).to eq @node2
+    end
+
+    it '#children' do
+      expect(@node1.children).to be_blank
+      @node1.children << @node2
+      expect(@node1.children).to include(@node2)
+      @node1.reload
+      expect(@node1.children).to include(@node2)
+    end
+  end
+end
