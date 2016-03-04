@@ -21,6 +21,9 @@ group :development, :test do
   gem 'spring'
 
   gem 'rspec-rails', '~> 3.0'
+
+  gem 'shoulda'
+  gem 'shoulda-matchers', require: false
 end
 
 # 更友好的出错页面
