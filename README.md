@@ -8,6 +8,8 @@ Gemfile
 ```ruby
 gem 'kc_courses', :github => 'mindpin/kc_courses',
                   :branch => "master"
+# 依赖
+gem 'mongoid-tree', :require => 'mongoid/tree'
 ```
 
 ## 配置
@@ -17,6 +19,11 @@ gem 'kc_courses', :github => 'mindpin/kc_courses',
 Rails.application.routes.draw do
   mount KcCourses::Engine => '/kc_courses'
 end
+```
+
+在app/models/user.rb中
+```ruby
+include KcCourses::Concerns::UserTeachingGroupMethods
 ```
 
 ## 使用

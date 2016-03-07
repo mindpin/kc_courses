@@ -482,3 +482,7 @@ zh-CN:
             %{document} when the child '%{relation}' still has documents in it."
           resolution: "Don't attempt to delete the parent %{document} when
             it has children, or change the dependent option on the relation."
+
+  errors:
+    messages:
+      at_least_one: '至少需要一个'
