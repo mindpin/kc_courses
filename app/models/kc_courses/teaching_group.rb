@@ -5,6 +5,8 @@ module KcCourses
     # 树状支持
     # https://github.com/benedikt/mongoid-tree
     include Mongoid::Tree
+    # 权限
+    include KcCourses::Concerns::Authorize
 
     field :name, :type => String
     field :desc, :type => String

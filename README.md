@@ -21,6 +21,11 @@ Rails.application.routes.draw do
 end
 ```
 
+在app/models/user.rb中
+```ruby
+include KcCourses::Concerns::UserTeachingGroupMethods
+```
+
 ## 使用
 
 TODO
