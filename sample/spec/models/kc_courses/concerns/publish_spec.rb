@@ -14,6 +14,7 @@ RSpec.describe KcCourses::Concerns::MovePosition, type: :module do
       expect(@test.respond_to? :unpublish!).to eq(true)
 
       expect(@test.published).to eq(false)
+      expect(@test.published_at).to be_nil
     }
   end
 
@@ -29,8 +30,16 @@ RSpec.describe KcCourses::Concerns::MovePosition, type: :module do
     it{
       expect(@course.publish!).to eq(true)
       expect(@course.published).to eq(true)
+      expect(@course.published_at).to_not be_nil
+
+      @last_published_at = @course.published_at
+
       expect(@course.unpublish!).to eq(true)
       expect(@course.published).to eq(false)
+      expect(@course.published_at).to eq @last_published_at
+
+      expect(@course.publish!).to eq(true)
+      expect(@course.published_at).to_not eq @last_published_at
     }
   end
 end
