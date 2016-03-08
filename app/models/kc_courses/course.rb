@@ -6,6 +6,7 @@ module KcCourses
     include KcCourses::Concerns::Publish
     include KcCourses::Concerns::CourseReadingMethods
     include KcCourses::Concerns::SubjectMethods
+    include KcCourses::Concerns::CourseStatisticInfo
 
     scope :studing_of_user, ->(user) {
       if user == nil
@@ -44,6 +45,6 @@ module KcCourses
     has_and_belongs_to_many :course_subjects, class_name: 'KcCourses::CourseSubject', inverse_of: :courses
 
     validates :title, presence: true
-    validates :user, presence: true  
+    validates :user, presence: true
   end
 end
