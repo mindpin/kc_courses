@@ -55,5 +55,3 @@ gem 'play_auth', :github => 'mindpin/play_auth',
                  :tag => :latest
 
 gem 'kc_courses', path: '../'
-# 依赖
-gem 'mongoid-tree', :require => 'mongoid/tree'
