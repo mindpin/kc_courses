@@ -62,7 +62,6 @@ RSpec.describe KcCourses::Course, type: :model do
       ware411.set_read_percent_by_user(user, 0.1)
       #课程五 没做过
 
-
       expect(KcCourses::Course.studing_of_user(nil).class.name).to eq('Mongoid::Criteria')
       expect(KcCourses::Course.studied_of_user(nil).class.name).to eq('Mongoid::Criteria')
       
