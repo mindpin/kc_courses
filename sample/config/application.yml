@@ -5,6 +5,7 @@ development:
   qiniu_app_access_key: rnb5srjURqy92WEEneDKoLTux3MNTCUoYKkffR7_
   qiniu_app_secret_key: tUsP6FrNgasbFVwyWP3ahXcMRM5YHGlp8I2KmbEX
   qiniu_callback_host:  http://remote.realityandapp.com
+  course_default_cover_url: http://placem.at/places?w=150&h=150&random=1
 
 test:
   qiniu_bucket: ddtest
@@ -13,3 +14,4 @@ test:
   qiniu_app_access_key: rnb5srjURqy92WEEneDKoLTux3MNTCUoYKkffR7_
   qiniu_app_secret_key: tUsP6FrNgasbFVwyWP3ahXcMRM5YHGlp8I2KmbEX
   qiniu_callback_host:  http://remote.realityandapp.com
+  course_default_cover_url: http://placem.at/places?w=150&h=150&random=1
