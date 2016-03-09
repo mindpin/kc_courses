@@ -9,7 +9,6 @@ Gemfile
 gem 'kc_courses', :github => 'mindpin/kc_courses',
                   :branch => "master"
 # 依赖
-gem 'mongoid-tree', :require => 'mongoid/tree'
 gem 'file-part-upload',
   :github => "mindpin/file-part-upload",
   :tag    => "2.2.2"

@@ -4,6 +4,8 @@ RSpec.describe KcCourses::CourseSubject, type: :model do
   it "attributes" do
     @course_subject = create(:course_subject)
     expect(@course_subject.respond_to?(:name)).to eq true
+    expect(@course_subject.respond_to?(:slug)).to eq true
+    expect(@course_subject.slug).to_not be_blank
   end
 
   it "relationships" do
