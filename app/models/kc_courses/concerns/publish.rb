@@ -5,11 +5,13 @@ module KcCourses
 
       included do
         field :published, :type => Boolean, default: false
+        field :published_at, type: Time
         scope :published, ->{where(:published => true)}
         scope :unpublished, ->{where(:published => false)}
       end
 
       def publish!
+        update_attribute :published_at, Time.now
         update_attribute :published, true
       end
 

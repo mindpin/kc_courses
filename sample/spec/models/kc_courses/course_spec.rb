@@ -1,26 +1,30 @@
 require 'rails_helper'
 
 RSpec.describe KcCourses::Course, type: :model do
-  describe "基础字段" do
-    it{
-      @course = create(:course)
-      expect(@course.title).to eq("课程1")
-      expect(@course.desc).to eq("课程1 描述")
-      expect(@course.user).not_to be_nil
-    }
+  it { should validate_presence_of :title }
+  it { should validate_presence_of :user }
 
-    it{
-      @course = build(:course, title: '')
-      @course.valid?
-      expect(@course.errors[:title].size).to eq(1)
-    }
+  it "基础字段" do
+    @course = create(:course)
+    expect(@course.respond_to?(:title)).to be true
+    expect(@course.respond_to?(:desc)).to be true
+    expect(@course.respond_to?(:cover)).to be true
 
-    it{
-      @course = build(:course, user: nil)
-      @course.valid?
-      expect(@course.errors[:user].size).to eq(1)
-    }
+    expect(@course.respond_to?(:user_id)).to be true
+    expect(@course.respond_to?(:file_entity_id)).to be true
+    expect(@course.respond_to?(:file_entity)).to be true
 
+    expect(@course.respond_to?(:course_subject_ids)).to be true
+  end
+
+  it "关系" do
+    @course = create(:course)
+    expect(@course.respond_to?(:user)).to be true
+    expect(@course.respond_to?(:file_entity)).to be true
+    expect(@course.respond_to?(:course_subjects)).to be true
+  end
+
+  describe "scopes" do
     it 'recent' do
       expect(KcCourses::Course.respond_to? :recent).to eq(true)
       @course = create(:course)
@@ -65,14 +69,39 @@ RSpec.describe KcCourses::Course, type: :model do
 
       expect(KcCourses::Course.studing_of_user(nil).class.name).to eq('Mongoid::Criteria')
       expect(KcCourses::Course.studied_of_user(nil).class.name).to eq('Mongoid::Criteria')
-      
+
       expect(KcCourses::Course.studing_of_user(user).class.name).to eq('Mongoid::Criteria')
       expect(KcCourses::Course.studied_of_user(user).class.name).to eq('Mongoid::Criteria')
- 
+
       expect(KcCourses::Course.studing_of_user(user).first).to eq(course1)
-      expect(KcCourses::Course.studing_of_user(user).count).to eq(3)
+      expect(KcCourses::Course.studing_of_user(user).count).to eq(2)
       expect(KcCourses::Course.studied_of_user(user).last).to eq(course3)
       expect(course4.read_percent_of_user(user)).to eq(1)
+    end
+  end
+
+  describe "methods" do
+    it '#get_cover' do
+      @course = create(:course)
+      expect(@course.respond_to?(:get_cover)).to be true
+
+      # 没有上传图片
+      expect(@course.get_cover).to eq ENV['course_default_cover_url']
+
+      qiniu_callback_body = {
+        bucket: "fushang318",
+        token: "/f/IuR0fINf.jpg",
+        file_size: "25067",
+        original: "1-120GQF34TY.jpg",
+        mime: "image/jpeg",
+        image_width: "200",
+        image_height: "200",
+        image_rgb: "0x4f4951"
+      }
+      @file_entity = FilePartUpload::FileEntity.from_qiniu_callback_body qiniu_callback_body
+
+      @course.update_attribute :file_entity, @file_entity
+      expect(@course.get_cover).to eq @file_entity.url
     end
   end
 

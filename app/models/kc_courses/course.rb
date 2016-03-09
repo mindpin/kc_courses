@@ -6,6 +6,7 @@ module KcCourses
     include KcCourses::Concerns::Publish
     include KcCourses::Concerns::CourseReadingMethods
     include KcCourses::Concerns::SubjectMethods
+    include KcCourses::Concerns::CourseStatisticInfo
 
     scope :studing_of_user, ->(user) {
       if user == nil
@@ -38,12 +39,18 @@ module KcCourses
     field :title, :type => String
     field :desc, :type => String
     field :cover, :type => String
+
     belongs_to :user
+    belongs_to :file_entity, class_name: 'FilePartUpload::FileEntity'
 
     has_many :chapters, class_name: 'KcCourses::Chapter'
     has_and_belongs_to_many :course_subjects, class_name: 'KcCourses::CourseSubject', inverse_of: :courses
 
     validates :title, presence: true
-    validates :user, presence: true  
+    validates :user, presence: true
+
+    def get_cover(version=nil)
+      (file_entity and file_entity.url(version)) || ENV['course_default_cover_url']
+    end
   end
 end
