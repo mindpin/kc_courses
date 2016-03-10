@@ -69,8 +69,8 @@ RSpec.describe KcCourses::Course, type: :model do
       expect(KcCourses::Course.studied_of_user(user).class.name).to eq('Mongoid::Criteria')
  
       expect(KcCourses::Course.studing_of_user(user).first).to eq(course1)
-      expect(KcCourses::Course.studing_of_user(user).count).to eq(3)
       expect(KcCourses::Course.studied_of_user(user).last).to eq(course3)
+      expect(KcCourses::Course.studing_of_user(user).count).to eq(3)
       expect(course4.read_percent_of_user(user)).to eq(1)
     end
   end
