@@ -52,5 +52,15 @@ module KcCourses
     def get_cover(version=nil)
       (file_entity and file_entity.url(version)) || ENV['course_default_cover_url']
     end
+
+    def get_publish_data
+      good_as_json(
+        include: {chapters: {
+          include: {wares: {
+            #include: [:file_entity]
+          }}
+        }}
+      )
+    end
   end
 end
