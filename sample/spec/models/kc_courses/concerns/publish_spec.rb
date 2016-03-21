@@ -5,7 +5,7 @@ class PublishTest
   include KcCourses::Concerns::Publish
 end
 
-RSpec.describe KcCourses::Concerns::MovePosition, type: :module do
+RSpec.describe KcCourses::Concerns::Publish, type: :module do
   describe "基础字段" do
     it{
       @test = PublishTest.create
