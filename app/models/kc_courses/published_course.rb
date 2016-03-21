@@ -9,6 +9,8 @@ module KcCourses
 
     validates :course, presence: true
 
+    scope :enabled, ->{where(enabled: true)}
+
     # TODO 把全文搜索相关的逻辑写在这个对象上
   end
 end

@@ -3,7 +3,7 @@ module KcCourses
     include Mongoid::Document
     include Mongoid::Timestamps
     include KcCourses::Concerns::Base
-    include KcCourses::Concerns::Publish
+    include KcCourses::Concerns::CoursePublish
     include KcCourses::Concerns::CourseReadingMethods
     include KcCourses::Concerns::SubjectMethods
     include KcCourses::Concerns::CourseStatisticInfo
