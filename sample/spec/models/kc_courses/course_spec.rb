@@ -66,7 +66,6 @@ RSpec.describe KcCourses::Course, type: :model do
       ware411.set_read_percent_by_user(user, 0.1)
       #课程五 没做过
 
-
       expect(KcCourses::Course.studing_of_user(nil).class.name).to eq('Mongoid::Criteria')
       expect(KcCourses::Course.studied_of_user(nil).class.name).to eq('Mongoid::Criteria')
 
@@ -74,8 +73,8 @@ RSpec.describe KcCourses::Course, type: :model do
       expect(KcCourses::Course.studied_of_user(user).class.name).to eq('Mongoid::Criteria')
 
       expect(KcCourses::Course.studing_of_user(user).first).to eq(course1)
-      expect(KcCourses::Course.studing_of_user(user).count).to eq(2)
       expect(KcCourses::Course.studied_of_user(user).last).to eq(course3)
+      expect(KcCourses::Course.studing_of_user(user).count).to eq(3)
       expect(course4.read_percent_of_user(user)).to eq(1)
     end
   end
@@ -366,20 +365,6 @@ RSpec.describe KcCourses::Course, type: :model do
       end
 
       expect(course1.last_studied_at_of_user(user)).to eq(@day_2)
-    }
-  end
-
-  describe "KcCourses::Course.published  KcCourses::Course.unpublished" do
-    it{
-      course1 = create(:course)
-      course2 = create(:course)
-      course3 = create(:course, :published => true)
-
-      expect(KcCourses::Course.published.class.name).to eq('Mongoid::Criteria')
-      expect(KcCourses::Course.unpublished.class.name).to eq('Mongoid::Criteria')
-
-      expect(KcCourses::Course.published.count).to eq(1)
-      expect(KcCourses::Course.unpublished.count).to eq(2)
     }
   end
 end
