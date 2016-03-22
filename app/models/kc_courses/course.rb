@@ -38,10 +38,9 @@ module KcCourses
 
     field :title, :type => String
     field :desc, :type => String
-    field :cover, :type => String
 
     belongs_to :user
-    belongs_to :file_entity, class_name: 'FilePartUpload::FileEntity'
+    belongs_to :cover_file_entity, class_name: 'FilePartUpload::FileEntity'
 
     has_many :chapters, class_name: 'KcCourses::Chapter'
     has_and_belongs_to_many :course_subjects, class_name: 'KcCourses::CourseSubject', inverse_of: :courses
@@ -49,15 +48,15 @@ module KcCourses
     validates :title, presence: true
     validates :user, presence: true
 
-    def get_cover(version=nil)
-      (file_entity and file_entity.url(version)) || ENV['course_default_cover_url']
+    def cover(version=nil)
+      (cover_file_entity and cover_file_entity.url(version)) || ENV['course_default_cover_url']
     end
 
     def get_publish_data
       good_as_json(
         include: {chapters: {
           include: {wares: {
-            #include: [:file_entity]
+            #include: [:cover_file_entity]
           }}
         }}
       )
