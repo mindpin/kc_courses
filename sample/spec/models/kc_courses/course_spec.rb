@@ -8,11 +8,9 @@ RSpec.describe KcCourses::Course, type: :model do
     @course = create(:course)
     expect(@course.respond_to?(:title)).to be true
     expect(@course.respond_to?(:desc)).to be true
-    expect(@course.respond_to?(:cover)).to be true
 
     expect(@course.respond_to?(:user_id)).to be true
-    expect(@course.respond_to?(:file_entity_id)).to be true
-    expect(@course.respond_to?(:file_entity)).to be true
+    expect(@course.respond_to?(:cover_file_entity_id)).to be true
 
     expect(@course.respond_to?(:course_subject_ids)).to be true
   end
@@ -20,7 +18,7 @@ RSpec.describe KcCourses::Course, type: :model do
   it "关系" do
     @course = create(:course)
     expect(@course.respond_to?(:user)).to be true
-    expect(@course.respond_to?(:file_entity)).to be true
+    expect(@course.respond_to?(:cover_file_entity)).to be true
     expect(@course.respond_to?(:course_subjects)).to be true
 
     expect(@course.respond_to?(:published_courses)).to be true
@@ -84,10 +82,10 @@ RSpec.describe KcCourses::Course, type: :model do
   describe "methods" do
     it '#get_cover' do
       @course = create(:course)
-      expect(@course.respond_to?(:get_cover)).to be true
+      expect(@course.respond_to?(:cover)).to be true
 
       # 没有上传图片
-      expect(@course.get_cover).to eq ENV['course_default_cover_url']
+      expect(@course.cover).to eq ENV['course_default_cover_url']
 
       qiniu_callback_body = {
         bucket: "fushang318",
@@ -101,8 +99,8 @@ RSpec.describe KcCourses::Course, type: :model do
       }
       @file_entity = FilePartUpload::FileEntity.from_qiniu_callback_body qiniu_callback_body
 
-      @course.update_attribute :file_entity, @file_entity
-      expect(@course.get_cover).to eq @file_entity.url
+      @course.update_attribute :cover_file_entity, @file_entity
+      expect(@course.cover).to eq @file_entity.url
     end
   end
 
