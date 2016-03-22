@@ -18,29 +18,4 @@ RSpec.describe KcCourses::Concerns::Publish, type: :module do
     }
   end
 
-  describe KcCourses::Course, type: :model do
-    before{
-      @course = create(:course)
-    }
-
-    it{
-      expect(@course.published).to eq(false)
-    }
-
-    it{
-      expect(@course.publish!).to eq(true)
-      expect(@course.published).to eq(true)
-      expect(@course.published_at).to_not be_nil
-
-      @last_published_at = @course.published_at
-
-      expect(@course.unpublish!).to eq(true)
-      expect(@course.published).to eq(false)
-      expect(@course.published_at).to eq @last_published_at
-
-      expect(@course.publish!).to eq(true)
-      expect(@course.published_at).to_not eq @last_published_at
-    }
-  end
 end
-

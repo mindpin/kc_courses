@@ -4,7 +4,7 @@ module KcCourses
       extend ActiveSupport::Concern
 
       included do
-        has_many :published_courses
+        has_many :published_courses, class_name: 'KcCourses::PublishedCourse'
       end
 
       def publish!

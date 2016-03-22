@@ -25,7 +25,7 @@
         %td
           %a{href: (course_path(course)), data: {method: 'delete', confirm: '你确定吗？'}} 删除
         %td
-          - if course.published
-            已发布
-          - else
-            %a{href: (publish_course_path(course)), data: {method: 'post'}} 发布
+          -#- if course.published
+            -#已发布
+          -#- else
+            -#%a{href: (publish_course_path(course)), data: {method: 'post'}} 发布

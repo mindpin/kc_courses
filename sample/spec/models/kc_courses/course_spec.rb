@@ -22,6 +22,8 @@ RSpec.describe KcCourses::Course, type: :model do
     expect(@course.respond_to?(:user)).to be true
     expect(@course.respond_to?(:file_entity)).to be true
     expect(@course.respond_to?(:course_subjects)).to be true
+
+    expect(@course.respond_to?(:published_courses)).to be true
   end
 
   describe "scopes" do
