@@ -4,17 +4,34 @@ module KcCourses
       extend ActiveSupport::Concern
 
       included do
-        has_many :published_courses, class_name: 'KcCourses::PublishedCourse'
+        has_one :published_course, class_name: 'KcCourses::PublishedCourse'
+        has_many :published_course_snapshots, class_name: 'KcCourses::PublishedCourseSnapshot'
+      end
+
+      def get_publish_data
+        good_as_json(
+          include: {chapters: {
+            include: {wares: {
+              methods: [:_type]
+              #include: [:cover_file_entity]
+            }}
+          }}
+        )
       end
 
       def publish!
-        unpublish!
-
-        published_courses.create enabled: true, data: get_publish_data
+        if unpublish!
+          published_course.update_attributes enabled: true, data: get_publish_data
+          published_course.save_snapshot
+        else
+          create_published_course enabled: true, data: get_publish_data
+          published_course.save_snapshot
+        end
+        true
       end
 
       def unpublish!
-        published_courses.enabled.update_all enabled: false if published_courses.enabled.any?
+        published_course.update_attribute :enabled, false unless published_course.nil?
       end
 
       module ClassMethods
