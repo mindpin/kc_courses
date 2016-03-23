@@ -6,7 +6,7 @@ RSpec.describe KcCourses::Chapter, type: :model do
       @chapter = create(:chapter)
       expect(@chapter.title).to match(/章节\d+/)
       expect(@chapter.desc).to match(/章节\d+ 描述/)
-      expect(@chapter.user).not_to be_nil
+      expect(@chapter.creator).not_to be_nil
     }
 
     it{
