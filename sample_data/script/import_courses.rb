@@ -7,13 +7,13 @@ module KcCourses
       reader = User.create(:id => "564165656e95521109000002", :email => "123467@qq.com", :password => "1234567", :name => "123")
       courses = courses_hash["courses"]
       courses.each do |course|
-        KcCourses::Course.create(:id => course["course_id"], :title => course["title"], :user_id => course["creator_id"])
+        KcCourses::Course.create(:id => course["course_id"], :title => course["title"], :creator_id => course["creator_id"])
         chapters = course["chapters"]
         chapters.each do |chapter|
-          KcCourses::Chapter.create(:id => chapter["chapter_id"], :title => chapter["title"], :course_id => chapter["course_id"], :user_id => chapter["creator_id"])
+          KcCourses::Chapter.create(:id => chapter["chapter_id"], :title => chapter["title"], :course_id => chapter["course_id"], :creator_id => chapter["creator_id"])
           wares = chapter["wares"]
           wares.each do |ware|
-            KcCourses::Ware.create(:id => ware["ware_id"], :title => ware["title"], :chapter_id => ware["chapter_id"], :user_id => ware["creator_id"])
+            KcCourses::Ware.create(:id => ware["ware_id"], :title => ware["title"], :chapter_id => ware["chapter_id"], :creator_id => ware["creator_id"])
             read_ware = KcCourses::Ware.find(ware["ware_id"])
             reader = User.find(ware["reader_id"])
             read_ware.set_read_percent_by_user(reader, ware["read_percent"])

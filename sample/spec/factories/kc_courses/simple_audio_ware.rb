@@ -3,6 +3,6 @@ FactoryGirl.define do
     sequence(:title){|n| "音频课件#{n}"}
     sequence(:desc){|n| "音频课件#{n} 描述"}
     chapter
-    user
+    creator {create(:user)}
   end
 end

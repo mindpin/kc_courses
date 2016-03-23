@@ -3,7 +3,7 @@ FactoryGirl.define do
     sequence(:title){|n| "视频课件#{n}"}
     sequence(:desc){|n| "视频课件#{n} 描述"}
     chapter
-    user
+    creator {create(:user)}
 
     association :file_entity, factory: :video_file_entity
   end

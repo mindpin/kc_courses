@@ -2,14 +2,14 @@ require 'rails_helper'
 
 RSpec.describe KcCourses::Course, type: :model do
   it { should validate_presence_of :title }
-  it { should validate_presence_of :user }
+  it { should validate_presence_of :creator }
 
   it "基础字段" do
     @course = create(:course)
     expect(@course.respond_to?(:title)).to be true
     expect(@course.respond_to?(:desc)).to be true
 
-    expect(@course.respond_to?(:user_id)).to be true
+    expect(@course.respond_to?(:creator_id)).to be true
     expect(@course.respond_to?(:cover_file_entity_id)).to be true
 
     expect(@course.respond_to?(:course_subject_ids)).to be true
@@ -17,7 +17,7 @@ RSpec.describe KcCourses::Course, type: :model do
 
   it "关系" do
     @course = create(:course)
-    expect(@course.respond_to?(:user)).to be true
+    expect(@course.respond_to?(:creator)).to be true
     expect(@course.respond_to?(:cover_file_entity)).to be true
     expect(@course.respond_to?(:course_subjects)).to be true
 
