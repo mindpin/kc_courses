@@ -2,9 +2,9 @@
   %h1
     %a{href: (courses_path)} 课程编排
     %span /
-    %a{href: (course_path(@chapter.course))}= @chapter.course.title
+    %a{href: (course_path(@chapter.course))}= @chapter.course.name
     %span /
-    %span= @chapter.title
+    %span= @chapter.name
 
 .page-manage-chapter-show
   .pblock.modelinfo
@@ -22,7 +22,7 @@
           -#%span 预览课程
 
       .infodata
-        %h2= @chapter.title
+        %h2= @chapter.name
         .desc
           - desc = @chapter.desc.blank? ? '章节目前没有简介' : @chapter.desc
           = simple_format("章节简介：#{desc}")
@@ -45,7 +45,7 @@
       %tbody
         - @wares.each do |ware|
           %tr.ware
-            %td.title= ware.title
+            %td.title= ware.name
             %td.updated_at= ware.updated_at
             %td.opts
               %a{href: (edit_ware_path(ware))} 编辑

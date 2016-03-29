@@ -3,7 +3,7 @@ require 'rails_helper'
 feature "课程页面" do
   background do
     @user = User.create(email: 'test@example.com', name: 'test', password: '123456')
-    @course = @user.courses.create(:title => '测试标题', :desc => '测试描述')
+    @course = @user.courses.create(:name => '测试标题', :desc => '测试描述')
   end
 
   describe 'after sign in' do
@@ -32,7 +32,7 @@ feature "课程页面" do
     scenario "增加课程, 正常提交" do
       visit '/courses/new'
       within("#new_course") do
-        fill_in 'course_title', :with => '课程标题'
+        fill_in 'course_name', :with => '课程标题'
         fill_in 'course_desc', :with =>  '课程描述'
       end
       click_button '新增课程'
@@ -42,7 +42,7 @@ feature "课程页面" do
 
     scenario "列表跳转进入编辑" do
       visit "/courses"
-      expect(page).to have_content(@course.title)
+      expect(page).to have_content(@course.name)
       click_link '编辑'
       expect(find('h1')).to have_content('修改课程')
       expect(current_path).to match(/\/courses\/\S+\/edit/)
@@ -52,7 +52,7 @@ feature "课程页面" do
       visit "/courses/#{@course.id}/edit"
       expect(find('h1')).to have_content('修改课程')
       within(".edit_course") do
-        fill_in 'course_title', :with => '其他标题改'
+        fill_in 'course_name', :with => '其他标题改'
         fill_in 'course_desc', :with =>  '其他描述改'
       end
       click_button '更新课程'
@@ -63,13 +63,13 @@ feature "课程页面" do
 
     scenario "列表删除" do
       visit "/courses"
-      expect(page).to have_content(@course.title)
+      expect(page).to have_content(@course.name)
       expect(page).to have_content('删除')
       # js confirm已经默认确认
       #accept_confirm do
         click_link '删除'
       #end
-      expect(page).not_to have_content(@course.title)
+      expect(page).not_to have_content(@course.name)
       expect(current_path).to match(/\/courses/)
     end
 

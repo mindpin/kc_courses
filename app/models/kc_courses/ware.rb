@@ -5,7 +5,7 @@ module KcCourses
     include KcCourses::Concerns::MovePosition
     include KcCourses::Concerns::WareReadingMethod
 
-    field :title, :type => String
+    field :name, :type => String
     field :desc, :type => String
 
     belongs_to :chapter, class_name: 'KcCourses::Chapter'

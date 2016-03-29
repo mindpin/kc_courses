@@ -3,7 +3,7 @@ require 'rails_helper'
 feature "参与课程页面" do
   background do
     @user = User.create(email: 'test@example.com', name: 'test', password: '123456')
-    @course = @user.courses.create(:title => '测试标题', :desc => '测试描述')
+    @course = @user.courses.create(:name => '测试标题', :desc => '测试描述')
   end
 
   describe 'after sign in' do
@@ -27,7 +27,7 @@ feature "参与课程页面" do
       visit "/courses/#{@course.id}"
       click_link '我要参加'
       visit "/joins"
-      expect(page).to have_content(@course.title)
+      expect(page).to have_content(@course.name)
     end
 
     scenario "重复参加,失败" do
@@ -47,9 +47,7 @@ feature "参与课程页面" do
       #accept_confirm do
         click_link '删除'
       #end
-      expect(page).not_to have_content(@course.title)
+      expect(page).not_to have_content(@course.name)
     end
   end
 end
-
-

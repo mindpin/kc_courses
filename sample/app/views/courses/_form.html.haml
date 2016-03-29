@@ -1,18 +1,18 @@
 = simple_form_for @course, wrapper: :horizontal_form do |f|
   .form-inputs
-    = f.input :title
+    = f.input :name
     = f.input :desc, as: :text
 
     %a.btn-upload.btn.btn-info.clearfix{href: 'javascript:;', data: FilePartUpload.get_dom_data} 上传封面
 
-    = f.input :cover, as: :hidden
+    = f.input :cover_file_entity_id, as: :hidden
     .preview.clearfix
       .text.optional.col-sm-3.control-label 图片预览
       .col-sm-9
         .cover_preview
           - unless @course.cover.blank?
             %img#img_course_cover.img-responsive{src: (@course.cover)}
-  
+
   .form-actions
     = f.button :submit
 

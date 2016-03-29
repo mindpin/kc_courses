@@ -1,10 +1,9 @@
 = simple_form_for [@chapter, @ware], wrapper: :horizontal_form do |f|
   .form-inputs
-    = f.input :title
+    = f.input :name
     = f.input :desc, as: :text
-  
+
   .form-actions
     = f.button :submit
 
 %a{href: (chapter_path(@ware.chapter))} 返回
-

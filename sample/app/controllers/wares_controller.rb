@@ -54,6 +54,6 @@ class WaresController < ApplicationController
   end
 
   def ware_params
-    params.require(:ware).permit(:title, :desc)
+    params.require(:ware).permit(:name, :desc)
   end
 end

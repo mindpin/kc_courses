@@ -10,14 +10,14 @@
       %th 课程名称
       %th 章节数
       %th 课件数
-      %th 
-      %th 
-      %th 
+      %th
+      %th
+      %th
   %tbody
     - @courses.each do |course|
       %tr
         %td
-          %a{href: (course_path(course))}= course.title
+          %a{href: (course_path(course))}= course.name
         %td= course.chapters.count
         %td= course.chapters.map{|chapter| chapter.wares.count}.sum
         %td
