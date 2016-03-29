@@ -1,6 +1,6 @@
 module KcCourses
   module Api
-    class CoursesController < KcCourses::ApplicationController
+    class CoursesController < ApplicationController
       def progress
         user = current_user
         course = KcCourses::Course.find(params[:id])
@@ -11,7 +11,7 @@ module KcCourses
           :spent_seconds => spent_seconds,
           :str_spent_time => KcCourses::TimeDiy.pretty_seconds(spent_seconds),
           :last_studied_at => last_studied_at,
-          :current_ware => 
+          :current_ware =>
             if ware = course.studing_ware_of_user(user)
               {
                 :id => ware.id.to_s,

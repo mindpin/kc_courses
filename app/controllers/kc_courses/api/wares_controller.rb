@@ -1,6 +1,6 @@
 module KcCourses
   module Api
-    class WaresController < KcCourses::ApplicationController
+    class WaresController < ApplicationController
       def study
         user = current_user
         ware = KcCourses::Ware.find(params[:id])
