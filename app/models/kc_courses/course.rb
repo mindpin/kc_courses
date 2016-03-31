@@ -43,7 +43,7 @@ module KcCourses
     belongs_to :cover_file_entity, class_name: 'FilePartUpload::FileEntity'
 
     has_many :chapters, class_name: 'KcCourses::Chapter'
-    has_and_belongs_to_many :course_subjects, class_name: 'KcCourses::CourseSubject', inverse_of: :courses
+    has_and_belongs_to_many :course_subjects, class_name: 'KcCourses::CourseSubject', inverse_of: nil
 
     validates :name, presence: true
     validates :creator, presence: true

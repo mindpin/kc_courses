@@ -8,11 +8,17 @@ module KcCourses
       end
 
       def add_subject(subject)
-        course_subjects << subject unless has_subject?(subject)
+        if !has_subject?(subject)
+          course_subjects << subject
+          subject.courses << self
+        end
       end
 
       def remove_subject(subject)
-        course_subjects.delete(subject) if has_subject?(subject)
+        if has_subject?(subject)
+          course_subjects.delete(subject)
+          subject.courses.delete self
+        end
       end
 
       module ClassMethods
