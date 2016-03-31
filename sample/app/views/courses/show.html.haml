@@ -2,9 +2,9 @@
   %h1
     %a{href: (courses_path)} 课程编排
     %span /
-    %span= @course.title
+    %span= @course.name
   你正则对课程
-  = @course.title
+  = @course.name
   进行章节编排，你可以增减章节或者调整章节排序
 
 .page-manage-course-show
@@ -25,7 +25,7 @@
           -#%span 预览
 
       .infodata
-        %h2= @course.title
+        %h2= @course.name
         .data
           .cover
           -#= fit_image(@course.cover.versions[:normal].url, :width => 214, :height => 140)
@@ -67,7 +67,7 @@
         - @chapters.each do |chapter|
           %tr.chapter
             %td.title
-              %a{href: (chapter_path(chapter))}= chapter.title
+              %a{href: (chapter_path(chapter))}= chapter.name
             %td.updated_at= chapter.updated_at
             %td.opts
               %a{href: (edit_chapter_path(chapter))} 编辑

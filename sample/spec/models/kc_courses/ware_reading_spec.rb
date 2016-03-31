@@ -18,74 +18,74 @@ RSpec.describe KcCourses::WareReading, type: :model do
     # 3_3_编不下去了
     course_creator = create(:user)
     @course_客户信息 = KcCourses::Course.create(
-      :title => "客户信息",
+      :name => "客户信息",
       :creator  => course_creator
     )
 
     @chapter_第一章客户信息管理 = @course_客户信息.chapters.create(
-      :title => "第一章客户信息管理",
+      :name => "第一章客户信息管理",
       :creator  => course_creator
     )
 
     @ware_1_1_客户账户调整 = @chapter_第一章客户信息管理.wares.create(
-      :title => "1_1_客户账户调整",
+      :name => "1_1_客户账户调整",
       :creator  => course_creator
     )
 
     @ware_1_2_测试菜单 = @chapter_第一章客户信息管理.wares.create(
-      :title => "1_2_测试菜单",
+      :name => "1_2_测试菜单",
       :creator  => course_creator
     )
 
 
     @chapter_第二章查询客户信息 = @course_客户信息.chapters.create(
-      :title => "第二章查询客户信息",
+      :name => "第二章查询客户信息",
       :creator  => course_creator
     )
 
     @ware_2_1_查询客户号 = @chapter_第二章查询客户信息.wares.create(
-      :title => "2_1_查询客户号",
+      :name => "2_1_查询客户号",
       :creator  => course_creator
     )
 
     @ware_2_2_查询客户账户调整 = @chapter_第二章查询客户信息.wares.create(
-      :title => "2_2_查询客户账户调整",
+      :name => "2_2_查询客户账户调整",
       :creator  => course_creator
     )
 
 
     @ware_2_3_查询客户信息维护 = @chapter_第二章查询客户信息.wares.create(
-      :title => "2_3_查询客户信息维护",
+      :name => "2_3_查询客户信息维护",
       :creator  => course_creator
     )
 
     @ware_2_4_查询个人客户基本信息 = @chapter_第二章查询客户信息.wares.create(
-      :title => "2_4_查询个人客户基本信息",
+      :name => "2_4_查询个人客户基本信息",
       :creator  => course_creator
     )
 
     @ware_2_5_查询单位客户基本信息 = @chapter_第二章查询客户信息.wares.create(
-      :title => "2_5_查询单位客户基本信息",
+      :name => "2_5_查询单位客户基本信息",
       :creator  => course_creator
     )
 
     @chapter_第三章建立客户信息 = @course_客户信息.chapters.create(
-      :title => "第三章建立客户信息",
+      :name => "第三章建立客户信息",
       :creator  => course_creator
     )
 
     @ware_3_1_新建个人客户基本信息 = @chapter_第三章建立客户信息.wares.create(
-      :title => "3_1_新建个人客户基本信息",
+      :name => "3_1_新建个人客户基本信息",
       :creator  => course_creator
     )
 
     @ware_3_2_新建对公客户基本信息 = @chapter_第三章建立客户信息.wares.create(
-      :title => "3_2_新建对公客户基本信息",
+      :name => "3_2_新建对公客户基本信息",
       :creator  => course_creator
     )
 
     @ware_3_3_编不下去了 = @chapter_第三章建立客户信息.wares.create(
-      :title => "3_3_编不下去了",
+      :name => "3_3_编不下去了",
       :creator  => course_creator
     )
   }

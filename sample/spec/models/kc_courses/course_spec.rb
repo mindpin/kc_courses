@@ -1,12 +1,12 @@
 require 'rails_helper'
 
 RSpec.describe KcCourses::Course, type: :model do
-  it { should validate_presence_of :title }
+  it { should validate_presence_of :name }
   it { should validate_presence_of :creator }
 
   it "基础字段" do
     @course = create(:course)
-    expect(@course.respond_to?(:title)).to be true
+    expect(@course.respond_to?(:name)).to be true
     expect(@course.respond_to?(:desc)).to be true
 
     expect(@course.respond_to?(:creator_id)).to be true
@@ -109,7 +109,7 @@ RSpec.describe KcCourses::Course, type: :model do
       course1 = create(:course)
       chapter11 = create(:chapter, :course => course1)
 
-      expect(course1.studing_ware_of_user(user)).to eq(nil) 
+      expect(course1.studing_ware_of_user(user)).to eq(nil)
     }
     #没有学习记录
     it{
@@ -224,7 +224,7 @@ RSpec.describe KcCourses::Course, type: :model do
         @ware111.set_read_percent_by_user(@user, 20)
       end
 
-      expect(@course1.spent_time_of_user(@user)).to eq(0) 
+      expect(@course1.spent_time_of_user(@user)).to eq(0)
     }
     #存在一个课件有学习记录,有更新
     it{
@@ -238,7 +238,7 @@ RSpec.describe KcCourses::Course, type: :model do
       end
 
 
-      expect(@course1.spent_time_of_user(@user)).to eq(86400) 
+      expect(@course1.spent_time_of_user(@user)).to eq(86400)
     }
     #存在多个课件有学习记录，最后创建的学习记录没有更新
     it{
@@ -254,7 +254,7 @@ RSpec.describe KcCourses::Course, type: :model do
         @ware112.set_read_percent_by_user(@user, 100)
       end
 
-      expect(@course1.spent_time_of_user(@user)).to eq(172800) 
+      expect(@course1.spent_time_of_user(@user)).to eq(172800)
     }
     # #存在多个课件有学习记录，最后创建的学习记录有更新
     it{
@@ -270,7 +270,7 @@ RSpec.describe KcCourses::Course, type: :model do
         @ware112.set_read_percent_by_user(@user, 100)
       end
 
-      expect(@course1.spent_time_of_user(@user)).to eq(172800) 
+      expect(@course1.spent_time_of_user(@user)).to eq(172800)
     }
     #所有课件都有学习记录，最后创建的学习记录没有更新
     it{
@@ -290,7 +290,7 @@ RSpec.describe KcCourses::Course, type: :model do
         @ware113.set_read_percent_by_user(@user, 100)
       end
 
-      expect(@course1.spent_time_of_user(@user)).to eq(259200) 
+      expect(@course1.spent_time_of_user(@user)).to eq(259200)
     }
     #所有课件都有学习记录，最后创建的学习记录有更新
     it{
@@ -310,7 +310,7 @@ RSpec.describe KcCourses::Course, type: :model do
         @ware113.set_read_percent_by_user(@user, 100)
       end
 
-      expect(@course1.spent_time_of_user(@user)).to eq(259200) 
+      expect(@course1.spent_time_of_user(@user)).to eq(259200)
     }
   end
 

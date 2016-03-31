@@ -5,13 +5,13 @@ module KcCourses
     include KcCourses::Concerns::MovePosition
     include KcCourses::Concerns::ChapterReadingMethods
 
-    field :title, :type => String
+    field :name, :type => String
     field :desc, :type => String
 
     belongs_to :course, class_name: 'KcCourses::Course'
     belongs_to :creator, class_name: 'User'
 
-    validates :title, :presence => true
+    validates :name, :presence => true
     validates :course,  :presence => true
     validates :creator, presence: true
 
@@ -26,7 +26,7 @@ module KcCourses
 
     before_validation :set_default_value
     def set_default_value
-      self.title = "无标题章节 - #{Time.now}" if self.title.blank?
+      self.name = "无标题章节 - #{Time.now}" if self.name.blank?
     end
 
   end
