@@ -19,5 +19,7 @@ module KcCourses
     def build_slug
       self.slug = PinYin.permlink(name)
     end
+
+    before_destroy :destroy_children
   end
 end
