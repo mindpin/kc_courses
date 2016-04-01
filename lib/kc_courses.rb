@@ -27,6 +27,7 @@ module KcCourses
 end
 
 require 'simple_form'
+require 'mongoid/tree'
 # 引用 rails engine
 require 'kc_courses/engine'
 require 'kc_courses/rails_routes'

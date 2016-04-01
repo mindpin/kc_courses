@@ -1,5 +1,3 @@
-require 'mongoid/tree'
-
 module KcCourses
   class TeachingGroup
     include Mongoid::Document
