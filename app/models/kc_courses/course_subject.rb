@@ -4,6 +4,9 @@ module KcCourses
   class CourseSubject
     include Mongoid::Document
     include Mongoid::Timestamps
+    # 树状支持
+    # https://github.com/benedikt/mongoid-tree
+    include Mongoid::Tree
 
     field :name, :type => String
     field :slug, :type => String
@@ -16,5 +19,7 @@ module KcCourses
     def build_slug
       self.slug = PinYin.permlink(name)
     end
+
+    before_destroy :destroy_children
   end
 end
