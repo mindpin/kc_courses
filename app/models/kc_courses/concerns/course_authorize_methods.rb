@@ -20,7 +20,7 @@ module KcCourses
       def add_user_course_authorize(user)
         user.create_user_course_authorize unless user.user_course_authorize
         unless user_course_authorized?(user)
-          user.user_course_authorize.courses << self unless user.create_user_course_authorize.courses.include?(self)
+          user.user_course_authorize.courses << self unless user.user_course_authorize.courses.include?(self)
         end
       end
 
