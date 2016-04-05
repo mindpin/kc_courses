@@ -19,19 +19,25 @@ module KcCourses
         )
       end
 
+      # 发布
+      # 同个内容重复发布,则保存多次同样的快照
+      # 始终返回 true
       def publish!
-        if unpublish!
+        # 是否已发布过
+        if published_course
           published_course.update_attributes enabled: true, data: get_publish_data
-          published_course.save_snapshot
         else
           create_published_course enabled: true, data: get_publish_data
-          published_course.save_snapshot
         end
+        published_course.save_snapshot
         true
       end
 
+      # 取消发布
+      # 未曾发布过的，返回 nil
+      # 曾发布过的，则返回 true
       def unpublish!
-        published_course.update_attribute :enabled, false unless published_course.nil?
+        published_course.update_attribute :enabled, false if published_course
       end
 
       module ClassMethods
