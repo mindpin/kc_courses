@@ -38,12 +38,44 @@ course_default_cover_url: 'http://xxxx.xxx/xxx.png'
 ```
 或通过其他形式，设置 ENV['course_default_cover_url']
 
-### 代码
+### 引用代码
+#### 教学分组模块
 在app/models/user.rb中
 ```ruby
 include KcCourses::Concerns::UserTeachingGroupMethods
 ```
 
+#### 用户课程授权模块
+```ruby
+include KcCourses::Concerns::UserAuthorizeMethods
+```
+
 ## 使用
 
-TODO
+### 课程授权观看模块
+#### 用户方法
+```ruby
+# 获取授权可看课程
+@user.authorized_courses
+```
+
+#### 课程方法
+```ruby
+# 判断用户是否被授权
+@course.user_course_authorized?(user)
+
+# 添加授权者
+@course.add_user_course_authorize(user)
+
+# 批量添加授权者
+@course.add_user_course_authorizes(user)
+
+# 移除授权者
+@course.remove_user_course_authorize(user)
+
+# 批量移除授权者
+@course.remove_user_course_authorizes(user)
+
+# 查看课程授权用户
+@course.authorized_users
+```

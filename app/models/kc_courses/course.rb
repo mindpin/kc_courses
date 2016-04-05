@@ -7,6 +7,7 @@ module KcCourses
     include KcCourses::Concerns::CourseReadingMethods
     include KcCourses::Concerns::SubjectMethods
     include KcCourses::Concerns::CourseStatisticInfo
+    include KcCourses::Concerns::CourseAuthorizeMethods
 
     scope :studing_of_user, ->(user) {
       if user == nil
