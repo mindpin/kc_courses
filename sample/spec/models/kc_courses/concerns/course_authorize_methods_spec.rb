@@ -66,7 +66,7 @@ RSpec.describe KcCourses::Concerns::CourseAuthorizeMethods, type: :module do
         expect(@course.user_course_authorized?(@user)).to be false
       end
 
-      it "#authorized" do
+      it "#authorized_users" do
         expect(@course.respond_to?(:authorized_users)).to be true
 
         @user1 = create(:user)
