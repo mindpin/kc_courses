@@ -11,6 +11,8 @@ module KcCourses
 
     belongs_to :manager, class_name: 'User'#, inverse_of: 
 
+    has_many :events, class_name: 'KcCourses::TeachingEvent', inverse_of: :activity
+
     validates :name, presence: true
   end
 end
