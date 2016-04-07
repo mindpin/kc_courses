@@ -18,6 +18,7 @@ RSpec.describe KcCourses::TeachingActivity, type: :model do
   it "关系" do
     @teaching_activity = create(:teaching_activity)
     expect(@teaching_activity.respond_to?(:manager)).to be true
+    expect(@teaching_activity.respond_to?(:group)).to be true
 
     expect(@teaching_activity.respond_to?(:events)).to be true
   end
