@@ -3,11 +3,11 @@ module KcCourses
     include Mongoid::Document
     include Mongoid::Timestamps
     include KcCourses::Concerns::Base
+    # 时间范围模块
+    include KcCourses::Concerns::TimeRange
 
     field :name, type: String
     field :desc, type: String
-    field :started_at, type: Time
-    field :ended_at, type: Time
     # 报名
     field :apply_started_at, type: Time
     field :apply_ended_at, type: Time
@@ -19,19 +19,6 @@ module KcCourses
     has_many :events, class_name: 'KcCourses::TeachingEvent', inverse_of: :activity
 
     validates :name, presence: true
-
-    def started?
-      started_at.nil? || Time.now >= started_at
-    end
-
-    def ended?
-      return false if ended_at.nil?
-      Time.now >= ended_at
-    end
-
-    def running?
-      started? and !ended?
-    end
 
     def apply_started?
       apply_started_at.nil? || Time.now >= apply_started_at
