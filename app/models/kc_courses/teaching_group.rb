@@ -7,6 +7,8 @@ module KcCourses
     include Mongoid::Tree
     # 权限
     include KcCourses::Concerns::Authorize
+    # 讨论组权限
+    include KcCourses::Concerns::DiscussSetting
 
     field :name, :type => String
     field :desc, :type => String
