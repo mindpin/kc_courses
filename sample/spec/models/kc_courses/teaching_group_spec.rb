@@ -14,6 +14,8 @@ RSpec.describe KcCourses::TeachingGroup, type: :model do
     @teaching_group = create(:teaching_group)
     expect(@teaching_group.respond_to?(:managers)).to eq true
     expect(@teaching_group.respond_to?(:members)).to eq true
+
+    expect(@teaching_group.respond_to?(:activities)).to eq true
   end
 
   describe "methods" do

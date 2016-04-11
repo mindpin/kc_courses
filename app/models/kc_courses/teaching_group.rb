@@ -16,6 +16,8 @@ module KcCourses
     has_and_belongs_to_many :managers, class_name: 'User', inverse_of: :manage_teaching_groups
     has_and_belongs_to_many :members, class_name: 'User', inverse_of: :joined_teaching_groups
 
+    has_many :activities, class_name: 'KcCourses::TeachingActivity', inverse_of: :group
+
     validates :name, presence: true
     validate  :require_at_least_one_manager
 
