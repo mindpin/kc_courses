@@ -5,12 +5,8 @@ module KcCourses
     # 树状支持
     # https://github.com/benedikt/mongoid-tree
     include Mongoid::Tree
-    # 权限
-    #include KcCourses::Concerns::Authorize
-    # 授权
-    include KcCourses::Concerns::Authorizeable
     # 讨论组权限
-    include KcCourses::Concerns::DiscussSetting
+    include KcCourses::Concerns::DiscussAuthorize
 
     field :name, :type => String
     field :desc, :type => String
@@ -84,6 +80,23 @@ module KcCourses
         remove_manager(user)
       end
       true
+    end
+
+    def all_manager_ids
+      ancestors_and_self.map(&:manager_ids).flatten.uniq
+    end
+
+    # 获取所有管理者
+    # 即自身管理者，以及所有祖先级的管理者
+    # scope，不重复
+    def all_managers
+      User.where(:id.in => all_manager_ids)
+    end
+
+    # 是否可管理
+    # 判断用户是否在所有管理员当中
+    def could_manage?(user)
+      all_manager_ids.include?(user.id)
     end
 
     protected

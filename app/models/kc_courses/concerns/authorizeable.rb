@@ -8,7 +8,14 @@ module KcCourses
       end
 
       def authorized_with?(user, val)
-        authorizes.where(user: user, value: val).any?
+        case val.class.name
+        when "String"
+          authorizes.where(user: user, value: val).any?
+        when "Array"
+          authorizes.where(user: user, :value.in => val).any?
+        else
+          false
+        end
       end
 
       def authorized?(user)
@@ -23,8 +30,12 @@ module KcCourses
         User.where(:id.in => authorizes.map(&:user_id))
       end
 
+      def authorize_user_ids_with(val)
+        authorizes.where(value: val).map(&:user_id)
+      end
+
       def authorize_users_with(val)
-        User.where(:id.in => authorizes.where(value: val).map(&:user_id))
+        User.where(:id.in => authorize_user_ids_with(val))
       end
 
       def set_authorize(user, val)
@@ -32,7 +43,8 @@ module KcCourses
           authorize.value = val
           authorize.save
         else
-          authorizes.create(user: user, value: val)
+          authorize = authorizes.create(user: user, value: val)
+          authorize.valid?
         end
       end
     end

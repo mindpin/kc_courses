@@ -55,6 +55,22 @@ RSpec.describe KcCourses::Concerns::Authorizeable, type: :module do
         expect(@teaching_group.authorize_users.count).to eq 2
       end
 
+      it "authorize_user_ids_with" do
+        @user1 = create(:user)
+
+        expect(@teaching_group.authorize_user_ids_with(@value).any?).to be false
+
+        @teaching_group.set_authorize(@user, @value)
+        expect(@teaching_group.authorize_user_ids_with(@value).any?).to be true
+        expect(@teaching_group.authorize_user_ids_with(@value)).to eq [@user.id]
+
+        @teaching_group.set_authorize(@user1, @value)
+        expect(@teaching_group.authorize_user_ids_with(@value)).to eq [@user.id, @user1.id]
+
+        @teaching_group.set_authorize(@user1, "test1")
+        expect(@teaching_group.authorize_user_ids_with(@value)).to eq [@user.id]
+      end
+
       it "authorize_users_with" do
         @user1 = create(:user)
 
@@ -68,6 +84,7 @@ RSpec.describe KcCourses::Concerns::Authorizeable, type: :module do
         expect(@teaching_group.authorize_users_with(@value).length).to eq 2
 
         @teaching_group.set_authorize(@user1, "test1")
+        expect(@teaching_group.authorize_users_with(@value).length).to eq 1
       end
     end
   end
