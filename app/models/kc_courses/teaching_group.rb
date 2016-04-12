@@ -6,7 +6,9 @@ module KcCourses
     # https://github.com/benedikt/mongoid-tree
     include Mongoid::Tree
     # 权限
-    include KcCourses::Concerns::Authorize
+    #include KcCourses::Concerns::Authorize
+    # 授权
+    include KcCourses::Concerns::Authorizeable
     # 讨论组权限
     include KcCourses::Concerns::DiscussSetting
 
