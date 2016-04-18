@@ -13,7 +13,7 @@ module KcCourses
 
     belongs_to :file_entity, class_name: 'FilePartUpload::FileEntity'
 
-    validates :chapter,  :presence => true
+#    validates :chapter,  :presence => true
     validates :creator, presence: true
 
     # 重写MovePosition
