@@ -55,3 +55,4 @@ gem 'play_auth', :github => 'mindpin/play_auth',
                  :tag => :latest
 
 gem 'kc_courses', path: '../'
+gem 'simple_form'
