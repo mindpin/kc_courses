@@ -38,7 +38,6 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'uglifier'
   spec.add_development_dependency 'figaro'
 
-  spec.add_dependency 'simple_form'
   spec.add_dependency 'mongoid-tree'
   spec.add_dependency 'ruby-pinyin'
 end
