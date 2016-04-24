@@ -8,11 +8,5 @@ RSpec.describe KcCourses::Ware, type: :model do
       expect(@ware.desc).to match(/课件\d+ 描述/)
       expect(@ware.creator).not_to be_nil
     }
-
-    it{
-      @ware = build(:ware, chapter: nil)
-      @ware.valid?
-      expect(@ware.errors[:chapter].size).to eq(1)
-    }
   end
 end
