@@ -3,6 +3,8 @@ module KcCourses
     include Mongoid::Document
     include Mongoid::Timestamps
     include KcCourses::Concerns::Base
+    # 讨论组权限
+    include KcCourses::Concerns::DiscussAuthorize
 
     field :name, type: String
     field :desc, type: String
@@ -16,7 +18,7 @@ module KcCourses
     has_many :activity_managers, class_name: 'KcCourses::TeachingActivityManager', inverse_of: :activity
 
     # 参与者中间表
-    has_many :activity_users, class_name: 'KcCourses::TeachingActivityUser', inverse_of: :activity
+    has_many :activity_members, class_name: 'KcCourses::TeachingActivityMember', inverse_of: :activity
 
     validates :name, presence: true
 
@@ -34,16 +36,16 @@ module KcCourses
     end
 
     # 参与者scope
-    def users
-      User.where(:id.in => activity_users.map(&:user_id))
+    def members
+      User.where(:id.in => activity_members.map(&:user_id))
     end
 
-    def has_user? user
-      activity_users.where(user_id: user.id).any?
+    def has_member? user
+      activity_members.where(user_id: user.id).any?
     end
 
-    def add_user user
-      activity_users.create(user: user) unless has_user?(user)
+    def add_member user
+      activity_members.create(user: user) unless has_member?(user)
     end
 
   end

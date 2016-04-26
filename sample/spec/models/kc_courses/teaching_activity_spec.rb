@@ -19,7 +19,7 @@ RSpec.describe KcCourses::TeachingActivity, type: :model do
     expect(@teaching_activity.respond_to?(:lessons)).to be true
 
     expect(@teaching_activity.respond_to?(:activity_managers)).to be true
-    expect(@teaching_activity.respond_to?(:activity_users)).to be true
+    expect(@teaching_activity.respond_to?(:activity_members)).to be true
   end
 
   describe "方法" do
@@ -57,35 +57,35 @@ RSpec.describe KcCourses::TeachingActivity, type: :model do
     end
 
     describe "参与者" do
-      it "has_user?" do
+      it "has_member?" do
         @teaching_activity = create(:teaching_activity)
         @user = create(:user)
-        expect(@teaching_activity.has_user?(@user)).to be false
+        expect(@teaching_activity.has_member?(@user)).to be false
 
-        @teaching_activity.activity_users.create user: @user
-        expect(@teaching_activity.has_user?(@user)).to be true
+        @teaching_activity.activity_members.create user: @user
+        expect(@teaching_activity.has_member?(@user)).to be true
       end
 
-      it "add_user" do
+      it "add_member" do
         @teaching_activity = create(:teaching_activity)
         @user = create(:user)
-        expect(@teaching_activity.has_user?(@user)).to be false
+        expect(@teaching_activity.has_member?(@user)).to be false
 
-        expect(@teaching_activity.add_user(@user)).to_not be_nil
-        expect(@teaching_activity.has_user?(@user)).to be true
+        expect(@teaching_activity.add_member(@user)).to_not be_nil
+        expect(@teaching_activity.has_member?(@user)).to be true
       end
 
-      it "users" do
+      it "members" do
         @teaching_activity = create(:teaching_activity)
-        @users = []
-        @users.push create(:user)
-        @users.push create(:user)
+        @members = []
+        @members.push create(:user)
+        @members.push create(:user)
 
-        @users.each do |user|
-          @teaching_activity.add_user user
+        @members.each do |user|
+          @teaching_activity.add_member user
         end
 
-        expect(@teaching_activity.users.to_a.sort).to eq @users.sort
+        expect(@teaching_activity.members.to_a.sort).to eq @members.sort
       end
     end
   end

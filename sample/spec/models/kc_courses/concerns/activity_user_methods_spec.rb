@@ -7,7 +7,7 @@ RSpec.describe KcCourses::Concerns::UserActivityMethods, type: :module do
 
   it "关系" do
     expect(@user.respond_to?(:activity_managers)).to be true
-    expect(@user.respond_to?(:activity_users)).to be true
+    expect(@user.respond_to?(:activity_members)).to be true
   end
 
   describe "方法" do
@@ -15,7 +15,7 @@ RSpec.describe KcCourses::Concerns::UserActivityMethods, type: :module do
       @teaching_activity = create(:teaching_activity)
 
       expect(@user.joined_activities.length).to eq 0
-      @teaching_activity.add_user(@user)
+      @teaching_activity.add_member(@user)
 
       expect(@user.joined_activities.length).to eq 1
       expect(@user.joined_activities.first.class.name).to eq "KcCourses::TeachingActivity"
