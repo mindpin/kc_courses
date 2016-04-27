@@ -8,12 +8,12 @@ RSpec.describe KcCourses::TeachingLesson, type: :model do
     expect(@teaching_lesson.respond_to?(:apply_started_at)).to be true
     expect(@teaching_lesson.respond_to?(:apply_ended_at)).to be true
 
-    expect(@teaching_lesson.respond_to?(:manager_id)).to be true
+    expect(@teaching_lesson.respond_to?(:creator_id)).to be true
   end
 
   it "关系" do
     @teaching_lesson = create(:teaching_lesson)
-    expect(@teaching_lesson.respond_to?(:manager)).to be true
+    expect(@teaching_lesson.respond_to?(:creator)).to be true
     expect(@teaching_lesson.respond_to?(:group)).to be true
     expect(@teaching_lesson.respond_to?(:activity)).to be true
   end

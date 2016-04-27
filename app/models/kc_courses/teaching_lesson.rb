@@ -11,7 +11,7 @@ module KcCourses
     field :apply_ended_at, type: Time
 
     belongs_to :group, class_name: 'KcCourses::TeachingGroup', inverse_of: :activities
-    belongs_to :manager, class_name: 'User'#, inverse_of: 
+    belongs_to :creator, class_name: 'User'#, inverse_of: 
     belongs_to :activity, class_name: 'KcCourses::TeachingActivity', inverse_of: :lessons
 
     def apply_started?
