@@ -10,7 +10,7 @@ module KcCourses
         include KcCourses::Concerns::DiscussSetting
 
         # 讨论权限
-        DISCUSS_AUTHORIZE_KINDS = %w[teaching_group_ban teaching_group_view teaching_group_full]
+        DISCUSS_AUTHORIZE_KINDS = %w[teaching_activity_ban teaching_activity_view teaching_activity_full]
       end
 
       # 判断用户是否可浏览
@@ -21,12 +21,12 @@ module KcCourses
           # 设置可读
           all_could_view or
           # 授权可读
-          authorized_with?(user, 'teaching_group_view') or
+          authorized_with?(user, 'teaching_activity_view') or
           # 完全授权
-          authorized_with?(user, 'teaching_group_full')
+          authorized_with?(user, 'teaching_activity_full')
         ) and
         # 未被屏蔽
-        !authorized_with?(user, 'teaching_group_ban')
+        !authorized_with?(user, 'teaching_activity_ban')
       end
 
       # 判断用户是否可发帖
@@ -37,32 +37,32 @@ module KcCourses
           # 设置可读
           all_could_post or
           # 完全授权
-          authorized_with?(user, 'teaching_group_full')
+          authorized_with?(user, 'teaching_activity_full')
         ) and
         # 未被屏蔽
-        !authorized_with?(user, 'teaching_group_ban') and
-        !authorized_with?(user, 'teaching_group_view')
+        !authorized_with?(user, 'teaching_activity_ban') and
+        !authorized_with?(user, 'teaching_activity_view')
       end
 
       # 添加屏蔽用户
       # 如果用户已被设置其他特殊权限，会被刷新
       # 始终返回 true
       def add_ban_member(user)
-        set_authorize(user, "teaching_group_ban")
+        set_authorize(user, "teaching_activity_ban")
       end
 
       # 添加仅可读用户
       # 如果用户已被设置其他特殊权限，会被刷新
       # 始终返回 true
       def add_view_member(user)
-        set_authorize(user, "teaching_group_view")
+        set_authorize(user, "teaching_activity_view")
       end
 
       # 添加完全开放用户
       # 如果用户已被设置其他特殊权限，会被刷新
       # 始终返回 true
       def add_full_member(user)
-        set_authorize(user, "teaching_group_full")
+        set_authorize(user, "teaching_activity_full")
       end
 
       # 批量添加授权者 (users 为 user 数组)

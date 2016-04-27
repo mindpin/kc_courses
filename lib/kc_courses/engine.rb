@@ -9,6 +9,8 @@ module KcCourses
       end
 
       User.class_eval do
+        include KcCourses::Concerns::UserActivityMethods
+
         has_many :courses, class_name: 'KcCourses::Course'
         has_many :chapters, class_name: 'KcCourses::Chapter'
         has_many :wares, class_name: 'KcCourses::Ware'
