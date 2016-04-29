@@ -8,6 +8,7 @@ module KcCourses
 
     field :name, type: String
     field :desc, type: String
+    field :learn_week, type: Integer, default: 0
 
     belongs_to :creator, class_name: 'User'#, inverse_of: 
 

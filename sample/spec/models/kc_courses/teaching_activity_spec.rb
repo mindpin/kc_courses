@@ -7,8 +7,11 @@ RSpec.describe KcCourses::TeachingActivity, type: :model do
     @teaching_activity = create(:teaching_activity)
     expect(@teaching_activity.respond_to?(:name)).to be true
     expect(@teaching_activity.respond_to?(:desc)).to be true
+    expect(@teaching_activity.respond_to?(:learn_week)).to be true
 
     expect(@teaching_activity.respond_to?(:creator_id)).to be true
+
+    expect(@teaching_activity.learn_week).to be 0
   end
 
   it "关系" do
