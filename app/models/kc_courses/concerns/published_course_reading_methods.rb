@@ -95,14 +95,17 @@ module KcCourses
       end
 
       # user 在当前课程的学习时长
-      # TODO 原有BUG
-      #def spent_time_of_user(user)
-        #ware_ids = published_wares.map{|p_ware| p_ware['id']}
-        #ware_readings = KcCourses::WareReading.where(:creator_id => user.id.to_s, :ware_id.in => ware_ids).asc(:updated_at)
-        #return 0 if ware_readings.count == 0
-        #return 1 if ware_readings.count == 1
-        #ware_readings.last.updated_at - ware_readings.where(:creator_id => user.id.to_s).first.created_at
-      #end
+      def spent_time_of_user(user)
+        ware_ids = published_wares.map{|p_ware| p_ware['id']}
+        ware_readings = KcCourses::WareReading.where(:creator_id => user.id.to_s, :ware_id.in => ware_ids).asc(:created_at)
+        return 0 if ware_readings.count == 0
+        if ware_readings.count == 1
+          ware_reading = ware_readings.first
+          return 1 if ware_reading.updated_at == ware_reading.created_at
+          return (ware_reading.updated_at - ware_reading.created_at).round
+        end
+        ware_readings.last.updated_at - ware_readings.where(:creator_id => user.id.to_s).first.created_at
+      end
 
       # 最后学习该课程的时间
       def last_studied_at_of_user(user)

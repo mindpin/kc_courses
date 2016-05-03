@@ -100,20 +100,20 @@ RSpec.describe KcCourses::Concerns::PublishedCourseReadingMethods, type: :module
       expect(@published_course.has_read_by_user?(@user)).to be true
     end
 
-    #it "spent_time_of_user" do
-      #@published_ware = @published_course.published_wares.first
-      #@ware = KcCourses::Ware.find @published_ware['id']
-      #expect(@published_course.spent_time_of_user(@user)).to eq 0
-      #@ware.set_read_percent_by_user @user, 1
-      #expect(@published_course.spent_time_of_user(@user)).to eq 1
-      #sleep(2)
-      #@ware.set_read_percent_by_user @user, 50
-
-      ## 2秒？
-      #expect(@published_course.spent_time_of_user(@user)).to eq 2
-    #end
-
     it "spent_time_of_user" do
+      @published_ware = @published_course.published_wares.first
+      @ware = KcCourses::Ware.find @published_ware['id']
+      expect(@published_course.spent_time_of_user(@user)).to eq 0
+      @ware.set_read_percent_by_user @user, 1
+      expect(@published_course.spent_time_of_user(@user)).to eq 1
+      sleep(2)
+      @ware.set_read_percent_by_user @user, 50
+
+      # 2秒？
+      expect(@published_course.spent_time_of_user(@user)).to eq 2
+    end
+
+    it "last_studied_at_of_user" do
       @published_ware = @published_course.published_wares.first
       @ware = KcCourses::Ware.find @published_ware['id']
       expect(@published_course.last_studied_at_of_user(@user)).to be_nil
