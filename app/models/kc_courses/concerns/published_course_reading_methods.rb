@@ -3,6 +3,23 @@ module KcCourses
     module PublishedCourseReadingMethods
       extend ActiveSupport::Concern
 
+      included do
+        scope :studing_of_user, ->(user) {
+          published_course_ids = KcCourses::PublishedCourse.enabled.select do |published_course|
+            percent = published_course.read_percent_of_user(user)
+            percent != 100 && percent > 0
+          end.map(&:id)
+          where(:_id.in => published_course_ids)
+        }
+
+        scope :studied_of_user, ->(user) {
+          published_course_ids = KcCourses::PublishedCourse.enabled.select do |published_course|
+            published_course.has_read_by_user?(user)
+          end.map(&:id)
+          where(:_id.in => published_course_ids)
+        }
+      end
+
       # array
       def published_chapters
         @published_chapters ||= data['chapters']
@@ -113,33 +130,6 @@ module KcCourses
         ware_ids = published_wares.map{|p_ware| p_ware['id']}
         KcCourses::WareReading.where(:creator_id => user.id.to_s, :ware_id.in => ware_ids).asc(:updated_at).last.try(:updated_at) || nil
       end
-
-      # TODO 两个scope
-      #scope :studing_of_user, ->(user) {
-        #if user == nil
-          #course_ids = []
-        #else
-          #course_ids = KcCourses::Course.all.select do |course|
-            #if course.read_percent_of_user(user) != 100 && course.ware_readings.count != 0
-              #course.id
-            #end
-          #end
-        #end
-        #where(:_id.in => course_ids)
-      #}
-
-      #scope :studied_of_user, ->(user) {
-        #if user == nil
-          #course_ids = []
-        #else
-          #course_ids = KcCourses::Course.all.select do |course|
-            #if course.read_percent_of_user(user) == 100
-              #course.id
-            #end
-          #end
-        #end
-        #where(:_id.in => course_ids)
-      #}
 
     end
   end
