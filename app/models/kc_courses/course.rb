@@ -4,38 +4,9 @@ module KcCourses
     include Mongoid::Timestamps
     include KcCourses::Concerns::Base
     include KcCourses::Concerns::CoursePublish
-    include KcCourses::Concerns::CourseReadingMethods
     include KcCourses::Concerns::SubjectMethods
     include KcCourses::Concerns::CourseStatisticInfo
     include KcCourses::Concerns::CourseAuthorizeMethods
-
-    scope :studing_of_user, ->(user) {
-      if user == nil
-        course_ids = []
-      else
-        course_ids = KcCourses::Course.all.select do |course|
-          if course.read_percent_of_user(user) != 100 && course.ware_readings.count != 0
-            course.id
-          end
-        end
-      end
-      where(:_id.in => course_ids)
-    }
-
-    scope :studied_of_user, ->(user) {
-      if user == nil
-        course_ids = []
-      else
-        course_ids = KcCourses::Course.all.select do |course|
-          if course.read_percent_of_user(user) == 100
-            course.id
-          end
-        end
-      end
-      where(:_id.in => course_ids)
-    }
-
-
 
     field :name, :type => String
     field :desc, :type => String

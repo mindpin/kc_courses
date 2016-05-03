@@ -34,7 +34,7 @@ module KcCourses
       def read_percent_of_user_before_day(user, time)
         delta = ware_reading_deltas.where(
           :creator_id => user.id.to_s,
-          :time.lte   => time.in_time_zone.beginning_of_day,
+          :time.lte   => time.in_time_zone.end_of_day,
         ).last
 
         return 0 if delta.blank?
@@ -42,6 +42,7 @@ module KcCourses
       end
 
       # user 在 time 当天学习了多少百分比的内容
+      # FIXME  这块应该有BUG，非当天区间
       def read_percent_change_of_user(user, time)
         delta = ware_reading_deltas.where(
           :creator_id => user.id.to_s,
