@@ -114,6 +114,33 @@ module KcCourses
         KcCourses::WareReading.where(:creator_id => user.id.to_s, :ware_id.in => ware_ids).asc(:updated_at).last.try(:updated_at) || nil
       end
 
+      # TODO 两个scope
+      #scope :studing_of_user, ->(user) {
+        #if user == nil
+          #course_ids = []
+        #else
+          #course_ids = KcCourses::Course.all.select do |course|
+            #if course.read_percent_of_user(user) != 100 && course.ware_readings.count != 0
+              #course.id
+            #end
+          #end
+        #end
+        #where(:_id.in => course_ids)
+      #}
+
+      #scope :studied_of_user, ->(user) {
+        #if user == nil
+          #course_ids = []
+        #else
+          #course_ids = KcCourses::Course.all.select do |course|
+            #if course.read_percent_of_user(user) == 100
+              #course.id
+            #end
+          #end
+        #end
+        #where(:_id.in => course_ids)
+      #}
+
     end
   end
 end
