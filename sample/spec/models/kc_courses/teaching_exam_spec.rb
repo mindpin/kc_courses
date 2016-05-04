@@ -12,11 +12,14 @@ RSpec.describe KcCourses::TeachingExam, type: :model do
     expect(@teaching_exam.respond_to?(:ended_at)).to be true
 
     expect(@teaching_exam.respond_to?(:teaching_group_id)).to be true
+
+    expect(@teaching_exam.kind).to eq "online"
   end
 
   it "关系" do
     @teaching_exam = create(:teaching_exam)
     expect(@teaching_exam.respond_to?(:teaching_group)).to be true
+    expect(@teaching_exam.respond_to?(:teaching_lesson)).to be true
   end
 
   describe "方法" do
