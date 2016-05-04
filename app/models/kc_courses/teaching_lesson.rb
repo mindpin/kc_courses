@@ -15,6 +15,7 @@ module KcCourses
     belongs_to :activity, class_name: 'KcCourses::TeachingActivity', inverse_of: :lessons
 
     has_many :records, class_name: 'KcCourses::TeachingLessonRecord', inverse_of: :lesson
+    has_many :exams, class_name: 'KcCourses::TeachingExam', inverse_of: :lesson
 
     def apply_started?
       apply_started_at.nil? || Time.now >= apply_started_at

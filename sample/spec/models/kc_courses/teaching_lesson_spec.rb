@@ -16,6 +16,9 @@ RSpec.describe KcCourses::TeachingLesson, type: :model do
     expect(@teaching_lesson.respond_to?(:creator)).to be true
     expect(@teaching_lesson.respond_to?(:group)).to be true
     expect(@teaching_lesson.respond_to?(:activity)).to be true
+
+    expect(@teaching_lesson.respond_to?(:records)).to be true
+    expect(@teaching_lesson.respond_to?(:exams)).to be true
   end
 
   describe "方法" do
