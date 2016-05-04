@@ -84,6 +84,26 @@ RSpec.describe KcCourses::TeachingLesson, type: :model do
 
       expect(create(:teaching_lesson, apply_started_at: 1.day.from_now, apply_ended_at: 1.day.ago).could_apply?).to be false
     end
+
+    it "finish_with_course_by_user!" do
+      @teaching_lesson = create(:teaching_lesson)
+      @user = create(:user)
+      @course = create(:user)
+
+      expect(@teaching_lesson.finish_with_course_by_user!(@course, @user).class.name).to eq "KcCourses::TeachingLessonRecord"
+      expect(@teaching_lesson.finish_with_course_by_user!(@course, @user)).to be_nil
+    end
+
+    it "finished_with_course_by_user?" do
+      @teaching_lesson = create(:teaching_lesson)
+      @user = create(:user)
+      @course = create(:user)
+
+      expect(@teaching_lesson.finished_with_course_by_user?(@course, @user)).to be false
+
+      @teaching_lesson.finish_with_course_by_user!(@course, @user)
+      expect(@teaching_lesson.finished_with_course_by_user?(@course, @user)).to be true
+    end
   end
 end
 
