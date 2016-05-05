@@ -16,6 +16,8 @@ module KcCourses
     belongs_to :teaching_group, class_name: 'KcCourses::TeachingGroup'#, inverse_of: :activities
     belongs_to :teaching_lesson, class_name: 'KcCourses::TeachingLesson', inverse_of: :exams
 
+    has_many :records, class_name: 'KcCourses::TeachingExamRecord', inverse_of: :exam
+
     validates :teaching_group, presence: true
     # 测评时间必填
     validates :started_at, presence: true
