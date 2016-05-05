@@ -18,7 +18,7 @@ module KcCourses
     # 试卷，集成工程中添加
     # belongs_to :test_paper, class_name: "QuestionBank::TestPaper"
     belongs_to :exam, class_name: 'KcCourses::TeachingExam', inverse_of: :records
-    belongs_to :user, class_name: 'KcCourses::TeachingExam', inverse_of: :records
+    belongs_to :user, class_name: 'User'
 
     validates :score, presence: true
     validates :max_score, presence: true
