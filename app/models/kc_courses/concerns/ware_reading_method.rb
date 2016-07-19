@@ -10,7 +10,8 @@ module KcCourses
 
       # 设置 user 已经完成了 ware 百分之 read_percent 的内容
       def set_read_percent_by_user(user, read_percent)
-        return true if read_percent_of_user(user) >= (read_percent).to_f
+        raise "传入错误的百分比" if read_percent > 100 or read_percent < 0
+        return true if read_percent_of_user(user) >= read_percent
         ware_reading = self.ware_readings.where(:creator_id => user.id.to_s).first
         if ware_reading.blank?
           self.ware_readings.create(:creator => user, :read_percent => read_percent)
