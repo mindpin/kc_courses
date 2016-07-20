@@ -20,6 +20,8 @@ RSpec.describe KcCourses::TeachingExam, type: :model do
     @teaching_exam = create(:teaching_exam)
     expect(@teaching_exam.respond_to?(:teaching_group)).to be true
     expect(@teaching_exam.respond_to?(:teaching_lesson)).to be true
+
+    expect(@teaching_exam.respond_to?(:records)).to be true
   end
 
   describe "方法" do
