@@ -40,5 +40,5 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency 'mongoid-tree'
   spec.add_dependency 'ruby-pinyin'
-  spec.add_dependency 'enumerize', '1.1.1'
+  spec.add_dependency 'enumerize', '2.0.0'
 end
